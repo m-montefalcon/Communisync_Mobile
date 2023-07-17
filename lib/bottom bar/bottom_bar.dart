@@ -1,9 +1,9 @@
-import 'package:communisyncmobile/screens/announcements_page.dart';
-import 'package:communisyncmobile/screens/complaints_page.dart';
-import 'package:communisyncmobile/screens/dashboard_page.dart';
+import 'package:communisyncmobile/screens/homeowner/announcements_page.dart';
+import 'package:communisyncmobile/screens/homeowner/complaints_page.dart';
+import 'package:communisyncmobile/screens/homeowner/dashboard_page.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import '../screens/profile_page.dart';
+import '../screens/homeowner/profile_page.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({Key? key}) : super(key: key);

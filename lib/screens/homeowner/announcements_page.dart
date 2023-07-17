@@ -10,6 +10,20 @@ class AnnouncementPage extends StatefulWidget {
 class _AnnouncementPageState extends State<AnnouncementPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Column(
+        children: const [
+          SizedBox(
+            height: 50,
+          ),
+          Center(
+            child: Text(
+              'Announcements',
+              style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

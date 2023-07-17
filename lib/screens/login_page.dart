@@ -1,6 +1,6 @@
+import 'package:communisyncmobile/bottom%20bar/bottom_bar2.dart';
 import 'package:communisyncmobile/screens/register_page.dart';
 import 'package:flutter/material.dart';
-import '../bottom bar/bottom_bar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -124,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                           minimumSize: const Size.fromHeight(50),
-                          backgroundColor: Colors.purple,
+                          backgroundColor: Colors.purple[400],
                           shape: RoundedRectangleBorder(
                               borderRadius:
                               BorderRadius.circular(10)
@@ -146,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const BottomBar()
+                                builder: (context) => const BottomNavigationBarPart2()
                             )
                         );
                       },

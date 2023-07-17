@@ -10,6 +10,20 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Column(
+        children: const [
+          SizedBox(
+            height: 50,
+          ),
+          Center(
+            child: Text(
+              'Homepage',
+              style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
