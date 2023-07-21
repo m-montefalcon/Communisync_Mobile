@@ -27,14 +27,14 @@ class _QrCodeState extends State<QrCode> {
                 height: 150,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  // gradient: LinearGradient(
-                  //   begin: Alignment.topLeft,
-                  //   end: Alignment.bottomRight,
-                  //   colors: [
-                  //     Colors.purple.shade800,
-                  //     Colors.purple.shade500,
-                  //   ],
-                  // ),
+                    // gradient: LinearGradient(
+                    //   begin: Alignment.topLeft,
+                    //   end: Alignment.bottomRight,
+                    //   colors: [
+                    //     Colors.purple.shade800,
+                    //     Colors.purple.shade500,
+                    //   ],
+                    // ),
                     color: Colors.purple.shade700),
                 child: const Center(
                   child: Text(
@@ -55,11 +55,13 @@ class _QrCodeState extends State<QrCode> {
               height: 50,
             ),
             Center(
-              child: Text(
-                'Qr Code',
-                style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
-              ),
+              child: Icon(Icons.construction, size: 200, color: Colors.purple),
             ),
+            Text('UNDER CONSTRUCTION',
+                style: TextStyle(
+                    color: Colors.purple,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25))
           ],
         ),
       ),

@@ -109,69 +109,74 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                                     style: TextStyle(color: Colors.white)),
                               ),
                               const SizedBox(width: 10),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    const Text(
-                                      'Pet Wastes Complaint',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Status:',
+                              Flex(
+                                direction: Axis.horizontal,
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        const Text(
+                                          'Pet Wastes Complaint',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: const [
+                                            Text(
+                                              'Status:',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                                width:
+                                                    5), // Add some spacing between the texts
+                                            Text(
+                                              'Pending',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: const [
+                                            Text(
+                                              'Details:',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                                width:
+                                                    5), // Add some spacing between the texts
+                                          ],
+                                        ),
+                                        const Text(
+                                          'I hope this message finds you well. '
+                                          'I am writing to address a concerning '
+                                          'issue that has been observed in our '
+                                          'beloved subdivision recently.',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 15,
                                           ),
                                         ),
-                                        SizedBox(
-                                            width:
-                                                5), // Add some spacing between the texts
-                                        Text(
-                                          'Pending',
-                                          style: TextStyle(
-                                            color: Colors.red,
-                                            fontSize: 15,
-                                          ),
-                                        ),
+                                        const SizedBox(height: 15),
                                       ],
                                     ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Details:',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            width:
-                                            5), // Add some spacing between the texts
-                                      ],
-                                    ),
-                                    const Text(
-                                      'I hope this message finds you well. '
-                                      'I am writing to address a concerning '
-                                      'issue that has been observed in our '
-                                      'beloved subdivision recently.',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 15),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -216,69 +221,74 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                                     style: TextStyle(color: Colors.white)),
                               ),
                               const SizedBox(width: 10),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    const Text(
-                                      'Saba kaayo videoke!!',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Status:',
+                              Flex(
+                                direction: Axis.horizontal,
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        const Text(
+                                          'Saba kaayo videoke!!',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 15,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        SizedBox(
-                                            width:
-                                            5), // Add some spacing between the texts
-                                        Text(
-                                          'Solved',
-                                          style: TextStyle(
-                                            color: Colors.green,
-                                            fontSize: 15,
-                                          ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: const [
+                                            Text(
+                                              'Status:',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                                width:
+                                                    5), // Add some spacing between the texts
+                                            Text(
+                                              'Solved',
+                                              style: TextStyle(
+                                                color: Colors.green,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Details:',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: const [
+                                            Text(
+                                              'Details:',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                                width:
+                                                    5), // Add some spacing between the texts
+                                          ],
                                         ),
-                                        SizedBox(
-                                            width:
-                                            5), // Add some spacing between the texts
-                                      ],
-                                    ),
-                                    const Text(
-                                      'I hope this message finds you well. '
+                                        const Text(
+                                          'I hope this message finds you well. '
                                           'I am writing to address a concerning '
                                           'issue that has been observed in our '
                                           'beloved subdivision recently.',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                      ),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 15),
+                                      ],
                                     ),
-                                    const SizedBox(height: 15),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -323,69 +333,74 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                                     style: TextStyle(color: Colors.white)),
                               ),
                               const SizedBox(width: 10),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    const Text(
-                                      'Naay pang milktea, di pautang!',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Status:',
+                              Flex(
+                                direction: Axis.horizontal,
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        const Text(
+                                          'Naay pang milktea, di pautang!',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 15,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        SizedBox(
-                                            width:
-                                            5), // Add some spacing between the texts
-                                        Text(
-                                          'Solved',
-                                          style: TextStyle(
-                                            color: Colors.green,
-                                            fontSize: 15,
-                                          ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: const [
+                                            Text(
+                                              'Status:',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                                width:
+                                                    5), // Add some spacing between the texts
+                                            Text(
+                                              'Solved',
+                                              style: TextStyle(
+                                                color: Colors.green,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Details:',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: const [
+                                            Text(
+                                              'Details:',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                                width:
+                                                    5), // Add some spacing between the texts
+                                          ],
                                         ),
-                                        SizedBox(
-                                            width:
-                                            5), // Add some spacing between the texts
-                                      ],
-                                    ),
-                                    const Text(
-                                      'I hope this message finds you well. '
+                                        const Text(
+                                          'I hope this message finds you well. '
                                           'I am writing to address a concerning '
                                           'issue that has been observed in our '
                                           'beloved subdivision recently.',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                      ),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 15),
+                                      ],
                                     ),
-                                    const SizedBox(height: 15),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
