@@ -2,17 +2,17 @@ import 'package:communisyncmobile/screens/homeowner/announcements_page.dart';
 import 'package:communisyncmobile/screens/homeowner/complaints_page.dart';
 import 'package:communisyncmobile/screens/homeowner/dashboard_page.dart';
 import 'package:communisyncmobile/screens/homeowner/profile_page.dart';
-import 'package:communisyncmobile/screens/qr_code.dart';
+import 'package:communisyncmobile/screens/homeowner/qr_code.dart';
 import 'package:flutter/material.dart';
 
-class BottomNavigationBarPart2 extends StatefulWidget {
-  const BottomNavigationBarPart2({Key? key}) : super(key: key);
+class HomeownerBottomNavigationBar extends StatefulWidget {
+  const HomeownerBottomNavigationBar({Key? key}) : super(key: key);
 
   @override
-  State<BottomNavigationBarPart2> createState() => _BottomNavigationBarPart2State();
+  State<HomeownerBottomNavigationBar> createState() => _HomeownerBottomNavigationBarState();
 }
 
-class _BottomNavigationBarPart2State extends State<BottomNavigationBarPart2> {
+class _HomeownerBottomNavigationBarState extends State<HomeownerBottomNavigationBar> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
