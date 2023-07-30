@@ -1,14 +1,14 @@
-import 'package:communisyncmobile/screens/homeowner/custom_clipper.dart';
+import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:flutter/material.dart';
 
-class AnnouncementPage extends StatefulWidget {
-  const AnnouncementPage({Key? key}) : super(key: key);
+class ComplaintsPage extends StatefulWidget {
+  const ComplaintsPage({Key? key}) : super(key: key);
 
   @override
-  State<AnnouncementPage> createState() => _AnnouncementPageState();
+  State<ComplaintsPage> createState() => _ComplaintsPageState();
 }
 
-class _AnnouncementPageState extends State<AnnouncementPage> {
+class _ComplaintsPageState extends State<ComplaintsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +61,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Announcements',
+                            'Complaints',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,
@@ -94,11 +94,21 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                           child: Stack(
                             children: [
                               const Positioned(
+                                top: 0,
+                                right: 0,
+                                child: Icon(
+                                  Icons.update,
+                                  size: 35,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const Positioned(
                                 bottom: 0,
                                 right: 0,
                                 child: Text('6/15/2023',
                                     style: TextStyle(color: Colors.white)),
                               ),
+                              const SizedBox(width: 10),
                               Flex(
                                 direction: Axis.horizontal,
                                 children: [
@@ -108,14 +118,36 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         const Text(
-                                          'Implementation of CommuniSync app',
+                                          'Pet Wastes Complaint',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        const SizedBox(height: 10),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: const [
+                                            Text(
+                                              'Status:',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                                width:
+                                                    5), // Add some spacing between the texts
+                                            Text(
+                                              'Pending',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
                                         Row(
                                           children: const [
                                             Text(
@@ -131,18 +163,16 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                           ],
                                         ),
                                         const Text(
-                                          'The implementation of the Communisync app'
-                                          ' involves several key steps to ensure its '
-                                          'successful development and deployment. '
-                                          'Firstly, a team of skilled developers and '
-                                          'designers collaborate to create a user-friendly '
-                                          'interface and design the apps features.',
+                                          'I hope this message finds you well. '
+                                          'I am writing to address a concerning '
+                                          'issue that has been observed in our '
+                                          'beloved subdivision recently.',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 15,
                                           ),
                                         ),
-                                        const SizedBox(height: 35),
+                                        const SizedBox(height: 15),
                                       ],
                                     ),
                                   ),
@@ -176,11 +206,21 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                           child: Stack(
                             children: [
                               const Positioned(
+                                top: 0,
+                                right: 0,
+                                child: Icon(
+                                  Icons.update,
+                                  size: 35,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const Positioned(
                                 bottom: 0,
                                 right: 0,
-                                child: Text('7/21/2023',
+                                child: Text('1/18/2023',
                                     style: TextStyle(color: Colors.white)),
                               ),
+                              const SizedBox(width: 10),
                               Flex(
                                 direction: Axis.horizontal,
                                 children: [
@@ -190,14 +230,36 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         const Text(
-                                          'Libreng tuli sa basketball court!',
+                                          'Saba kaayo videoke!!',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        const SizedBox(height: 10),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: const [
+                                            Text(
+                                              'Status:',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                                width:
+                                                    5), // Add some spacing between the texts
+                                            Text(
+                                              'Solved',
+                                              style: TextStyle(
+                                                color: Colors.green,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
                                         Row(
                                           children: const [
                                             Text(
@@ -213,19 +275,16 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                           ],
                                         ),
                                         const Text(
-                                          'Maayong adlaw sa tanan, giawhag ang tanan'
-                                          ' mga pisot dari sa Greenville Subdivision'
-                                          ' barangay Bugo ning syudad sa dakbayan sa'
-                                          ' Cagayan de Oro na magpatuli na kay naay'
-                                          ' gipahigayon nga libreng tuli gipangulohan'
-                                          ' ni Kapitan Meinardz Montefalcon uban'
-                                          ' sa iyang mga konseho.',
+                                          'I hope this message finds you well. '
+                                          'I am writing to address a concerning '
+                                          'issue that has been observed in our '
+                                          'beloved subdivision recently.',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 15,
                                           ),
                                         ),
-                                        const SizedBox(height: 35),
+                                        const SizedBox(height: 15),
                                       ],
                                     ),
                                   ),
@@ -259,11 +318,21 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                           child: Stack(
                             children: [
                               const Positioned(
+                                top: 0,
+                                right: 0,
+                                child: Icon(
+                                  Icons.update,
+                                  size: 35,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const Positioned(
                                 bottom: 0,
                                 right: 0,
-                                child: Text('8/19/2023',
+                                child: Text('3/23/2023',
                                     style: TextStyle(color: Colors.white)),
                               ),
+                              const SizedBox(width: 10),
                               Flex(
                                 direction: Axis.horizontal,
                                 children: [
@@ -273,14 +342,36 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         const Text(
-                                          'No QR Code no entry policy',
+                                          'Naay pang milktea, di pautang!',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        const SizedBox(height: 10),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: const [
+                                            Text(
+                                              'Status:',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                                width:
+                                                    5), // Add some spacing between the texts
+                                            Text(
+                                              'Solved',
+                                              style: TextStyle(
+                                                color: Colors.green,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
                                         Row(
                                           children: const [
                                             Text(
@@ -296,18 +387,16 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                           ],
                                         ),
                                         const Text(
-                                          'The implementation of the Communisync app'
-                                          ' involves several key steps to ensure its '
-                                          'successful development and deployment. '
-                                          'Firstly, a team of skilled developers and '
-                                          'designers collaborate to create a user-friendly '
-                                          'interface and design the apps features.',
+                                          'I hope this message finds you well. '
+                                          'I am writing to address a concerning '
+                                          'issue that has been observed in our '
+                                          'beloved subdivision recently.',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 15,
                                           ),
                                         ),
-                                        const SizedBox(height: 35),
+                                        const SizedBox(height: 15),
                                       ],
                                     ),
                                   ),

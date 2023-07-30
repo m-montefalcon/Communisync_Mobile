@@ -1,4 +1,4 @@
-import 'package:communisyncmobile/screens/homeowner/profile_widget.dart';
+import 'package:communisyncmobile/constants/profile_widget.dart';
 import 'package:communisyncmobile/screens/login_page.dart';
 import 'package:communisyncmobile/screens/register_page.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,7 @@ class _SecurityProfilePageState extends State<SecurityProfilePage> {
                 child: const CircleAvatar(
                   radius: 60,
                   backgroundImage:
-                  ExactAssetImage('assets/images/user-avatar.png'),
+                      ExactAssetImage('assets/images/user-avatar.png'),
                 ),
               ),
               const SizedBox(
@@ -159,7 +159,6 @@ class _SecurityProfilePageState extends State<SecurityProfilePage> {
           ),
         ),
       ),
-
     );
   }
 }

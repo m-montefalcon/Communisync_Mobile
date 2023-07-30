@@ -1,17 +1,18 @@
-import 'package:communisyncmobile/screens/homeowner/custom_clipper.dart';
+import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:flutter/material.dart';
 
-class QrCode extends StatefulWidget {
-  const QrCode({Key? key}) : super(key: key);
+class VisitorQrCodePage extends StatefulWidget {
+  const VisitorQrCodePage({Key? key}) : super(key: key);
 
   @override
-  State<QrCode> createState() => _QrCodeState();
+  State<VisitorQrCodePage> createState() => _VisitorQrCodePageState();
 }
 
-class _QrCodeState extends State<QrCode> {
+class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: NestedScrollView(
         floatHeaderSlivers: true,
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -27,14 +28,6 @@ class _QrCodeState extends State<QrCode> {
                 height: 150,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    // gradient: LinearGradient(
-                    //   begin: Alignment.topLeft,
-                    //   end: Alignment.bottomRight,
-                    //   colors: [
-                    //     Colors.purple.shade800,
-                    //     Colors.purple.shade500,
-                    //   ],
-                    // ),
                     color: Colors.purple.shade700),
                 child: const Center(
                   child: Text(
@@ -65,6 +58,8 @@ class _QrCodeState extends State<QrCode> {
           ],
         ),
       ),
+
+
     );
   }
 }

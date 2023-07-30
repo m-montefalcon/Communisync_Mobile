@@ -1,5 +1,5 @@
-import 'package:communisyncmobile/screens/homeowner/payment_history.dart';
-import 'package:communisyncmobile/screens/homeowner/profile_widget.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_payment_page.dart';
+import 'package:communisyncmobile/constants/profile_widget.dart';
 import 'package:communisyncmobile/screens/login_page.dart';
 import 'package:communisyncmobile/screens/register_page.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
 import 'package:communisyncmobile/screens/register_page.dart';
-import 'package:communisyncmobile/screens/security%20personnel/security_bttmbar.dart';
+import 'package:communisyncmobile/screens/visitor/visitor_bttmbar.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -146,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const SecurityPersonnelBottomBar()
+                                builder: (context) => const VisitorBottombar()
                             )
                         );
                       },

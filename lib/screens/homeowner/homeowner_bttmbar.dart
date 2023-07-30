@@ -1,8 +1,8 @@
-import 'package:communisyncmobile/screens/homeowner/announcements_page.dart';
-import 'package:communisyncmobile/screens/homeowner/complaints_page.dart';
-import 'package:communisyncmobile/screens/homeowner/dashboard_page.dart';
-import 'package:communisyncmobile/screens/homeowner/profile_page.dart';
-import 'package:communisyncmobile/screens/homeowner/qr_code.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_page.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_complaints_page.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_dashboard_page.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_profile_page.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_qrcode_page.dart';
 import 'package:flutter/material.dart';
 
 class HomeownerBottomNavigationBar extends StatefulWidget {

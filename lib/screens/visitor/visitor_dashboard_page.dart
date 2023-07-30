@@ -1,17 +1,18 @@
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:flutter/material.dart';
 
-class SecurityDashboard extends StatefulWidget {
-  const SecurityDashboard({Key? key}) : super(key: key);
+class VisitorDashboardPage extends StatefulWidget {
+  const VisitorDashboardPage({Key? key}) : super(key: key);
 
   @override
-  State<SecurityDashboard> createState() => _SecurityDashboardState();
+  State<VisitorDashboardPage> createState() => _VisitorDashboardPageState();
 }
 
-class _SecurityDashboardState extends State<SecurityDashboard> {
+class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: NestedScrollView(
         floatHeaderSlivers: true,
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -27,14 +28,14 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                 height: 150,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    // gradient: LinearGradient(
-                    //   begin: Alignment.topLeft,
-                    //   end: Alignment.bottomRight,
-                    //   colors: [
-                    //     Colors.purple.shade800,
-                    //     Colors.purple.shade500,
-                    //   ],
-                    // ),
+                  // gradient: LinearGradient(
+                  //   begin: Alignment.topLeft,
+                  //   end: Alignment.bottomRight,
+                  //   colors: [
+                  //     Colors.purple.shade800,
+                  //     Colors.purple.shade500,
+                  //   ],
+                  // ),
                     color: Colors.purple.shade700),
                 child: const Center(
                   child: Text(
@@ -70,7 +71,7 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Visits History',
+                            'Visitation Requests',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,
@@ -114,7 +115,7 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                                     ),
                                   ),
                                   Text(
-                                    'Princess Kate',
+                                    'John de Bisita',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15,
@@ -134,21 +135,21 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: const <Widget>[
                                   Text(
-                                    'Homeowner',
+                                    'Date of visit:',
                                     style: TextStyle(
                                       color: Colors.greenAccent,
                                       fontSize: 15,
                                     ),
                                   ),
                                   Text(
-                                    'John Doe',
+                                    '06/15/2023',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15,
                                     ),
                                   ),
                                   Text(
-                                    '+639738455098',
+                                    'at 2:03 pm',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15,
@@ -161,16 +162,97 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                         ),
                       ),
                       const Positioned(
-                        right: 185,
+                        right: 25,
                         bottom: 40,
                         child: Icon(
-                          Icons.arrow_forward,
+                          Icons.pending,
                           size: 35,
-                          color: Colors.greenAccent,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Stack(
+                    children: [
+                      Card(
+                        margin: const EdgeInsets.all(10),
+                        elevation: 12,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        color: Colors.purple,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5.0, vertical: 20.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24),
+                            gradient: LinearGradient(colors: [
+                              Colors.purple.shade800,
+                              Colors.purple.shade400
+                            ]),
+                          ),
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const <Widget>[
+                                  Text(
+                                    'Visitor',
+                                    style: TextStyle(
+                                      color: Colors.greenAccent,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    'John de Bisita',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    '+639833746512',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(width: 50),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const <Widget>[
+                                  Text(
+                                    'Date of visit:',
+                                    style: TextStyle(
+                                      color: Colors.greenAccent,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    '07/18/2023',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    'at 4:33 pm',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       const Positioned(
-                        right: 20,
+                        right: 25,
                         bottom: 40,
                         child: Icon(
                           Icons.check_circle,
@@ -213,7 +295,7 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                                     ),
                                   ),
                                   Text(
-                                    'Princess Kate',
+                                    'John de Bisita',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15,
@@ -233,21 +315,21 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: const <Widget>[
                                   Text(
-                                    'Homeowner',
+                                    'Date of visit:',
                                     style: TextStyle(
                                       color: Colors.greenAccent,
                                       fontSize: 15,
                                     ),
                                   ),
                                   Text(
-                                    'John Doe',
+                                    '08/23/2023',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15,
                                     ),
                                   ),
                                   Text(
-                                    '+639738455098',
+                                    'at 8:22 am',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15,
@@ -260,115 +342,7 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                         ),
                       ),
                       const Positioned(
-                        right: 185,
-                        bottom: 40,
-                        child: Icon(
-                          Icons.arrow_forward,
-                          size: 35,
-                          color: Colors.greenAccent,
-                        ),
-                      ),
-                      const Positioned(
-                        right: 20,
-                        bottom: 40,
-                        child: Icon(
-                          Icons.block,
-                          size: 35,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Stack(
-                    children: [
-                      Card(
-                        margin: const EdgeInsets.all(10),
-                        elevation: 12,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        color: Colors.purple,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5.0, vertical: 20.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            gradient: LinearGradient(colors: [
-                              Colors.purple.shade800,
-                              Colors.purple.shade400
-                            ]),
-                          ),
-                          child: Row(
-                            children: [
-                              const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Visitor',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Princess Kate',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '+639833746512',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(width: 50),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Homeowner',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'John Doe',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '+639738455098',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        right: 185,
-                        bottom: 40,
-                        child: Icon(
-                          Icons.arrow_forward,
-                          size: 35,
-                          color: Colors.greenAccent,
-                        ),
-                      ),
-                      const Positioned(
-                        right: 20,
+                        right: 25,
                         bottom: 40,
                         child: Icon(
                           Icons.check_circle,
@@ -411,7 +385,7 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                                     ),
                                   ),
                                   Text(
-                                    'Princess Kate',
+                                    'John de Bisita',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15,
@@ -431,21 +405,21 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: const <Widget>[
                                   Text(
-                                    'Homeowner',
+                                    'Date of visit:',
                                     style: TextStyle(
                                       color: Colors.greenAccent,
                                       fontSize: 15,
                                     ),
                                   ),
                                   Text(
-                                    'John Doe',
+                                    '09/13/2023',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15,
                                     ),
                                   ),
                                   Text(
-                                    '+639738455098',
+                                    'at 12:14 pm',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15,
@@ -458,16 +432,7 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                         ),
                       ),
                       const Positioned(
-                        right: 185,
-                        bottom: 40,
-                        child: Icon(
-                          Icons.arrow_forward,
-                          size: 35,
-                          color: Colors.greenAccent,
-                        ),
-                      ),
-                      const Positioned(
-                        right: 20,
+                        right: 25,
                         bottom: 40,
                         child: Icon(
                           Icons.check_circle,
@@ -483,6 +448,7 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
           ),
         ),
       ),
+
     );
   }
 }

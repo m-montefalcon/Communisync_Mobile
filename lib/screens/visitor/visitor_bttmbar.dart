@@ -1,24 +1,23 @@
-import 'package:communisyncmobile/screens/security%20personnel/security_dashboard.dart';
-import 'package:communisyncmobile/screens/security%20personnel/security_profile_page.dart';
-import 'package:communisyncmobile/screens/security%20personnel/security_qr_code.dart';
+import 'package:communisyncmobile/screens/visitor/visitor_dashboard_page.dart';
+import 'package:communisyncmobile/screens/visitor/visitor_profile_page.dart';
+import 'package:communisyncmobile/screens/visitor/visitor_qrcode_page.dart';
 import 'package:flutter/material.dart';
 
-class SecurityPersonnelBottomBar extends StatefulWidget {
-  const SecurityPersonnelBottomBar({Key? key}) : super(key: key);
+class VisitorBottombar extends StatefulWidget {
+  const VisitorBottombar({Key? key}) : super(key: key);
 
   @override
-  State<SecurityPersonnelBottomBar> createState() =>
-      _SecurityPersonnelBottomBarState();
+  State<VisitorBottombar> createState() => _VisitorBottombarState();
 }
 
-class _SecurityPersonnelBottomBarState
-    extends State<SecurityPersonnelBottomBar> {
+class _VisitorBottombarState extends State<VisitorBottombar> {
+
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    SecurityDashboard(),
-    SecurityQrCode(),
-    SecurityProfilePage(),
+    VisitorDashboardPage(),
+    VisitorQrCodePage(),
+    VisitorProfilePage(),
   ];
 
   void _onItemTapped(int index) {

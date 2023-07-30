@@ -1,5 +1,5 @@
-import 'package:communisyncmobile/screens/homeowner/announcements_page.dart';
-import 'package:communisyncmobile/screens/homeowner/custom_clipper.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_page.dart';
+import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:flutter/material.dart';
 
 class DashboardPage extends StatefulWidget {

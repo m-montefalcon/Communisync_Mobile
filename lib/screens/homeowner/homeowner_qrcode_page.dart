@@ -1,14 +1,14 @@
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:flutter/material.dart';
 
-class SecurityQrCode extends StatefulWidget {
-  const SecurityQrCode({Key? key}) : super(key: key);
+class QrCode extends StatefulWidget {
+  const QrCode({Key? key}) : super(key: key);
 
   @override
-  State<SecurityQrCode> createState() => _SecurityQrCodeState();
+  State<QrCode> createState() => _QrCodeState();
 }
 
-class _SecurityQrCodeState extends State<SecurityQrCode> {
+class _QrCodeState extends State<QrCode> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +27,14 @@ class _SecurityQrCodeState extends State<SecurityQrCode> {
                 height: 150,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
+                    // gradient: LinearGradient(
+                    //   begin: Alignment.topLeft,
+                    //   end: Alignment.bottomRight,
+                    //   colors: [
+                    //     Colors.purple.shade800,
+                    //     Colors.purple.shade500,
+                    //   ],
+                    // ),
                     color: Colors.purple.shade700),
                 child: const Center(
                   child: Text(
@@ -57,7 +65,6 @@ class _SecurityQrCodeState extends State<SecurityQrCode> {
           ],
         ),
       ),
-
     );
   }
 }
