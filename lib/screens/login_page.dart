@@ -1,6 +1,10 @@
 import 'package:communisyncmobile/screens/register_page.dart';
 import 'package:communisyncmobile/screens/visitor/visitor_bttmbar.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:communisyncmobile/backend/api/auth/login_auth.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -11,7 +15,9 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  TextEditingController emailController = TextEditingController();
+
+
+  TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   bool passwordVisible = true;
@@ -58,20 +64,20 @@ class _LoginPageState extends State<LoginPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15.0),
                         child: TextFormField(
-                            controller: emailController,
-                            keyboardType: TextInputType.emailAddress,
+                            controller: usernameController,
+                            keyboardType: TextInputType.name,
                             textInputAction: TextInputAction.next,
                             decoration: const InputDecoration(
-                                hintText: 'Email',
+                                hintText: 'Username',
                                 border: InputBorder.none,
                                 icon: Icon(Icons.alternate_email_outlined)),
-                            validator: (value) {
-                              if(value!.isEmpty || !RegExp(r'[a-z0-9]+@[a-z]+\.[a-z]{2,3}').hasMatch(value)) {
-                                return 'Please enter your email.';
-                              } else {
-                                return null;
-                              }
-                            }
+                            // validator: (value) {
+                            //   if(value!.isEmpty || !RegExp(r'[a-z0-9]+@[a-z]+\.[a-z]{2,3}').hasMatch(value)) {
+                            //     return 'Please enter your username.';
+                            //   } else {
+                            //     return null;
+                            //   }
+                            // }
                         ),
                       ),
                     ),
@@ -142,13 +148,18 @@ class _LoginPageState extends State<LoginPage> {
                             color: Colors.white
                         ),
                       ),
-                      onPressed: (){
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const VisitorBottombar()
-                            )
-                        );
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          setState(() {
+                            loading = true;
+                          });
+                          await loginUser(usernameController.text, passwordController.text);
+                          setState(() {
+                            loading = false;
+                          });
+                        } else {
+                          print('Please fill in all fields');
+                        }
                       },
                     ),
                   ),
