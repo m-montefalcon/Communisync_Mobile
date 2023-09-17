@@ -1,13 +1,18 @@
+import 'package:communisyncmobile/screens/homeowner/homeowner_bttmbar.dart';
+import 'package:communisyncmobile/screens/security%20personnel/security_bttmbar.dart';
+import 'package:communisyncmobile/screens/visitor/visitor_bttmbar.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> loginUser(String email, String password) async {
+Future<void> loginUser(context, String email, String password) async {
   try {
-    String loginApi = dotenv.get("API_HOST", fallback: "");
-    final url = ('$loginApi/api/login/store/mobile');
+    String host = dotenv.get("API_HOST", fallback: "");
+    String loginApi = dotenv.get("LOGIN_API", fallback: "");
+    final url = ('$host$loginApi');
     final response = await http.post(
       Uri.parse(url),
       body: {
@@ -16,27 +21,55 @@ Future<void> loginUser(String email, String password) async {
       },
     );
 
-    print('Status code: ${response.statusCode}');
-    print('Response body: ${response.body}');
-
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
-
-      // Retrieve the token from the response data
       String token = responseData['token'];
+      Map<String, dynamic> user = responseData['user'] as Map<String, dynamic>;
+      String role = user['role'];
 
-      if (token != null) {
+      if (token != null && role != null) {
         print('Login successful');
+        print('Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
         print('Token: $token');
+        print('Role: $role');
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', token);
+        await prefs.setString('role', role);
+
+        if (role == '1') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const VisitorBottombar(),
+            ),
+          );
+        } else if (role == '2') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomeownerBottomNavigationBar(),
+            ),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SecurityPersonnelBottomBar(),
+            ),
+          );
+        }
       } else {
-        // Token not found in the response data
-        print('Token not found in the response data');
+        print('Token or role not found in the response data');
+        throw Exception('Invalid API response');
       }
     } else {
-      // Login failed
       print('Login failed');
+      throw Exception('Login failed');
     }
   } catch (e) {
     print('An error occurred: $e');
+    throw Exception('An error occurred');
   }
 }
