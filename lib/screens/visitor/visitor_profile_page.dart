@@ -3,6 +3,9 @@ import 'package:communisyncmobile/screens/login_page.dart';
 import 'package:communisyncmobile/screens/register_page.dart';
 import 'package:flutter/material.dart';
 
+import '../../backend/api/auth/login_auth.dart';
+import '../../backend/api/auth/logout_auth.dart';
+
 class VisitorProfilePage extends StatefulWidget {
   const VisitorProfilePage({Key? key}) : super(key: key);
 
@@ -12,6 +15,12 @@ class VisitorProfilePage extends StatefulWidget {
 
 class _VisitorProfilePageState extends State<VisitorProfilePage> {
   @override
+  SnackBar buildErrorSnackBar(String errorMessage) {
+    return SnackBar(
+      content: Text(errorMessage),
+      backgroundColor: Colors.red,
+    );
+  }
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -145,11 +154,15 @@ class _VisitorProfilePageState extends State<VisitorProfilePage> {
                         icon: Icons.logout,
                         title: 'Log Out',
                       ),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginPage()));
+                      onTap: () async {
+                        try {
+                          await logout(context);
+                        } catch (e) {
+                          print('Exception caught: $e');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            buildErrorSnackBar('An error occurred: $e'),
+                          );
+                        }
                       },
                     ),
                   ],
