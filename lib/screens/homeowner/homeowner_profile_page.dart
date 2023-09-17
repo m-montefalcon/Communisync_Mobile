@@ -1,3 +1,4 @@
+import 'package:communisyncmobile/backend/api/auth/logout_auth.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_payment_page.dart';
 import 'package:communisyncmobile/constants/profile_widget.dart';
 import 'package:communisyncmobile/screens/login_page.dart';
@@ -12,6 +13,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  SnackBar buildErrorSnackBar(String errorMessage) {
+    return SnackBar(
+      content: Text(errorMessage),
+      backgroundColor: Colors.red,
+    );
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -160,11 +167,15 @@ class _ProfilePageState extends State<ProfilePage> {
                         icon: Icons.logout,
                         title: 'Log Out',
                       ),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginPage()));
+                      onTap: () async {
+                        try {
+                          await logout(context);
+                        } catch (e) {
+                          print('Exception caught: $e');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            buildErrorSnackBar('An error occurred: $e'),
+                          );
+                        }
                       },
                     ),
                   ],

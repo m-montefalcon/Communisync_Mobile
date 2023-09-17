@@ -30,6 +30,12 @@ class _LoginPageState extends State<LoginPage> {
     passwordVisible = false;
   }
 
+  SnackBar buildErrorSnackBar(String errorMessage) {
+    return SnackBar(
+      content: Text(errorMessage),
+      backgroundColor: Colors.red,
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -148,15 +154,28 @@ class _LoginPageState extends State<LoginPage> {
                             color: Colors.white
                         ),
                       ),
+
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
                           setState(() {
                             loading = true;
                           });
-                          await loginUser(usernameController.text, passwordController.text);
-                          setState(() {
-                            loading = false;
-                          });
+
+                          try {
+                            await loginUser(
+                              context,
+                              usernameController.text,
+                              passwordController.text,
+                            );
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              buildErrorSnackBar('An error occurred: $e'),
+                            );
+                          } finally {
+                            setState(() {
+                              loading = false;
+                            });
+                          }
                         } else {
                           print('Please fill in all fields');
                         }
