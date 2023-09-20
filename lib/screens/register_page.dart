@@ -1,6 +1,7 @@
-import 'package:communisyncmobile/backend/api/auth/login_auth.dart';
-import 'package:communisyncmobile/backend/api/auth/register_auth.dart';
+import 'package:communisyncmobile/screens/visitor/visitor_bttmbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 
 import 'login_page.dart';
 
@@ -12,14 +13,29 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final formKey = GlobalKey<FormState>();
-  TextEditingController fullNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _contactNumber = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  // final TextEditingController _confirmPasswordController = TextEditingController();
 
-  var phone = '';
+  @override
+  void dispose() {
+    _userNameController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
+    _contactNumber.dispose();
+    _passwordController.dispose();
+    // _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+
+  var formKey = GlobalKey<FormState>();
   bool passwordVisible = true;
   bool confirmPasswordVisible = true;
   bool loading = false;
@@ -29,20 +45,21 @@ class _RegisterPageState extends State<RegisterPage> {
     super.initState();
     passwordVisible = false;
     confirmPasswordVisible = false;
-    phoneNumberController.text = '+63';
   }
+
   SnackBar buildErrorSnackBar(String errorMessage) {
     return SnackBar(
       content: Text(errorMessage),
       backgroundColor: Colors.red,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: Form(
-        key: formKey,
+        key: _formKey,
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -74,17 +91,17 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15.0),
                         child: TextFormField(
-                            controller: fullNameController,
+                            controller: _userNameController,
                             keyboardType: TextInputType.name,
                             textInputAction: TextInputAction.next,
                             decoration: const InputDecoration(
-                                labelText: 'Full Name',
+                                labelText: 'Username',
                                 border: InputBorder.none,
                                 icon: Icon(Icons.person_rounded)),
                             validator: (value) {
                               if (value!.isEmpty ||
                                   !RegExp(r'[a-z][A-Z]').hasMatch(value)) {
-                                return 'Please enter your full name.';
+                                return 'Please enter your username';
                               } else {
                                 return null;
                               }
@@ -103,16 +120,71 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15.0),
                         child: TextFormField(
-                            onChanged: (value) {
-                              phone = value;
-                            },
-                            controller: phoneNumberController,
-                            // maxLength: 13,
+                            controller: _firstNameController,
+                            keyboardType: TextInputType.name,
+                            textInputAction: TextInputAction.next,
+                            decoration: const InputDecoration(
+                                labelText: 'First Name',
+                                border: InputBorder.none,
+                                icon: Icon(Icons.person_rounded)),
+                            validator: (value) {
+                              if (value!.isEmpty ||
+                                  !RegExp(r'[a-z][A-Z]').hasMatch(value)) {
+                                return 'Please enter your first name';
+                              } else {
+                                return null;
+                              }
+                            }),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15.0),
+                        child: TextFormField(
+                            controller: _lastNameController,
+                            keyboardType: TextInputType.name,
+                            textInputAction: TextInputAction.next,
+                            decoration: const InputDecoration(
+                                labelText: 'Last Name',
+                                border: InputBorder.none,
+                                icon: Icon(Icons.person_rounded)),
+                            validator: (value) {
+                              if (value!.isEmpty ||
+                                  !RegExp(r'[a-z][A-Z]').hasMatch(value)) {
+                                return 'Please enter your last name.';
+                              } else {
+                                return null;
+                              }
+                            }),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15.0),
+                        child: TextFormField(
+                            controller: _contactNumber,
+                            // maxLength: 11,
                             keyboardType: TextInputType.number,
                             textInputAction: TextInputAction.next,
                             decoration: const InputDecoration(
-                                labelText: 'Phone Number',
-                                hintText: '+63xxxxxxxxxx',
+                                labelText: 'Contact Number',
+                                hintText: '09xxxxxxxxx',
                                 border: InputBorder.none,
                                 icon: Icon(Icons.phone)),
                             validator: (value) {
@@ -120,10 +192,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                   !RegExp(r'[0-9]').hasMatch(value)) {
                                 return 'Please enter your phone number.';
                               } else {
-                                return null;
-                                // value.length < 11
-                                //     ? 'Required 11 numbers'
-                                //     : null;
+                                // return null;
+                                value.length < 11
+                                    ? 'Required 11 numbers'
+                                    : null;
                               }
                             }),
                       ),
@@ -140,7 +212,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15.0),
                         child: TextFormField(
-                            controller: emailController,
+                            controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
                             textInputAction: TextInputAction.next,
                             decoration: const InputDecoration(
@@ -170,7 +242,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15),
                         child: TextFormField(
-                          controller: passwordController,
+                          controller: _passwordController,
                           obscureText: !passwordVisible,
                           decoration: InputDecoration(
                             labelText: 'Password',
@@ -201,46 +273,46 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: TextFormField(
-                          controller: confirmPasswordController,
-                          obscureText: !confirmPasswordVisible,
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.done,
-                          decoration: InputDecoration(
-                            labelText: 'Confirm Password',
-                            border: InputBorder.none,
-                            icon: const Icon(Icons.key_outlined),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                  confirmPasswordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: Colors.grey),
-                              onPressed: () {
-                                setState(() {
-                                  confirmPasswordVisible =
-                                      !confirmPasswordVisible;
-                                });
-                              },
-                            ),
-                          ),
-                          validator: (val) => val != passwordController.text
-                              ? 'Password does not match.'
-                              : null,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 25),
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //         color: Colors.grey[200],
+                  //         border: Border.all(color: Colors.white),
+                  //         borderRadius: BorderRadius.circular(10)),
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.only(left: 15),
+                  //       child: TextFormField(
+                  //         // controller: _confirmPasswordController,
+                  //         obscureText: !confirmPasswordVisible,
+                  //         keyboardType: TextInputType.text,
+                  //         textInputAction: TextInputAction.done,
+                  //         decoration: InputDecoration(
+                  //           labelText: 'Confirm Password',
+                  //           border: InputBorder.none,
+                  //           icon: const Icon(Icons.key_outlined),
+                  //           suffixIcon: IconButton(
+                  //             icon: Icon(
+                  //                 confirmPasswordVisible
+                  //                     ? Icons.visibility
+                  //                     : Icons.visibility_off,
+                  //                 color: Colors.grey),
+                  //             onPressed: () {
+                  //               setState(() {
+                  //                 confirmPasswordVisible =
+                  //                     !confirmPasswordVisible;
+                  //               });
+                  //             },
+                  //           ),
+                  //         ),
+                  //         validator: (val) => val != _passwordController.text
+                  //             ? 'Password does not match.'
+                  //             : null,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 20),
                   loading
                       ? const CircularProgressIndicator()
                       : Padding(
@@ -261,16 +333,24 @@ class _RegisterPageState extends State<RegisterPage> {
                               style:
                                   TextStyle(fontSize: 20, color: Colors.white),
                             ),
-                            onPressed: () async{
-                              try {
-                                await registerUser(
-
-                                );
-                              } catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  buildErrorSnackBar('An error occurred: $e'),
-                                );
-                              }
+                            onPressed: () async {
+                              // var isFormValid =
+                              //     formKey.currentState!.validate();
+                              // if (isFormValid) {
+                              //   _registerUser(context);
+                              // } else {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     const SnackBar(
+                              //         content: Text('Invalid credentials')),
+                              //   );
+                              // }
+                              // try {
+                              //   registerUser(context);
+                              // } catch (e) {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     buildErrorSnackBar('An error occurred: $e'),
+                              //   );
+                              // }
                             },
                           ),
                         ),
