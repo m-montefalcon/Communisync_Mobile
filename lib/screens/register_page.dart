@@ -1,3 +1,5 @@
+import 'package:communisyncmobile/backend/api/auth/login_auth.dart';
+import 'package:communisyncmobile/backend/api/auth/register_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'login_page.dart';
@@ -29,7 +31,12 @@ class _RegisterPageState extends State<RegisterPage> {
     confirmPasswordVisible = false;
     phoneNumberController.text = '+63';
   }
-
+  SnackBar buildErrorSnackBar(String errorMessage) {
+    return SnackBar(
+      content: Text(errorMessage),
+      backgroundColor: Colors.red,
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -254,7 +261,17 @@ class _RegisterPageState extends State<RegisterPage> {
                               style:
                                   TextStyle(fontSize: 20, color: Colors.white),
                             ),
-                            onPressed: () {},
+                            onPressed: () async{
+                              try {
+                                await registerUser(
+
+                                );
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  buildErrorSnackBar('An error occurred: $e'),
+                                );
+                              }
+                            },
                           ),
                         ),
                   const SizedBox(height: 10),
