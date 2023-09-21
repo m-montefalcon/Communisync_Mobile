@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
+import '../backend/api/auth/register_auth.dart';
 import 'login_page.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -39,6 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
   bool passwordVisible = true;
   bool confirmPasswordVisible = true;
   bool loading = false;
+
 
   @override
   void initState() {
@@ -313,47 +315,56 @@ class _RegisterPageState extends State<RegisterPage> {
                   //   ),
                   // ),
                   // const SizedBox(height: 20),
+
                   loading
                       ? const CircularProgressIndicator()
                       : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
-                                minimumSize: const Size.fromHeight(50),
-                                backgroundColor: Colors.purple,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                            icon: const Icon(
-                              Icons.app_registration_outlined,
-                              size: 0,
-                              color: Colors.white,
-                            ),
-                            label: const Text(
-                              'Sign Up',
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
-                            ),
-                            onPressed: () async {
-                              // var isFormValid =
-                              //     formKey.currentState!.validate();
-                              // if (isFormValid) {
-                              //   _registerUser(context);
-                              // } else {
-                              //   ScaffoldMessenger.of(context).showSnackBar(
-                              //     const SnackBar(
-                              //         content: Text('Invalid credentials')),
-                              //   );
-                              // }
-                              // try {
-                              //   registerUser(context);
-                              // } catch (e) {
-                              //   ScaffoldMessenger.of(context).showSnackBar(
-                              //     buildErrorSnackBar('An error occurred: $e'),
-                              //   );
-                              // }
-                            },
-                          ),
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                        backgroundColor: Colors.purple,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
+                      ),
+                      icon: const Icon(
+                        Icons.app_registration_outlined,
+                        size: 0,
+                        color: Colors.white,
+                      ),
+                      label: const Text(
+                        'Sign Up',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                      onPressed: () async {
+                        setState(() {
+                          loading = true;
+                        });
+
+                        try {
+                          await registerUser(
+                            context,
+                            _userNameController.text,
+                            _firstNameController.text,
+                            _lastNameController.text,
+                            _emailController.text,
+                            _contactNumber.text,
+                            _passwordController.text,
+                          );
+                        } catch (e) {
+                          print(e);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            buildErrorSnackBar('An error occurred: $e'),
+                          );
+                        }
+
+                        setState(() {
+                          loading = false;
+                        });
+                      },
+                    ),
+                  ),
                   const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
