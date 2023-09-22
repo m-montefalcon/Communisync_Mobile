@@ -1,4 +1,5 @@
 import 'package:communisyncmobile/screens/homeowner/homeowner_bttmbar.dart';
+import 'package:communisyncmobile/screens/root_page.dart';
 import 'package:communisyncmobile/screens/security%20personnel/security_bttmbar.dart';
 import 'package:communisyncmobile/screens/visitor/visitor_bttmbar.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ Future<void> loginUser(context, String email, String password) async {
       String token = responseData['token'];
       Map<String, dynamic> user = responseData['user'] as Map<String, dynamic>;
       String role = user['role'];
+      int id = user['id'];
 
       if (token != null && role != null) {
         print('Login successful');
@@ -33,10 +35,13 @@ Future<void> loginUser(context, String email, String password) async {
         print('Response body: ${response.body}');
         print('Token: $token');
         print('Role: $role');
+        print('ID: $id');
+
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
         await prefs.setString('role', role);
+        await prefs.setInt('id', id);
 
         if (role == '1') {
           Navigator.push(
