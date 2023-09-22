@@ -29,6 +29,7 @@ Future<void> logout(context) async {
       // Remove token and role from shared preferences
       await prefs.remove('token');
       await prefs.remove('role');
+      await prefs.remove('id');
       print('Logout successful');
       Navigator.pushAndRemoveUntil(
         context,
