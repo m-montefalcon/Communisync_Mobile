@@ -1,6 +1,9 @@
+import 'package:communisyncmobile/backend/api/homeowner/CAF/fetch_requests.dart';
+import 'package:communisyncmobile/backend/model/request_class.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_page.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -10,6 +13,13 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+
+
+  void initState() {
+    super.initState();
+    // Fetch data when the page is initialized
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,24 +122,56 @@ class _DashboardPageState extends State<DashboardPage> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  Row(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(left: 15.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Visitation Requests',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
+                  FutureBuilder<List<Request>>(
+                    future: getIdFromSharedPreferencesAndFetchData(context),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Center(
+                          child: Text('Error: ${snapshot.error}'),
+                        );
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        // Handle the case where there are no requests.
+                        return Center(
+                          child: Text('No requests available.'),
+                        );
+                      } else {
+                        final List<Request> requests = snapshot.data!;
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                'Requests',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    ],
+                            ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: requests.length,
+                              itemBuilder: (context, index) {
+                                final Request request = requests[index];
+                                return ListTile(
+                                  title: Text('Request ID: ${request.id.toString()}'),
+                                  subtitle: Text('Visitor id: ${request.visitorId}'),
+                                  // You can display more details from the request object here
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                      }
+                    },
                   ),
+
+
+
                   Stack(
                     children: [
                       Card(
