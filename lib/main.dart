@@ -24,3 +24,11 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+class PermissionDeniedApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      // Widget to display when permission is denied
+    );
+  }
+}
