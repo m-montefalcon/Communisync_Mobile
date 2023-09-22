@@ -55,7 +55,7 @@ class _VisitorBottombarState extends State<VisitorBottombar> {
                 borderRadius: BorderRadius.circular(20),
               ),
               padding: const EdgeInsets.all(10),
-              child: const Icon(Icons.qr_code_rounded,
+              child: const Icon(Icons.search,
                   size: 35, color: Colors.white),
             ),
             label: '',

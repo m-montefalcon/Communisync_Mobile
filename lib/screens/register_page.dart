@@ -1,8 +1,4 @@
-import 'package:communisyncmobile/screens/visitor/visitor_bttmbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
-
 import 'login_page.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -20,7 +16,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _contactNumber = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  // final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
@@ -30,11 +26,11 @@ class _RegisterPageState extends State<RegisterPage> {
     _emailController.dispose();
     _contactNumber.dispose();
     _passwordController.dispose();
-    // _confirmPasswordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
-
+  var phone = '';
   var formKey = GlobalKey<FormState>();
   bool passwordVisible = true;
   bool confirmPasswordVisible = true;
@@ -178,6 +174,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15.0),
                         child: TextFormField(
+                            onChanged: (value) {
+                              phone = value;
+                            },
                             controller: _contactNumber,
                             // maxLength: 11,
                             keyboardType: TextInputType.number,
@@ -192,10 +191,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                   !RegExp(r'[0-9]').hasMatch(value)) {
                                 return 'Please enter your phone number.';
                               } else {
-                                // return null;
-                                value.length < 11
-                                    ? 'Required 11 numbers'
-                                    : null;
+                                return null;
+                                // value.length < 11
+                                //     ? 'Required 11 numbers'
+                                //     : null;
                               }
                             }),
                       ),
@@ -273,46 +272,46 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 25),
-                  //   child: Container(
-                  //     decoration: BoxDecoration(
-                  //         color: Colors.grey[200],
-                  //         border: Border.all(color: Colors.white),
-                  //         borderRadius: BorderRadius.circular(10)),
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.only(left: 15),
-                  //       child: TextFormField(
-                  //         // controller: _confirmPasswordController,
-                  //         obscureText: !confirmPasswordVisible,
-                  //         keyboardType: TextInputType.text,
-                  //         textInputAction: TextInputAction.done,
-                  //         decoration: InputDecoration(
-                  //           labelText: 'Confirm Password',
-                  //           border: InputBorder.none,
-                  //           icon: const Icon(Icons.key_outlined),
-                  //           suffixIcon: IconButton(
-                  //             icon: Icon(
-                  //                 confirmPasswordVisible
-                  //                     ? Icons.visibility
-                  //                     : Icons.visibility_off,
-                  //                 color: Colors.grey),
-                  //             onPressed: () {
-                  //               setState(() {
-                  //                 confirmPasswordVisible =
-                  //                     !confirmPasswordVisible;
-                  //               });
-                  //             },
-                  //           ),
-                  //         ),
-                  //         validator: (val) => val != _passwordController.text
-                  //             ? 'Password does not match.'
-                  //             : null,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: TextFormField(
+                          controller: _confirmPasswordController,
+                          obscureText: !confirmPasswordVisible,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.done,
+                          decoration: InputDecoration(
+                            labelText: 'Confirm Password',
+                            border: InputBorder.none,
+                            icon: const Icon(Icons.key_outlined),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                  confirmPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Colors.grey),
+                              onPressed: () {
+                                setState(() {
+                                  confirmPasswordVisible =
+                                      !confirmPasswordVisible;
+                                });
+                              },
+                            ),
+                          ),
+                          validator: (val) => val != _passwordController.text
+                              ? 'Password does not match.'
+                              : null,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   loading
                       ? const CircularProgressIndicator()
                       : Padding(

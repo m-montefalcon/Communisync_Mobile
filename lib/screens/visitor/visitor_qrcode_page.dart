@@ -12,7 +12,6 @@ class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: NestedScrollView(
         floatHeaderSlivers: true,
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -27,8 +26,7 @@ class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
               child: Container(
                 height: 150,
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    color: Colors.purple.shade700),
+                decoration: BoxDecoration(color: Colors.purple.shade700),
                 child: const Center(
                   child: Text(
                     'CommuniSync',
@@ -42,24 +40,24 @@ class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
             ),
           ),
         ],
-        body: Column(
-          children: const [
-            SizedBox(
-              height: 50,
-            ),
-            Center(
-              child: Icon(Icons.construction, size: 200, color: Colors.purple),
-            ),
-            Text('UNDER CONSTRUCTION',
-                style: TextStyle(
-                    color: Colors.purple,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25))
-          ],
+        body: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search....',
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  contentPadding: EdgeInsets.symmetric(vertical: 12.0),
+                ),
+              )
+            ],
+          ),
         ),
       ),
-
-
     );
   }
 }

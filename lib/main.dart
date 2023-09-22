@@ -1,5 +1,6 @@
 import 'package:communisyncmobile/screens/login_page.dart';
 import 'package:communisyncmobile/screens/root_page.dart';
+import 'package:communisyncmobile/screens/visitor/visitor_bttmbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 

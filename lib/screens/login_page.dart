@@ -1,8 +1,6 @@
 import 'package:communisyncmobile/screens/register_page.dart';
 import 'package:communisyncmobile/screens/visitor/visitor_bttmbar.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:communisyncmobile/backend/api/auth/login_auth.dart';
 
 
