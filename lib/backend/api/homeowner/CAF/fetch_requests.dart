@@ -26,13 +26,13 @@ Future<List<Request>> getCafRequestsApi(BuildContext context, int id) async {
       try {
         final List<Request> requests = (responseData['data'] as List<dynamic>)
             .map((requestData) {
-          // Separate date and time strings
-          // final dateString = requestData['date'] as String;
-          // final timeString = requestData['time'] as String;
-          // final date = DateTime.parse(dateString);
-          // final time = DateTime.parse(timeString);
-          // final visitMembersJson = requestData['visit_members'] as List<dynamic>;
-          // final visitMembers = visitMembersJson.map((member) => member.toString()).toList();
+          final dynamic visitMembersData = requestData['visit_members'];
+          final List<String>? visitMembers = visitMembersData is String
+              ? List<String>.from([visitMembersData])
+              : visitMembersData?.cast<String>();
+          final String dateString = requestData['date'];
+          final String timeString = requestData['time'];
+          final DateTime dateTime = DateTime.parse('$dateString $timeString');
 
           return Request(
             id: requestData['id'],
@@ -40,28 +40,23 @@ Future<List<Request>> getCafRequestsApi(BuildContext context, int id) async {
             homeownerId: requestData['homeowner_id'],
             adminId: requestData['admin_id'],
             personnelId: requestData['personnel_id'],
-            // date: date,
-            // time: time,
-            // destinationPerson: requestData['destination_person'],
-            // visitMembers: visitMembers,
-            // visitStatus: requestData['visit_status'],
+            date: dateTime,
+            time: dateTime,
+            destinationPerson: requestData['destination_person'],
+            visitMembers: visitMembers,
+            visitStatus: requestData['visit_status'],
             // qrCode: requestData['qr_code'],
             // createdAt: DateTime.parse(requestData['created_at']),
             // updatedAt: DateTime.parse(requestData['updated_at']),
             visitor: Visitor(
               id: requestData['visitor']['id'],
-              // userName: requestData['visitor']['user_name'],
-              // firstName: requestData['visitor']['first_name'],
-              // lastName: requestData['visitor']['last_name'],
-              // contactNumber: requestData['visitor']['contact_number'],
-              // blockNo: requestData['visitor']['block_no'],
-              // lotNo: requestData['visitor']['lot_no'],
-              // familyMember: requestData['visitor']['family_member'],
-              // emailVerifiedAt: requestData['visitor']['email_verified_at'],
-              // manualVisitOption: requestData['visitor']['manual_visit_option'],
-              // photo: requestData['visitor']['photo'],
-              // role: requestData['visitor']['role'],
-              // email: requestData['visitor']['email'],
+              userName: requestData['visitor']['user_name'],
+              firstName: requestData['visitor']['first_name'],
+              lastName: requestData['visitor']['last_name'],
+              contactNumber: requestData['visitor']['contact_number'],
+              photo: requestData['visitor']['photo'],
+              role: requestData['visitor']['role'],
+              email: requestData['visitor']['email'],
               // createdAt: DateTime.parse(requestData['visitor']['created_at']),
               // updatedAt: DateTime.parse(requestData['visitor']['updated_at']),
             ),
