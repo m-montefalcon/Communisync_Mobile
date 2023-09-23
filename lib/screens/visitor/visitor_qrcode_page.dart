@@ -51,10 +51,10 @@ class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
               child: Icon(Icons.construction, size: 200, color: Colors.purple),
             ),
             Text('UNDER CONSTRUCTION',
-                style: TextStyle(
-                    color: Colors.purple,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25))
+              style: TextStyle(
+                color: Colors.purple,
+                fontWeight: FontWeight.bold,
+                fontSize: 25))
           ],
         ),
       ),
