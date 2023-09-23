@@ -2,6 +2,7 @@ import 'package:communisyncmobile/backend/api/homeowner/CAF/fetch_requests.dart'
 import 'package:communisyncmobile/backend/model/request_class.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_page.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_fetches_specific_caf_requests.dart';
 import 'package:flutter/material.dart';
 
 class AllRequestVSTwo extends StatefulWidget {
@@ -154,6 +155,11 @@ class _AllRequestVSTwoState extends State<AllRequestVSTwo> {
                                       bottom: 30,
                                       child: GestureDetector(
                                         onTap: () {
+                                          Request tappedRequest = requests[index];
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => SpecificRequestVSTwo(request: tappedRequest)),
+                                          );
                                           print('clicked');
                                         },
                                         child:  Icon(

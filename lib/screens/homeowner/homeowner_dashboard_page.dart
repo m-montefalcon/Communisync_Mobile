@@ -3,6 +3,7 @@ import 'package:communisyncmobile/backend/model/request_class.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_page.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_fetches_all_caf_requests.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_fetches_specific_caf_requests.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -233,6 +234,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                       bottom: 30,
                                       child: GestureDetector(
                                         onTap: () {
+                                          Request tappedRequest = requests[index];
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => SpecificRequestVSTwo(request: tappedRequest)),
+                                          );
                                           print('clicked');
                                         },
                                         child:  Icon(
