@@ -44,25 +44,22 @@ Future<void> loginUser(context, String email, String password) async {
         await prefs.setInt('id', id);
 
         if (role == '1') {
-          Navigator.push(
+          Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(
-              builder: (context) => const VisitorBottombar(),
-            ),
+            MaterialPageRoute(builder: (context) => const VisitorBottombar()),
+                (route) => false,
           );
         } else if (role == '2') {
-          Navigator.push(
+          Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(
-              builder: (context) => const HomeownerBottomNavigationBar(),
-            ),
+            MaterialPageRoute(builder: (context) => const HomeownerBottomNavigationBar()),
+                (route) => false,
           );
         } else {
-          Navigator.push(
+          Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(
-              builder: (context) => const SecurityPersonnelBottomBar(),
-            ),
+            MaterialPageRoute(builder: (context) => const SecurityPersonnelBottomBar()),
+                (route) => false,
           );
         }
       } else {
