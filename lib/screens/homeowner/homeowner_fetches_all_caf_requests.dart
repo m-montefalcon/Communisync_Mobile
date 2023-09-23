@@ -98,8 +98,8 @@ class _AllRequestVSTwoState extends State<AllRequestVSTwo> {
                             ),
                             ListView.builder(
                               shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
                               itemCount: requests.length,
-
                               itemBuilder: (context, index) {
                                 final Request request = requests[index];
                                 return Stack(
