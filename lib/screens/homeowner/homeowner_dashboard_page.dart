@@ -1,6 +1,10 @@
+import 'package:communisyncmobile/backend/api/homeowner/CAF/fetch_requests.dart';
+import 'package:communisyncmobile/backend/model/request_class.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_page.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_fetches_all_caf_requests.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -10,6 +14,13 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+
+
+  void initState() {
+    super.initState();
+    // Fetch data when the page is initialized
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,92 +123,139 @@ class _DashboardPageState extends State<DashboardPage> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  Row(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(left: 15.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Visitation Requests',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Stack(
-                    children: [
-                      Card(
-                        margin: const EdgeInsets.all(10),
-                        elevation: 12,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        color: Colors.purple,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5.0, vertical: 20.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            gradient: LinearGradient(colors: [
-                              Colors.purple.shade800,
-                              Colors.purple.shade400
-                            ]),
-                          ),
-                          child: Row(
-                            children: [
-                              const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
+                  FutureBuilder<List<Request>>(
+                    future: getIdFromSharedPreferencesAndFetchData(context),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Center(
+                          child: Text('Error: ${snapshot.error}'),
+                        );
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        // Handle the case where there are no requests.
+                        return Center(
+                          child: Text('No requests available.'),
+                        );
+                      } else {
+                        final List<Request> requests = snapshot.data!;
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
                                   Text(
-                                    'Princess Kate',
+                                    'Requests',
                                     style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  Text(
-                                    '+639833746512',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
+                                  TextButton(
+                                    onPressed: () {
+                                     print('see more clicked');
+                                     Navigator.push(context,
+                                         MaterialPageRoute(
+                                             builder: (context)=>AllRequestVSTwo()
+                                         )
+                                     );
+                                    },
+                                    child: Text(
+                                      'See More',
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(width: 18),
-                              const Text('6/15/2023',
-                                  style: TextStyle(color: Colors.white)),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        right: 65,
-                        bottom: 30,
-                        child: Icon(
-                          Icons.check_circle_outline,
-                          size: 35,
-                          color: Colors.greenAccent,
-                        ),
-                      ),
-                      const Positioned(
-                        right: 20,
-                        bottom: 30,
-                        child: Icon(
-                          Icons.highlight_off,
-                          size: 35,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
+                            ),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: 2, // Display only two items
+                              itemBuilder: (context, index) {
+                                final Request request = requests[index];
+                                return Stack(
+                                  children: [
+                                    Card(
+                                      margin: const EdgeInsets.all(10),
+                                      elevation: 12,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(24),
+                                      ),
+                                      color: Colors.purple,
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5.0, vertical: 20.0),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(24),
+                                          gradient: LinearGradient(colors: [
+                                            Colors.purple.shade800,
+                                            Colors.purple.shade400
+                                          ]),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            const SizedBox(width: 10),
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children:  <Widget>[
+                                                Text(
+                                                  'Request ID: ${request.id.toString()}',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Visitor ID: ${request.visitorId}',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(width: 18),
+                                             Text(
+                                                'testing: ${request.date}',
+                                                style: TextStyle(color: Colors.white)),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 40,
+                                      bottom: 30,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          print('clicked');
+                                        },
+                                        child:  Icon(
+                                          Icons.navigate_next,
+                                          size: 35,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+
+                                  ],
+                                );
+                              },
+                            ),
+                          ],
+                        );
+
+                      }
+                    },
                   ),
+
+
+
                   const SizedBox(height: 10),
                   Row(
                     children: const [
