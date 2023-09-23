@@ -1,4 +1,4 @@
-import 'package:communisyncmobile/backend/model/request_class.dart';
+import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
