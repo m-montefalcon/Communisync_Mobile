@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:communisyncmobile/backend/model/request_class.dart';
+import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_bttmbar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -11,14 +11,21 @@ Future<List<Request>> getCafRequestsApi(BuildContext context, int id) async {
   print('reached getCafRequestsApi');
   print(id);
   try {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token') ?? '';
+
     String host = dotenv.get("API_HOST", fallback: "");
-    String getRequestsApi = dotenv.get("FETCHES_ALL_REQUEST_HOMEOWNER", fallback: "");
+    String getRequestsApi = dotenv.get("FETCHES_ALL_REQUEST_HOMEOWNER_API", fallback: "");
     final url = ('$host$getRequestsApi$id');
     print(url);
     final response = await http.get(
       Uri.parse(url),
-      headers: {'Accept': 'application/json'},
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
     );
+
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       print(responseData);

@@ -1,5 +1,5 @@
-import 'package:communisyncmobile/backend/api/homeowner/CAF/fetch_requests.dart';
-import 'package:communisyncmobile/backend/model/request_class.dart';
+import 'package:communisyncmobile/backend/api/homeowner/CAF/fetch_all_request_homeowner.dart';
+import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_page.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_fetches_all_caf_requests.dart';

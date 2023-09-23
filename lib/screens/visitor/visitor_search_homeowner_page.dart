@@ -1,5 +1,7 @@
+import 'package:communisyncmobile/backend/api/visitor/fetch_ca.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:flutter/material.dart';
+import 'package:communisyncmobile/backend/model/models.dart';
 
 class VisitorQrCodePage extends StatefulWidget {
   const VisitorQrCodePage({Key? key}) : super(key: key);
@@ -11,9 +13,16 @@ class VisitorQrCodePage extends StatefulWidget {
 class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _searchController = TextEditingController();
+  late Future<List<Homeowner>> _homeownersFuture;
 
   @override
+  void initState() {
+    super.initState();
+    // Initialize the Future when the widget is created
+    _homeownersFuture = getCafSearchRequestApi(_searchController.text); // Replace with your API function
+  }
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: NestedScrollView(
         floatHeaderSlivers: true,
@@ -57,13 +66,57 @@ class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
                       onPressed: () {}),
                   suffixIcon: IconButton(
                       icon: const Icon(Icons.search),
-                      onPressed: () {}),
+                      onPressed: () async {
+                        setState(() {
+                          _homeownersFuture = getCafSearchRequestApi(_searchController.text);
+                        });
+                      }
+                  ),
+
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   contentPadding: const EdgeInsets.symmetric(vertical: 12.0),
                 ),
+              ),
+
+              SizedBox(height: 16.0),
+              FutureBuilder<List<Homeowner>>(
+                future: _homeownersFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    // While data is loading, display a loading indicator
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    // If there's an error, display an error message
+                    return Text('Error: ${snapshot.error}');
+                  } else if (snapshot.hasData) {
+                    // If data is available, display it using a ListView
+                    final data = snapshot.data;
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: data!.length,
+                        itemBuilder: (context, index) {
+                          final homeowner = data[index];
+                          return ListTile(
+                            title: Text(homeowner.userName),
+                            subtitle: Text(homeowner.firstName + ' ' + homeowner.lastName),
+                            // Add more fields as needed
+                          );
+                        },
+                      ),
+                    );
+                  } else {
+                    // If there's no data, display a message
+                    return Text('No data available');
+                  }
+                },
               )
+
+
+
+
+
             ],
           ),
         ),

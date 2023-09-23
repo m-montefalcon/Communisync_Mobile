@@ -37,6 +37,7 @@ class Visitor {
   final String firstName;
   final String lastName;
   final String contactNumber;
+
   final String? photo;
   final String role;
   final String email;
@@ -47,8 +48,37 @@ class Visitor {
     required this.lastName,
     required this.contactNumber,
     this.photo,
+
     required this.role,
     required this.email,
+
+  });
+}
+
+class Homeowner {
+  final int id;
+  final String userName;
+  final String firstName;
+  final String lastName;
+  // final String contactNumber;
+  // final int blockNo;
+  // final int lotNo;
+  // final List<String>? familyMember;
+  // final String? photo;
+  // final String role;
+  // final String email;
+  Homeowner({
+    required this.id,
+    required this.userName,
+    required this.firstName,
+    required this.lastName,
+    // required this.blockNo,
+    // required this.lotNo,
+    // required this.familyMember,
+    // required this.contactNumber,
+    // this.photo,
+    // required this.role,
+    // required this.email,
 
   });
 }
