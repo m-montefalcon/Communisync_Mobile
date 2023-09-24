@@ -177,6 +177,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             ),
                             ListView.builder(
                               shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
                               itemCount: 2, // Display only two items
                               itemBuilder: (context, index) {
                                 final Request request = requests[index];
