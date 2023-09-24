@@ -112,11 +112,6 @@ class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
                   }
                 },
               )
-
-
-
-
-
             ],
           ),
         ),
