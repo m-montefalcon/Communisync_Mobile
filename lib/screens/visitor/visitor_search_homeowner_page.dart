@@ -1,5 +1,6 @@
 import 'package:communisyncmobile/backend/api/visitor/fetch_ca.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
+import 'package:communisyncmobile/screens/visitor/visitor_ontap_specific_name_page.dart';
 import 'package:flutter/material.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
 
@@ -19,10 +20,11 @@ class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
   void initState() {
     super.initState();
     // Initialize the Future when the widget is created
-    _homeownersFuture = getCafSearchRequestApi(_searchController.text); // Replace with your API function
+    _homeownersFuture = getCafSearchRequestApi(
+        _searchController.text); // Replace with your API function
   }
-  Widget build(BuildContext context) {
 
+  Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
         floatHeaderSlivers: true,
@@ -62,31 +64,28 @@ class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
                 decoration: InputDecoration(
                   hintText: 'Search...',
                   prefixIcon: IconButton(
-                      icon: const Icon(Icons.menu),
-                      onPressed: () {}),
+                      icon: const Icon(Icons.menu), onPressed: () {}),
                   suffixIcon: IconButton(
                       icon: const Icon(Icons.search),
                       onPressed: () async {
                         setState(() {
-                          _homeownersFuture = getCafSearchRequestApi(_searchController.text);
+                          _homeownersFuture =
+                              getCafSearchRequestApi(_searchController.text);
                         });
-                      }
-                  ),
-
+                      }),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   contentPadding: const EdgeInsets.symmetric(vertical: 12.0),
                 ),
               ),
-
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               FutureBuilder<List<Homeowner>>(
                 future: _homeownersFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     // While data is loading, display a loading indicator
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   } else if (snapshot.hasError) {
                     // If there's an error, display an error message
                     return Text('Error: ${snapshot.error}');
@@ -99,8 +98,30 @@ class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
                         itemBuilder: (context, index) {
                           final homeowner = data[index];
                           return ListTile(
-                            title: Text(homeowner.userName),
-                            subtitle: Text(homeowner.firstName + ' ' + homeowner.lastName),
+                            leading: const Icon(
+                              Icons.face,
+                              size: 40,
+                            ),
+                            subtitle: Text(
+                              homeowner.userName,
+                              style: TextStyle(
+                                color: Colors.black54.withOpacity(.3),
+                              ),
+                            ),
+                            title: Text(
+                              '${homeowner.firstName} ${homeowner.lastName}',
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const TapSpecificName()));
+                            },
                             // Add more fields as needed
                           );
                         },
@@ -108,15 +129,10 @@ class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
                     );
                   } else {
                     // If there's no data, display a message
-                    return Text('No data available');
+                    return const Text('No data available');
                   }
                 },
               )
-
-
-
-
-
             ],
           ),
         ),
