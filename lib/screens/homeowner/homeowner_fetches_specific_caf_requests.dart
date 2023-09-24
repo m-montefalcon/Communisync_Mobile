@@ -1,3 +1,5 @@
+import 'package:communisyncmobile/backend/api/homeowner/CAF/accept_request.dart';
+import 'package:communisyncmobile/backend/api/homeowner/CAF/decline_request.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -11,6 +13,9 @@ class SpecificRequestVSTwo extends StatefulWidget {
   @override
   State<SpecificRequestVSTwo> createState() => _SpecificRequestVSTwoState();
 }
+bool _isLoading = false;
+bool _isLoading2 = false;
+
 
 String host = dotenv.get("API_HOST", fallback: "");
 
@@ -170,21 +175,46 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: () {},
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.black54),
-                  child: const Text('Accept'),
+                  onPressed: () async {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    try {
+                      await acceptRequestCa(context, widget.request.id);
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Error: $e')),
+                      );
+                    } finally {
+                      setState(() {
+                        _isLoading = false;
+                      });
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.black54),
+                  child: _isLoading ? CircularProgressIndicator() : const Text('Accept'),
                 ),
+
                 const SizedBox(width: 20),
-                OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Colors.black),
-                  ),
-                  child: const Text(
-                    'Decline',
-                    style: TextStyle(color: Colors.black),
-                  ),
+                ElevatedButton(
+                  onPressed: () async {
+                    setState(() {
+                      _isLoading2 = true;
+                    });
+                    try {
+                      await declineRequestCa(context, widget.request.id);
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Error: $e')),
+                      );
+                    } finally {
+                      setState(() {
+                        _isLoading2 = false;
+                      });
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.black54),
+                  child: _isLoading2 ? CircularProgressIndicator() : const Text('Decline'),
                 ),
               ],
             ),
