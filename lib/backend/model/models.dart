@@ -63,7 +63,7 @@ class Homeowner {
   // final String contactNumber;
   // final int blockNo;
   // final int lotNo;
-  // final List<String>? familyMember;
+  final List<String>? familyMember;
   // final String? photo;
   // final String role;
   // final String email;
@@ -74,7 +74,7 @@ class Homeowner {
     required this.lastName,
     // required this.blockNo,
     // required this.lotNo,
-    // required this.familyMember,
+    required this.familyMember,
     // required this.contactNumber,
     // this.photo,
     // required this.role,
