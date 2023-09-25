@@ -82,3 +82,34 @@ class Homeowner {
 
   });
 }
+class RequestQr {
+  final int id;
+  final int visitorId;
+  final int homeownerId;
+  final int? adminId;
+  final int? personnelId;
+  // final DateTime date;
+  // final DateTime time;
+  final String destinationPerson;
+  final List<String>? visitMembers;
+  final String visitStatus;
+  final String qrCode;
+  final Visitor visitor;
+// Add a field for QR code
+
+  RequestQr({
+    required this.id,
+    required this.visitorId,
+    required this.homeownerId,
+    this.adminId,
+    this.personnelId,
+    // required this.date,
+    // required this.time,
+    required this.destinationPerson,
+    required this.visitMembers,
+    required this.visitStatus,
+    required this.qrCode, // Include it in the constructor
+    required this.visitor,
+
+  });
+}
