@@ -13,9 +13,9 @@ class SpecificRequestVSTwo extends StatefulWidget {
   @override
   State<SpecificRequestVSTwo> createState() => _SpecificRequestVSTwoState();
 }
+
 bool _isLoading = false;
 bool _isLoading2 = false;
-
 
 String host = dotenv.get("API_HOST", fallback: "");
 
@@ -29,24 +29,33 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
       body: ListView(
         children: [
           const SizedBox(height: 15),
-          widget.request.visitor.photo != null
-              ? Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(
-                            '$host/storage/' + widget.request.visitor.photo!),
-                      ),
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.purple,
-                        width: 5.0,
-                      )),
-                  child: const CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    radius: 120,
-                  ),
-                )
-              : Container(),
+          Container(
+            decoration: widget.request.visitor.photo != null
+                ? BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(
+                          '$host/storage/' + widget.request.visitor.photo!),
+                    ),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.purple,
+                      width: 5.0,
+                    ),
+                  )
+                : BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/user-avatar.png'),
+                    ),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.purple,
+                      width: 5.0,
+                    )),
+            child: const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: 120,
+            ),
+          ),
           const SizedBox(height: 10),
           Center(
             child: Text(
@@ -67,7 +76,8 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
             ),
           ),
           // Text('ID: ${widget.request.id}'),
-          const Divider(color: Colors.black, indent: 20, endIndent: 20,height: 10),
+          const Divider(
+              color: Colors.black, indent: 20, endIndent: 20, height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -169,7 +179,8 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
               ),
             ),
           ),
-          const Divider(color: Colors.black, indent: 20, endIndent: 20,height: 25),
+          const Divider(
+              color: Colors.black, indent: 20, endIndent: 20, height: 25),
           Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -191,10 +202,12 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
                       });
                     }
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.black54),
-                  child: _isLoading ? CircularProgressIndicator() : const Text('Accept'),
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.black54),
+                  child: _isLoading
+                      ? CircularProgressIndicator()
+                      : const Text('Accept'),
                 ),
-
                 const SizedBox(width: 20),
                 ElevatedButton(
                   onPressed: () async {
@@ -213,8 +226,11 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
                       });
                     }
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.black54),
-                  child: _isLoading2 ? CircularProgressIndicator() : const Text('Decline'),
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.black54),
+                  child: _isLoading2
+                      ? CircularProgressIndicator()
+                      : const Text('Decline'),
                 ),
               ],
             ),
