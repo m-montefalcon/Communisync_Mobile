@@ -33,14 +33,24 @@ Future<List<Homeowner>> getCafSearchRequestApi(String search) async {
         // Parse the JSON response and create a list of Homeowner objects
         final List<Homeowner> homeowners = (responseData as List<dynamic>)
             .map((requestData) {
+          List<String> familyMembers = [];
+          if (requestData['family_member'] != null) {
+            if (requestData['family_member'] is String) {
+              familyMembers.add(requestData['family_member'] as String);
+            } else if (requestData['family_member'] is List) {
+              familyMembers.addAll(requestData['family_member'] as List<String>);
+            }
+          }
           return Homeowner(
             id: requestData['id'] as int,
             userName: requestData['user_name'] as String,
             firstName: requestData['first_name'] as String,
             lastName: requestData['last_name'] as String,
+            familyMember: familyMembers,
             // Add other properties here as needed
           );
         }).toList();
+
 
         return homeowners; // Return the list of Homeowner objects
       } catch (e) {
