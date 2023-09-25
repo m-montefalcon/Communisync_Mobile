@@ -14,6 +14,7 @@ Future<void> loginUser(context, String email, String password) async {
     String host = dotenv.get("API_HOST", fallback: "");
     String loginApi = dotenv.get("LOGIN_API", fallback: "");
     final url = ('$host$loginApi');
+    print(url);
     final response = await http.post(
       Uri.parse(url),
       body: {
