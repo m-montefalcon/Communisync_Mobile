@@ -1,0 +1,13 @@
+API_HOST=http://10.0.0.16:8000
+LOGIN_API=/api/login/store/mobile
+LOGOUT_API=/api/logout/mobile
+REGISTER_API=/api/register/store/mobile
+
+FETCHES_ALL_REQUEST_HOMEOWNER_API=/api/users/control/access/get/mobile/
+ACCEPT_REQUEST_VISITOR_API=/api/users/control/access/accept/mobile
+DECLINE_REQUEST_VISITOR_API=/api/users/control/access/decline/mobile
+
+SEARCH_HOMEOWNER_API=/api/users/control/access/search/mobile
+MAKE_REQUEST_TO_HOMEOWNER_API=/api/users/control/access/request/mobile
+
+GET_XCSRF_TOKEN=/csrf-token

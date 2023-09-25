@@ -120,7 +120,9 @@ class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const TapSpecificName()));
+                                           TapSpecificName(homeowner: homeowner)
+                                  )
+                              );
                             },
                             // Add more fields as needed
                           );
