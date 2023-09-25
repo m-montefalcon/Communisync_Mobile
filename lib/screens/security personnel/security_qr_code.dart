@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class SecurityQrCode extends StatefulWidget {
   const SecurityQrCode({Key? key}) : super(key: key);
@@ -9,6 +11,11 @@ class SecurityQrCode extends StatefulWidget {
 }
 
 class _SecurityQrCodeState extends State<SecurityQrCode> {
+  GlobalKey qrKey = GlobalKey();
+  QRViewController? controller;
+  String qrData = '';
+  bool isScanning = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,8 +33,7 @@ class _SecurityQrCodeState extends State<SecurityQrCode> {
               child: Container(
                 height: 150,
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    color: Colors.purple.shade700),
+                decoration: BoxDecoration(color: Colors.purple.shade700),
                 child: const Center(
                   child: Text(
                     'CommuniSync',
@@ -41,23 +47,80 @@ class _SecurityQrCodeState extends State<SecurityQrCode> {
             ),
           ),
         ],
-        body: Column(
-          children: const [
-            SizedBox(
-              height: 50,
-            ),
-            Center(
-              child: Icon(Icons.construction, size: 200, color: Colors.purple),
-            ),
-            Text('UNDER CONSTRUCTION',
-                style: TextStyle(
-                    color: Colors.purple,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25))
-          ],
+        body: Center(
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                flex: 5,
+                child: isScanning
+                    ? QRView(
+                  key: qrKey,
+                  onQRViewCreated: _onQRViewCreated,
+                )
+                    : Image.asset('assets/images/default-qr.png'),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      isScanning = true; // Allow scanning again
+                    });
+                  },
+                  child: const Text('Start Scanning'),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Center(
+                  child: Text(
+                    'QR Data: $qrData',
+                    style: const TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+            ],
+          ),
         ),
       ),
-
     );
+  }
+
+  void _onQRViewCreated(QRViewController controller) {
+    this.controller = controller;
+    controller.scannedDataStream.listen((scanData) {
+      setState(() {
+        qrData = scanData.code!;
+        isScanning = false;
+        parseAndDisplayData(qrData);
+      });
+      controller.stopCamera();
+    });
+  }
+
+  void parseAndDisplayData(String qrData) {
+    try {
+      Map<String, dynamic> data = jsonDecode(qrData);
+      int id = data['ID'];
+      int homeowner = data['Homeowner'];
+      int visitor = data['Visitor'];
+
+      printData(id, homeowner, visitor);
+    } catch (e) {
+      print('Error parsing QR data: $e');
+    }
+  }
+
+  void printData(int id, int homeowner, int visitor) {
+    print('ID: $id');
+    print('Homeowner: $homeowner');
+    print('Visitor: $visitor');
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 }
