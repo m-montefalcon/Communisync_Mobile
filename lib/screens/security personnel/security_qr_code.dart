@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:communisyncmobile/backend/api/personnel/accept_qr.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -81,8 +82,13 @@ class _SecurityQrCodeState extends State<SecurityQrCode> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: () {
-                    // Implement your logic for accepting the request here
+                  onPressed: () async {
+                   try{
+                     await acceptQr(context, 1);
+                   }
+                   catch(e){
+
+                   }
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.black54),
                   child: const Text('Accept'),
