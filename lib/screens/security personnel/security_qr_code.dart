@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:communisyncmobile/backend/api/personnel/accept_qr.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
+import 'package:communisyncmobile/screens/security%20personnel/security_visitor_full_info_page.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:communisyncmobile/backend/api/personnel/check_qr.dart';
@@ -28,9 +29,9 @@ class _SecurityQrCodeState extends State<SecurityQrCode> {
               flex: 5,
               child: isScanning
                   ? QRView(
-                key: qrKey,
-                onQRViewCreated: _onQRViewCreated,
-              )
+                      key: qrKey,
+                      onQRViewCreated: _onQRViewCreated,
+                    )
                   : Image.asset('assets/images/default-qr.png'),
             ),
             Padding(
@@ -45,8 +46,8 @@ class _SecurityQrCodeState extends State<SecurityQrCode> {
               ),
             ),
             // Use FutureBuilder to display scanned data
-            Expanded(child:
-            FutureBuilder<List<RequestQr>>(
+            Expanded(
+                child: FutureBuilder<List<RequestQr>>(
               future: parseAndDisplayData(qrData),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -68,42 +69,61 @@ class _SecurityQrCodeState extends State<SecurityQrCode> {
                     itemBuilder: (context, index) {
                       final item = data[index];
                       // Build a widget for each item in the data
-                      return ListTile(
-                        title: Text('Visitor: ${item.visitor.firstName} ${item.visitor.lastName}'),
-                        // Add more fields as needed
+                      String visitorFullName =
+                          '${item.visitor.firstName} ${item.visitor.lastName}';
+                      return GestureDetector(
+                        onTap: () {
+                          // Navigate to the next page or perform the desired action when tapped
+                          // You can replace 'NextPage()' with the actual page you want to navigate to
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => VisitorFullInfoPage(visitor: item.visitor)),
+                          );
+                        },
+                        child: ListTile(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text('Visitor: '),
+                              Text(
+                                visitorFullName,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(height: 30),
+                            ],
+                          ),
+                        ),
                       );
                     },
                   );
                 }
               },
-            )
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                   try{
-                     await acceptQr(context, 1);
-                   }
-                   catch(e){
-
-                   }
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.black54),
-                  child: const Text('Accept'),
-                ),
-                const SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    // Implement your logic for declining the request here
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.black54),
-                  child: const Text('Decline'),
-                ),
-              ],
-            ),
-
+            )),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     ElevatedButton(
+            //       onPressed: () async {
+            //         try {
+            //           await acceptQr(context, 1);
+            //         } catch (e) {}
+            //       },
+            //       style:
+            //           ElevatedButton.styleFrom(backgroundColor: Colors.black54),
+            //       child: const Text('Accept'),
+            //     ),
+            //     const SizedBox(width: 20),
+            //     ElevatedButton(
+            //       onPressed: () {
+            //         // Implement your logic for declining the request here
+            //       },
+            //       style:
+            //           ElevatedButton.styleFrom(backgroundColor: Colors.black54),
+            //       child: const Text('Decline'),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),
@@ -120,6 +140,7 @@ class _SecurityQrCodeState extends State<SecurityQrCode> {
       controller.stopCamera();
     });
   }
+
   Future<List<RequestQr>> parseAndDisplayData(String qrData) async {
     try {
       Map<String, dynamic> data = jsonDecode(qrData);

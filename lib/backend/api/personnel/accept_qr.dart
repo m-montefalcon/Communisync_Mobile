@@ -27,7 +27,7 @@ Future<void> acceptQr(context, int id) async{
         },
         body: {
           "id": id.toString(),
-          "personnel_id": myId.toString();
+          "personnel_id": myId.toString(),
         }
     );
     if (response.statusCode == 200) {
