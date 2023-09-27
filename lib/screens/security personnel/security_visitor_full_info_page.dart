@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class VisitorFullInfoPage extends StatefulWidget {
-  final Visitor visitor;
-
-  const VisitorFullInfoPage({Key? key, required this.visitor}) : super(key: key);
+  final RequestQr requestQr;
+  const VisitorFullInfoPage({Key? key,  required this.requestQr}) : super(key: key);
 
   @override
   State<VisitorFullInfoPage> createState() => _VisitorFullInfoPageState();
@@ -26,11 +25,11 @@ class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
         children: [
           const SizedBox(height: 15),
           Container(
-            decoration: widget.visitor.photo != null
+            decoration: widget.requestQr.visitor.photo != null
                 ? BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
-                    '$host/storage/' + widget.visitor.photo!),
+                    '$host/storage/' + widget.requestQr.visitor.photo!),
               ),
               shape: BoxShape.circle,
               border: Border.all(
@@ -55,7 +54,7 @@ class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
           const SizedBox(height: 10),
           Center(
             child: Text(
-              '${widget.visitor.firstName} ${widget.visitor.lastName}',
+              '${widget.requestQr.visitor.firstName} ${widget.requestQr.visitor.lastName}',
               style: const TextStyle(
                 color: Colors.black54,
                 fontSize: 25,
@@ -64,7 +63,7 @@ class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
           ),
           Center(
             child: Text(
-              'Visitor ID: ${widget.visitor.id}',
+              'Visitor ID: ${widget.requestQr.visitor.id}',
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.black54.withOpacity(.3),
@@ -84,7 +83,7 @@ class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
                 size: 35,
               ),
               Text(
-                ': ${widget.visitor.userName}',
+                ': ${widget.requestQr.visitor.userName}',
                 style: const TextStyle(
                   color: Colors.black54,
                   fontSize: 18,
@@ -104,7 +103,7 @@ class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
                 size: 35,
               ),
               Text(
-                ': ${widget.visitor.email}',
+                ': ${widget.requestQr.visitor.email}',
                 style: const TextStyle(
                   color: Colors.black54,
                   fontSize: 18,
@@ -124,7 +123,7 @@ class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
                 size: 35,
               ),
               Text(
-                ': ${widget.visitor.contactNumber}',
+                ': ${widget.requestQr.visitor.contactNumber}',
                 style: const TextStyle(
                   color: Colors.black54,
                   fontSize: 18,
@@ -144,8 +143,7 @@ class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
                 ElevatedButton(
                   onPressed: () async {
                     try {
-                      await acceptQr(context, 1);
-                      Navigator.pop(context);
+                      await acceptQr(context, widget.requestQr.id);
                     } catch (e) {}
                   },
                   style:

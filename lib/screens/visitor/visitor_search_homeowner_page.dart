@@ -3,7 +3,6 @@ import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:communisyncmobile/screens/visitor/visitor_ontap_specific_name_page.dart';
 import 'package:flutter/material.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
-
 class VisitorQrCodePage extends StatefulWidget {
   const VisitorQrCodePage({Key? key}) : super(key: key);
 
