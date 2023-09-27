@@ -1,5 +1,8 @@
-import 'package:communisyncmobile/constants/custom_clipper.dart';
+import 'package:communisyncmobile/backend/api/visitor/fetch_all_validated_request.dart';
+import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+// Import your model class and fetchAllRequestApi function here.
 
 class VisitorDashboardPage extends StatefulWidget {
   const VisitorDashboardPage({Key? key}) : super(key: key);
@@ -9,10 +12,30 @@ class VisitorDashboardPage extends StatefulWidget {
 }
 
 class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
+  List<FetchAllQr> fetchAllData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDataFromApi();
+  }
+
+  Future<void> fetchDataFromApi() async {
+    try {
+      final data = await fetchAllRequestApi(context);
+
+      setState(() {
+        fetchAllData = data;
+      });
+    } catch (e) {
+      // Handle errors here.
+      print('Error fetching data: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: NestedScrollView(
         floatHeaderSlivers: true,
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -23,432 +46,112 @@ class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
             toolbarHeight: 110,
             elevation: 0.0,
             flexibleSpace: ClipPath(
-              clipper: AppBarCustomClipper(),
               child: Container(
                 height: 150,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  // gradient: LinearGradient(
-                  //   begin: Alignment.topLeft,
-                  //   end: Alignment.bottomRight,
-                  //   colors: [
-                  //     Colors.purple.shade800,
-                  //     Colors.purple.shade500,
-                  //   ],
-                  // ),
-                    color: Colors.purple.shade700),
+                  color: Colors.purple.shade700,
+                ),
                 child: const Center(
                   child: Text(
                     'CommuniSync',
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
         ],
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: Center(
-              child: Column(
-                children: [
-                  const SizedBox(height: 5),
-                  Card(
-                    elevation: 12,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    color: Colors.purple,
-                  ),
-                  const SizedBox(height: 15),
-                  Row(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(left: 15.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Visitation Requests',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Stack(
-                    children: [
-                      Card(
-                        margin: const EdgeInsets.all(10),
-                        elevation: 12,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        color: Colors.purple,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5.0, vertical: 20.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            gradient: LinearGradient(colors: [
-                              Colors.purple.shade800,
-                              Colors.purple.shade400
-                            ]),
-                          ),
-                          child: Row(
-                            children: [
-                              const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Visitor',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'John de Bisita',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '+639833746512',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(width: 50),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Date of visit:',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '06/15/2023',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'at 2:03 pm',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        right: 25,
-                        bottom: 40,
-                        child: Icon(
-                          Icons.pending,
-                          size: 35,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Stack(
-                    children: [
-                      Card(
-                        margin: const EdgeInsets.all(10),
-                        elevation: 12,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        color: Colors.purple,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5.0, vertical: 20.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            gradient: LinearGradient(colors: [
-                              Colors.purple.shade800,
-                              Colors.purple.shade400
-                            ]),
-                          ),
-                          child: Row(
-                            children: [
-                              const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Visitor',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'John de Bisita',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '+639833746512',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(width: 50),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Date of visit:',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '07/18/2023',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'at 4:33 pm',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        right: 25,
-                        bottom: 40,
-                        child: Icon(
-                          Icons.check_circle,
-                          size: 35,
-                          color: Colors.greenAccent,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Stack(
-                    children: [
-                      Card(
-                        margin: const EdgeInsets.all(10),
-                        elevation: 12,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        color: Colors.purple,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5.0, vertical: 20.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            gradient: LinearGradient(colors: [
-                              Colors.purple.shade800,
-                              Colors.purple.shade400
-                            ]),
-                          ),
-                          child: Row(
-                            children: [
-                              const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Visitor',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'John de Bisita',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '+639833746512',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(width: 50),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Date of visit:',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '08/23/2023',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'at 8:22 am',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        right: 25,
-                        bottom: 40,
-                        child: Icon(
-                          Icons.check_circle,
-                          size: 35,
-                          color: Colors.greenAccent,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Stack(
-                    children: [
-                      Card(
-                        margin: const EdgeInsets.all(10),
-                        elevation: 12,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        color: Colors.purple,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5.0, vertical: 20.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            gradient: LinearGradient(colors: [
-                              Colors.purple.shade800,
-                              Colors.purple.shade400
-                            ]),
-                          ),
-                          child: Row(
-                            children: [
-                              const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Visitor',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'John de Bisita',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '+639833746512',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(width: 50),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Date of visit:',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '09/13/2023',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'at 12:14 pm',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        right: 25,
-                        bottom: 40,
-                        child: Icon(
-                          Icons.check_circle,
-                          size: 35,
-                          color: Colors.greenAccent,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+          body: FutureBuilder<List<FetchAllQr>>(
+            future: fetchAllRequestApi(context),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Center(
+                  child: Text('No data available'),
+                );
+              } else {
+                final fetchAllData = snapshot.data; // Retrieve the fetched data
 
+                return SingleChildScrollView(
+                  child: SafeArea(
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Card(
+                            elevation: 12,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            color: Colors.purple,
+                          ),
+                          const SizedBox(height: 15),
+                          Row(
+                            children: const [
+                              Padding(
+                                padding: EdgeInsets.only(left: 15.0),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Visitation Requests',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          // Display the ListTiles with IDs.
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: fetchAllData?.length,
+                            itemBuilder: (context, index) {
+                              final item = fetchAllData?[index];
+                              return ListTile(
+                                title: Text('ID: ${item?.id}'),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text('Destination Person: ${item?.destinationPerson ?? 'None'}'),
+                                    Text('Homeowner: ${item?.homeowner != null ? '${item?.homeowner!.firstName ?? 'None'} ${item?.homeowner!.lastName ?? 'None'}' : 'None'}'),
+                                    Text('Admin: ${item?.admin != null ? '${item?.admin!.firstName ?? 'None'} ${item?.admin!.lastName ?? 'None'}' : 'None'}'),
+                                    Text('Visit Members: ${item?.visitMembers?.join(', ') ?? 'None'}'),
+                                    SvgPicture.string(
+                                      item?.qrCode ?? '',  // Assuming item?.qrCode contains the SVG data
+                                      width: 200,          // Set the desired width
+                                      height: 200,         // Set the desired height
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }
+            },
+          )
+
+      ),
     );
   }
 }

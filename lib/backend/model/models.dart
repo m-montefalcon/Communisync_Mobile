@@ -60,27 +60,19 @@ class Homeowner {
   final String userName;
   final String firstName;
   final String lastName;
-  // final String contactNumber;
-  // final int blockNo;
-  // final int lotNo;
   final List<String>? familyMember;
-  // final String? photo;
-  // final String role;
-  // final String email;
+
+
   Homeowner({
     required this.id,
     required this.userName,
     required this.firstName,
     required this.lastName,
-    // required this.blockNo,
-    // required this.lotNo,
-    required this.familyMember,
-    // required this.contactNumber,
-    // this.photo,
-    // required this.role,
-    // required this.email,
+    this.familyMember,
 
   });
+
+
 }
 class RequestQr {
   final int id;
@@ -112,4 +104,42 @@ class RequestQr {
     required this.visitor,
 
   });
+}
+
+
+
+
+class FetchAllQr {
+  int? id;
+  String? destinationPerson;
+  List<String>? visitMembers;
+  String? qrCode;
+  Homeowner homeowner; // Make it nullable with '?'
+  Admin admin; // Make it nullable with '?'
+
+  FetchAllQr({
+    required this.id,
+    this.destinationPerson,
+    this.visitMembers,
+    this.qrCode,
+     required this.homeowner,
+     required this.admin,
+  });
+
+
+}
+class Admin {
+  int id;
+  String userName;
+  String firstName;
+  String lastName;
+
+  Admin({
+    required this.id,
+    required this.userName,
+    required this.firstName,
+    required this.lastName,
+  });
+
+
 }

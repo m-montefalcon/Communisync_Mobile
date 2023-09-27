@@ -77,7 +77,7 @@ class _SecurityQrCodeState extends State<SecurityQrCode> {
                           // You can replace 'NextPage()' with the actual page you want to navigate to
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => VisitorFullInfoPage(visitor: item.visitor)),
+                            MaterialPageRoute(builder: (context) => VisitorFullInfoPage(requestQr: item,)),
                           );
                         },
                         child: ListTile(
