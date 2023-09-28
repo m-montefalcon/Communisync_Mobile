@@ -1,4 +1,6 @@
 import 'package:communisyncmobile/backend/model/models.dart';
+import 'package:communisyncmobile/constants/custom_clipper.dart';
+import 'package:communisyncmobile/screens/visitor/visitor_ontap_access_qr_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -24,6 +26,7 @@ class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
             toolbarHeight: 110,
             elevation: 0.0,
             flexibleSpace: ClipPath(
+              clipper: AppBarCustomClipper(),
               child: Container(
                 height: 150,
                 width: MediaQuery.of(context).size.width,
@@ -43,9 +46,9 @@ class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
               ),
             ),
           ),
-          SliverToBoxAdapter(
+          const SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -63,7 +66,7 @@ class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
             future: fetchAllRequestApi(context),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return SliverFillRemaining(
+                return const SliverFillRemaining(
                   child: Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -75,7 +78,7 @@ class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
                   ),
                 );
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return SliverFillRemaining(
+                return const SliverFillRemaining(
                   child: Center(
                     child: Text('No data available'),
                   ),
@@ -85,33 +88,101 @@ class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
 
                 return SliverList(
                   delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
+                    (BuildContext context, int index) {
                       final item = fetchAllData?[index];
-                      return Column(
-                        children: [
-                          ListTile(
-                            title: Text('ID: ${item?.id}'),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text('Destination Person: ${item?.destinationPerson ?? 'None'}'),
-                                Text('Homeowner: ${item?.homeowner != null ? '${item?.homeowner!.firstName ?? 'None'} ${item?.homeowner!.lastName ?? 'None'}' : 'None'}'),
-                                Text('Admin: ${item?.admin != null ? '${item?.admin!.firstName ?? 'None'} ${item?.admin!.lastName ?? 'None'}' : 'None'}'),
-                                Text('Visit Members: ${item?.visitMembers?.join(', ') ?? 'None'}'),
-                                SizedBox(
-                                  width: 200,
-                                  height: 200,
-                                  child: SvgPicture.string(
-                                    item?.qrCode ?? '', // Assuming item?.qrCode contains the SVG data
-                                    width: 200, // Set the desired width
-                                    height: 200, // Set the desired height
+                      return Center(
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              child: Container(
+                                padding: EdgeInsets.all(10.0),
+                                margin: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.purple,
+                                    width: 2.0,
                                   ),
+                                  borderRadius: BorderRadius.circular(10.0),
                                 ),
-                              ],
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ListTile(
+                                      title: Text(
+                                        'ID: ${item?.id}',
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      subtitle: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Destination Person: ${item?.destinationPerson ?? 'None'}',
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Homeowner: ${item?.homeowner != null ? '${item?.homeowner!.firstName ?? 'None'} ${item?.homeowner!.lastName ?? 'None'}' : 'None'}',
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Admin: ${item?.admin != null ? '${item?.admin!.firstName ?? 'None'} ${item?.admin!.lastName ?? 'None'}' : 'None'}',
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          SizedBox(height: 5),
+                                          const Text(
+                                            'Visit Members: ',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          Text(
+                                            '${item?.visitMembers?.join(', ') ?? 'None'}',
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          // SizedBox(
+                                          //   width: 200,
+                                          //   height: 200,
+                                          //   child: SvgPicture.string(
+                                          //     item?.qrCode ??
+                                          //         '', // Assuming item?.qrCode contains the SVG data
+                                          //     width: 200, // Set the desired width
+                                          //     height:
+                                          //         200, // Set the desired height
+                                          //   ),
+                                          // ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 10.0),
+                                  ],
+                                ),
+                              ),
+                              onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => DisplayQrCode(itemId: '', qrCode: '',) ));},
                             ),
-                          ),
-                          Divider(),
-                        ],
+                          ],
+                        ),
                       );
                     },
                     childCount: fetchAllData?.length ?? 0,

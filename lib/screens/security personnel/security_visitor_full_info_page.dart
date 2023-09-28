@@ -1,5 +1,6 @@
 import 'package:communisyncmobile/backend/api/personnel/accept_qr.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
+import 'package:communisyncmobile/screens/security%20personnel/security_bttmbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -153,7 +154,13 @@ class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
                 const SizedBox(width: 20),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const SecurityPersonnelBottomBar(),
+                      ),
+                          (Route<dynamic> route) => false,
+                    );
                   },
                   style:
                   ElevatedButton.styleFrom(backgroundColor: Colors.black54),
