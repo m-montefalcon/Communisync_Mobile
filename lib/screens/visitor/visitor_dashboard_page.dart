@@ -94,184 +94,112 @@ class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
                         child: Column(
                           children: [
                             GestureDetector(
-                              child: Stack(
-                                children: [
-                                  Card(
-                                    margin: const EdgeInsets.all(10),
-                                    elevation: 12,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(24),
-                                    ),
+                              child: Container(
+                                padding: EdgeInsets.all(10.0),
+                                margin: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
                                     color: Colors.purple,
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5.0, vertical: 20.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(24),
-                                        gradient: LinearGradient(colors: [
-                                          Colors.purple.shade800,
-                                          Colors.purple.shade400
-                                        ]),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          const SizedBox(width: 10),
-                                          Column(
+                                    width: 2.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Stack(
+                                      children: [
+                                        // Your existing ListTile
+                                        ListTile(
+                                          title: Text(
+                                            'ID: ${item?.id}',
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          subtitle: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Text(
-                                                'ID: ${item?.id}',
-                                                style: const TextStyle(
-                                                  color: Colors.greenAccent,
-                                                  fontSize: 15,
-                                                ),
-                                              ),
-                                              Text(
                                                 'Destination Person: ${item?.destinationPerson ?? 'None'}',
                                                 style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                               Text(
                                                 'Homeowner: ${item?.homeowner != null ? '${item?.homeowner!.firstName ?? 'None'} ${item?.homeowner!.lastName ?? 'None'}' : 'None'}',
                                                 style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                               Text(
                                                 'Admin: ${item?.admin != null ? '${item?.admin!.firstName ?? 'None'} ${item?.admin!.lastName ?? 'None'}' : 'None'}',
                                                 style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600,
                                                 ),
                                               ),
-                                              const SizedBox(height: 5),
+                                              SizedBox(height: 5),
                                               const Text(
-                                                'Visit Members:',
+                                                'Visit Members: ',
                                                 style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                               Text(
-                                                '${item?.visitMembers?.join(', ') ?? 'None'}',
+                                                '${item?.visitMembers != null && item!.visitMembers!.isNotEmpty ? item!.visitMembers!.join(', ').replaceAll('[', '').replaceAll(']', '').replaceAll('"', '') : 'None'}',
                                                 style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600,
                                                 ),
                                               ),
+
                                             ],
                                           ),
-                                          const SizedBox(width: 50),
-                                        ],
-                                      ),
+                                        ),
+                                        Positioned(
+                                          right: 10, // Adjust the position as needed
+                                          top: 10,  // Adjust the position as needed
+                                          child: Icon(
+                                            Icons.arrow_forward,
+                                            size: 35,
+                                            color: Colors.greenAccent,
+                                          ),
+                                        ),
+                                        Positioned(
+                                          right: 10, // Adjust the position as needed
+                                          bottom: 10,  // Adjust the position as needed
+                                          child: Icon(
+                                            Icons.check_circle,
+                                            size: 35,
+                                            color: Colors.greenAccent,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  const Positioned(
-                                    right: 25,
-                                    bottom: 110,
-                                    child: Icon(
-                                      Icons.info,
-                                      size: 35,
-                                      color: Colors.greenAccent,
-                                    ),
-                                  ),
-                                ],
+
+                                    SizedBox(height: 10.0),
+                                  ],
+                                ),
                               ),
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => DisplayQrCode(itemId: '', qrCode: '',) ));
+                                Navigator.push(
+                                    context, MaterialPageRoute(
+                                    builder: (context) => DisplayQrCode(svgData: item?.qrCode ?? '')
+                                  ),
+                                );
                               },
                             ),
-                            // GestureDetector(
-                            //   child: Container(
-                            //     padding: EdgeInsets.all(10.0),
-                            //     margin: EdgeInsets.all(10),
-                            //     decoration: BoxDecoration(
-                            //       border: Border.all(
-                            //         color: Colors.purple,
-                            //         width: 2.0,
-                            //       ),
-                            //       borderRadius: BorderRadius.circular(10.0),
-                            //     ),
-                            //     child: Column(
-                            //       crossAxisAlignment: CrossAxisAlignment.start,
-                            //       children: [
-                            //         ListTile(
-                            //           title: Text(
-                            //             'ID: ${item?.id}',
-                            //             style: const TextStyle(
-                            //               color: Colors.black,
-                            //               fontSize: 18,
-                            //               fontWeight: FontWeight.w600,
-                            //             ),
-                            //           ),
-                            //           subtitle: Column(
-                            //             crossAxisAlignment:
-                            //                 CrossAxisAlignment.start,
-                            //             children: <Widget>[
-                            //               Text(
-                            //                 'Destination Person: ${item?.destinationPerson ?? 'None'}',
-                            //                 style: const TextStyle(
-                            //                   color: Colors.black,
-                            //                   fontSize: 18,
-                            //                   fontWeight: FontWeight.w600,
-                            //                 ),
-                            //               ),
-                            //               Text(
-                            //                 'Homeowner: ${item?.homeowner != null ? '${item?.homeowner!.firstName ?? 'None'} ${item?.homeowner!.lastName ?? 'None'}' : 'None'}',
-                            //                 style: const TextStyle(
-                            //                   color: Colors.black,
-                            //                   fontSize: 18,
-                            //                   fontWeight: FontWeight.w600,
-                            //                 ),
-                            //               ),
-                            //               Text(
-                            //                 'Admin: ${item?.admin != null ? '${item?.admin!.firstName ?? 'None'} ${item?.admin!.lastName ?? 'None'}' : 'None'}',
-                            //                 style: const TextStyle(
-                            //                   color: Colors.black,
-                            //                   fontSize: 18,
-                            //                   fontWeight: FontWeight.w600,
-                            //                 ),
-                            //               ),
-                            //               SizedBox(height: 5),
-                            //               const Text(
-                            //                 'Visit Members: ',
-                            //                 style: TextStyle(
-                            //                   color: Colors.black,
-                            //                   fontSize: 18,
-                            //                   fontWeight: FontWeight.w600,
-                            //                 ),
-                            //               ),
-                            //               Text(
-                            //                 '${item?.visitMembers?.join(', ') ?? 'None'}',
-                            //                 style: const TextStyle(
-                            //                   color: Colors.black,
-                            //                   fontSize: 18,
-                            //                   fontWeight: FontWeight.w600,
-                            //                 ),
-                            //               ),
-                            //               // SizedBox(
-                            //               //   width: 200,
-                            //               //   height: 200,
-                            //               //   child: SvgPicture.string(
-                            //               //     item?.qrCode ??
-                            //               //         '', // Assuming item?.qrCode contains the SVG data
-                            //               //     width: 200, // Set the desired width
-                            //               //     height:
-                            //               //         200, // Set the desired height
-                            //               //   ),
-                            //               // ),
-                            //             ],
-                            //           ),
-                            //         ),
-                            //         SizedBox(height: 10.0),
-                            //       ],
-                            //     ),
-                            //   ),
-                            //   onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => DisplayQrCode(itemId: '', qrCode: '',) ));},
-                            // ),
                           ],
                         ),
                       );
