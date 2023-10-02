@@ -143,3 +143,28 @@ class Admin {
 
 
 }
+
+
+class User {
+  final String firstName;
+  final String lastName;
+  final String userName;
+  final String contactNumber;
+  final String email;
+  final int? blockNo;
+  final int? lotNo;
+  final bool? manualVisitOption;
+  final String? photo;
+
+  User({
+    required this.firstName,
+    required this.lastName,
+    required this.userName,
+    required this.contactNumber,
+    required this.email,
+    this.blockNo,
+    this.lotNo,
+    this.manualVisitOption,
+    this.photo,
+  });
+}
