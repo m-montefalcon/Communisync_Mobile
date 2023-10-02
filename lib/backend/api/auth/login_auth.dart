@@ -1,3 +1,4 @@
+import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_bttmbar.dart';
 import 'package:communisyncmobile/screens/root_page.dart';
 import 'package:communisyncmobile/screens/security%20personnel/security_bttmbar.dart';
@@ -32,17 +33,19 @@ Future<void> loginUser(context, String email, String password) async {
 
       if (token != null && role != null) {
         print('Login successful');
-        print('Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
-        print('Token: $token');
-        print('Role: $role');
-        print('ID: $id');
+        // print('Status code: ${response.statusCode}');
+        // print('Response body: ${response.body}');
+        // print('Token: $token');
+        // print('Role: $role');
+        // print('ID: $id');
 
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
         await prefs.setString('role', role);
         await prefs.setInt('id', id);
+
+
 
         if (role == '1') {
           Navigator.pushAndRemoveUntil(
