@@ -2,7 +2,7 @@ import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_page
 import 'package:communisyncmobile/screens/homeowner/homeowner_complaints_page.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_dashboard_page.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_profile_page.dart';
-import 'package:communisyncmobile/screens/homeowner/homeowner_qrcode_page.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_complaint_page.dart';
 import 'package:flutter/material.dart';
 
 class HomeownerBottomNavigationBar extends StatefulWidget {
@@ -60,7 +60,7 @@ class _HomeownerBottomNavigationBarState extends State<HomeownerBottomNavigation
                 borderRadius: BorderRadius.circular(20),
               ),
               padding: const EdgeInsets.all(10),
-              child: const Icon(Icons.qr_code_rounded, size: 35 , color: Colors.white),
+              child: const Icon(Icons.live_help_rounded, size: 35 , color: Colors.white),
             ),
             label: '',
           ),
