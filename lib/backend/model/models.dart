@@ -168,3 +168,19 @@ class User {
     this.photo,
   });
 }
+
+
+class Announcement {
+  final String title;
+  final String description;
+  final String? photo;
+  Admin admin;
+
+  Announcement({
+    required this.title,
+    required this.description,
+    this.photo,
+    required this.admin,
+
+  });
+}
