@@ -4,6 +4,7 @@ import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:communisyncmobile/constants/profile_widget.dart';
 import 'package:communisyncmobile/screens/register_page.dart';
+import 'package:communisyncmobile/screens/visitor/visitor_get_verified_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -222,6 +223,26 @@ class _UserProfileWidget extends State<UserProfileWidget> {
                                       title: '${user.email}'
                                   ),
                                   onTap: () {},
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 70,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  child: const ProfileWidget(
+                                    icon: Icons.verified,
+                                    title: 'Get Verified',
+                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => const GetVerifiedVisitor()));
+                                  },
                                 ),
                               ],
                             ),
