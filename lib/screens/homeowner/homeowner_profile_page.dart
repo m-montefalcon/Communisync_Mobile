@@ -2,7 +2,6 @@
   import 'package:communisyncmobile/backend/api/auth/profile.dart';
   import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
-  import 'package:communisyncmobile/screens/homeowner/homeowner_payment_page.dart';
   import 'package:communisyncmobile/constants/profile_widget.dart';
   import 'package:communisyncmobile/screens/login_page.dart';
   import 'package:communisyncmobile/screens/register_page.dart';
@@ -137,21 +136,6 @@ import 'package:communisyncmobile/constants/custom_clipper.dart';
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const SizedBox(height: 25),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                IconButton(
-                                  onPressed: () async {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => const PaymentHistory()));
-                                  },
-                                  icon: const Icon(Icons.payments, color: Colors.black54, size: 35),
-                                ),
-                              ],
-                            ),
                             Container(
                               decoration: user.photo != null
                                   ? BoxDecoration(
