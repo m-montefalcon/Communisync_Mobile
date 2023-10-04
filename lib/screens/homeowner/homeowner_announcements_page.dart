@@ -1,4 +1,5 @@
 import 'package:communisyncmobile/backend/api/homeowner/AF/fetch_announcements.dart';
+import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:flutter/material.dart';
 
@@ -50,129 +51,139 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
             ),
           ),
         ],
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: Center(
-              child: Column(
-                children: [
-                  Row(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(left: 15.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Announcements',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
+        body: Column(
+          children: [
+            SafeArea(
+              child: Center(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Announcements',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
                       ),
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      print('click');
-                      fetchAnnouncements();
-                    },
-                    child: Stack(
-                      children: [
-                        Card(
-                          margin: const EdgeInsets.all(10),
-                          elevation: 12,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          color: Colors.purple,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15.0, vertical: 20.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24),
-                              gradient: LinearGradient(colors: [
-                                Colors.purple.shade800,
-                                Colors.purple.shade400
-                              ]),
-                            ),
-                            child: Stack(
-                              children: [
-                                const Positioned(
-                                  bottom: 0,
-                                  right: 0,
-                                  child: Text('8/19/2023',
-                                      style: TextStyle(color: Colors.white)),
-
-                                ),
-                                Flex(
-                                  direction: Axis.horizontal,
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          const Text(
-                                            'No QR Code no entry policy',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 10),
-                                          Row(
-                                            children: const [
-                                              Text(
-                                                'Details:',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                  width:
-                                                  5), // Add some spacing between the texts
-                                            ],
-                                          ),
-                                          const Text(
-                                            'The implementation of the Communisync app'
-                                                ' involves several key steps to ensure its '
-                                                'successful development and deployment. '
-                                                'Firstly, a team of skilled developers and '
-                                                'designers collaborate to create a user-friendly '
-                                                'interface and design the apps features.',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                            ),
-
-                                          ),
-                                          const SizedBox(height: 35),
-                                        ],
-
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
-                  )
-
-
-
-                ],
+                  ),
+                ),
               ),
             ),
-          ),
+            FutureBuilder<List<Announcement>>(
+              future: fetchAnnouncements(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('${snapshot.error}'),
+                  );
+                } else if (!snapshot.hasData) {
+                  return Center(
+                    child: Text('No requests available.'),
+                  );
+                } else {
+                  final List<Announcement> announcementData = snapshot.data!;
+
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: announcementData.length,
+                    itemBuilder: (context, index) {
+                      final Announcement data = announcementData[index];
+                      return Stack(
+                        children: [
+                          Card(
+                            margin: const EdgeInsets.all(10),
+                            elevation: 12,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            color: Colors.purple,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15.0, vertical: 20.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(24),
+                                gradient: LinearGradient(colors: [
+                                  Colors.purple.shade800,
+                                  Colors.purple.shade400
+                                ]),
+                              ),
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    bottom: 0,
+                                    right: 0,
+                                    child: Text('8/19/2023',
+                                        style: TextStyle(color: Colors.white)),
+                                  ),
+                                  Flex(
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                              '${data.title}',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            SizedBox(height: 10),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'Details:',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 5), // Add some spacing between the texts
+                                              ],
+                                            ),
+                                            Text(
+                                              '${data.description}',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                            SizedBox(height: 35),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ],
         ),
+
+
+
+
+
+
+
+
       ),
-    );
+      );
   }
 }
