@@ -1,14 +1,14 @@
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:flutter/material.dart';
 
-class PaymentHistory extends StatefulWidget {
-  const PaymentHistory({Key? key}) : super(key: key);
+class PaymentsHistory extends StatefulWidget {
+  const PaymentsHistory({Key? key}) : super(key: key);
 
   @override
-  State<PaymentHistory> createState() => _PaymentHistoryState();
+  State<PaymentsHistory> createState() => _PaymentsHistoryState();
 }
 
-class _PaymentHistoryState extends State<PaymentHistory> {
+class _PaymentsHistoryState extends State<PaymentsHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,22 +16,6 @@ class _PaymentHistoryState extends State<PaymentHistory> {
         floatHeaderSlivers: true,
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
-            leading: GestureDetector(
-              child: Stack(
-                children: const [
-                  Positioned(
-                      left: 10,
-                      top: 20,
-                      child: Icon(
-                        Icons.arrow_back,
-                        size: 30,
-                      )),
-                ],
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
             floating: true,
             backgroundColor: Colors.transparent,
             automaticallyImplyLeading: false,
@@ -43,14 +27,14 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                 height: 150,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    // gradient: LinearGradient(
-                    //   begin: Alignment.topLeft,
-                    //   end: Alignment.bottomRight,
-                    //   colors: [
-                    //     Colors.purple.shade800,
-                    //     Colors.purple.shade500,
-                    //   ],
-                    // ),
+                  // gradient: LinearGradient(
+                  //   begin: Alignment.topLeft,
+                  //   end: Alignment.bottomRight,
+                  //   colors: [
+                  //     Colors.purple.shade800,
+                  //     Colors.purple.shade500,
+                  //   ],
+                  // ),
                     color: Colors.purple.shade700),
                 child: const Center(
                   child: Text(
@@ -134,7 +118,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                                         ),
                                         SizedBox(
                                             width:
-                                                5), // Add some spacing between the texts
+                                            5), // Add some spacing between the texts
                                         Text(
                                           '04/23/2023',
                                           style: TextStyle(
@@ -259,7 +243,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                                         ),
                                         SizedBox(
                                             width:
-                                                5), // Add some spacing between the texts
+                                            5), // Add some spacing between the texts
                                         Text(
                                           '03/22/2023',
                                           style: TextStyle(
@@ -384,7 +368,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                                         ),
                                         SizedBox(
                                             width:
-                                                5), // Add some spacing between the texts
+                                            5), // Add some spacing between the texts
                                         Text(
                                           '02/19/2023',
                                           style: TextStyle(

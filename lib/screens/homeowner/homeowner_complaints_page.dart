@@ -1,4 +1,5 @@
 import 'package:communisyncmobile/constants/custom_clipper.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_add_complaint_page.dart';
 import 'package:flutter/material.dart';
 
 class ComplaintsPage extends StatefulWidget {
@@ -26,16 +27,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
               child: Container(
                 height: 150,
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    // gradient: LinearGradient(
-                    //   begin: Alignment.topLeft,
-                    //   end: Alignment.bottomRight,
-                    //   colors: [
-                    //     Colors.purple.shade800,
-                    //     Colors.purple.shade500,
-                    //   ],
-                    // ),
-                    color: Colors.purple.shade700),
+                decoration: BoxDecoration(color: Colors.purple.shade700),
                 child: const Center(
                   child: Text(
                     'CommuniSync',
@@ -55,7 +47,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
               child: Column(
                 children: [
                   Row(
-                    children: const [
+                    children: [
                       Padding(
                         padding: EdgeInsets.only(left: 15.0),
                         child: Align(
@@ -70,6 +62,23 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                           ),
                         ),
                       ),
+                      Expanded(
+                          child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 10.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          AddComplaintsPage()));
+                            },
+                            child: Text('Add Complaint'),
+                          ),
+                        ),
+                      ))
                     ],
                   ),
                   Stack(
