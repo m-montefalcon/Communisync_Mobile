@@ -36,12 +36,14 @@ Future<List<Announcement>> fetchAnnouncements()async {
         return Announcement(
           title: announcementData['announcement_title'],
           description: announcementData['announcement_description'],
-          photo: announcementData['annoucement_photo'],
+          photo: announcementData['announcement_photo'],
+          date: announcementData['announcement_date'],
           admin: Admin(
             id: announcementData['admin']['id'],
             userName: announcementData['admin']['user_name'],
             firstName: announcementData['admin']['first_name'],
             lastName: announcementData['admin']['last_name'],
+            photo:announcementData['admin']['photo'],
           ),
         );
       }).toList();
@@ -54,6 +56,8 @@ Future<List<Announcement>> fetchAnnouncements()async {
         print('Admin Username: ${data.admin.userName}');
         print('Admin First Name: ${data.admin.firstName}');
         print('Admin Last Name: ${data.admin.lastName}');
+        print('Admin photo: ${data.admin.photo}');
+
       }
 
 

@@ -133,12 +133,14 @@ class Admin {
   String userName;
   String firstName;
   String lastName;
+  String? photo;
 
   Admin({
     required this.id,
     required this.userName,
     required this.firstName,
     required this.lastName,
+    this.photo
   });
 
 
@@ -174,6 +176,8 @@ class Announcement {
   final String title;
   final String description;
   final String? photo;
+  final String date;
+
   Admin admin;
 
   Announcement({
@@ -181,6 +185,7 @@ class Announcement {
     required this.description,
     this.photo,
     required this.admin,
+    required this.date
 
   });
 }
