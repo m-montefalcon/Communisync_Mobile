@@ -189,3 +189,31 @@ class Announcement {
 
   });
 }
+
+class Complaint {
+  final String title;
+  final String description;
+  final String? photo;
+  final Admin admin;
+  final List<ComplaintUpdate>? updates;
+
+  Complaint({
+    required this.title,
+    required this.description,
+    this.photo,
+    required this.admin,
+    this.updates,
+  });
+}
+
+class ComplaintUpdate {
+  final List<String>? update;
+  final String? resolution;
+  final String? date;
+
+  ComplaintUpdate({
+    this.update,
+    this.resolution,
+    this.date,
+  });
+}
