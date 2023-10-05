@@ -1,7 +1,9 @@
 import 'package:communisyncmobile/backend/api/homeowner/AF/fetch_announcements.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_specific_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AnnouncementPage extends StatefulWidget {
   const AnnouncementPage({Key? key}) : super(key: key);
@@ -13,6 +15,8 @@ class AnnouncementPage extends StatefulWidget {
 class _AnnouncementPageState extends State<AnnouncementPage> {
   @override
   Widget build(BuildContext context) {
+    String host = dotenv.get("API_HOST", fallback: "");
+
     return Scaffold(
       body: NestedScrollView(
         floatHeaderSlivers: true,
@@ -96,76 +100,93 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                       final Announcement data = announcementData[index];
                       return Stack(
                         children: [
-                          Card(
-                            margin: const EdgeInsets.all(10),
-                            elevation: 12,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            color: Colors.purple,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15.0, vertical: 20.0),
-                              decoration: BoxDecoration(
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SpecificAnnouncementPage(data: data),
+                                ),
+                              );
+                            },
+                            child: Card(
+                              margin: const EdgeInsets.all(10),
+                              elevation: 12,
+                              shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(24),
-                                gradient: LinearGradient(colors: [
-                                  Colors.purple.shade800,
-                                  Colors.purple.shade400
-                                ]),
                               ),
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    bottom: 0,
-                                    right: 0,
-                                    child: Text('8/19/2023',
-                                        style: TextStyle(color: Colors.white)),
-                                  ),
-                                  Flex(
-                                    direction: Axis.horizontal,
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              '${data.title}',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            SizedBox(height: 10),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'Details:',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 15,
-                                                  ),
-                                                ),
-                                                SizedBox(width: 5), // Add some spacing between the texts
-                                              ],
-                                            ),
-                                            Text(
-                                              '${data.description}',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 15,
-                                              ),
-                                            ),
-                                            SizedBox(height: 35),
-                                          ],
+                              color: Colors.purple,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(24),
+                                  gradient: LinearGradient(colors: [
+                                    Colors.purple.shade800,
+                                    Colors.purple.shade400
+                                  ]),
+                                ),
+                                child: Stack(
+                                  children: [
+                                    Positioned(
+                                      bottom: 0,
+                                      right: 0,
+                                      child: Text('${data.date}',
+                                          style: TextStyle(color: Colors.white)),
+                                    ),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        CircleAvatar(
+                                          radius: 24,
+                                          backgroundImage: NetworkImage('${host ?? ''}/storage/${data.admin.photo}'),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                        SizedBox(width: 10),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(
+                                                '${data.admin.firstName} ${data.admin.lastName}',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              SizedBox(height: 10),
+                                              Text(
+                                                '${data.title}',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              Text(
+                                                'Details:',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              Text(
+                                                '${data.description}',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              SizedBox(height: 35),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
+                          )
+
                         ],
                       );
                     },
