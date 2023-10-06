@@ -1,7 +1,9 @@
 import 'package:communisyncmobile/backend/api/homeowner/CF/fetch_complaints.dart';
+import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_add_complaint_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ComplaintsPage extends StatefulWidget {
   const ComplaintsPage({Key? key}) : super(key: key);
@@ -11,8 +13,18 @@ class ComplaintsPage extends StatefulWidget {
 }
 
 class _ComplaintsPageState extends State<ComplaintsPage> {
+  Future<List<Complaint>>? _complaintsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _complaintsFuture = fetchComplaints();
+  }
+
   @override
   Widget build(BuildContext context) {
+    String host = dotenv.get("API_HOST", fallback: "");
+
     return Scaffold(
       body: NestedScrollView(
         floatHeaderSlivers: true,
@@ -33,17 +45,18 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                   child: Text(
                     'CommuniSync',
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
         ],
-        body: SingleChildScrollView(
-          child: SafeArea(
+        body:
+           SafeArea(
             child: Center(
               child: Column(
                 children: [
@@ -64,147 +77,152 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                         ),
                       ),
                       Expanded(
-                          child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 10.0),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          AddComplaintsPage()));
-                            },
-                            child: Text('Add Complaint'),
+                                    builder: (context) =>
+                                        AddComplaintsPage(),
+                                  ),
+                                );
+                              },
+                              child: Text('Add Complaint'),
+                            ),
                           ),
                         ),
-                      ))
+                      ),
                     ],
                   ),
-                  GestureDetector(
-                    onTap: (){
-                      print('clicked');
-                      fetchComplaints();
-                    },
-                    child: Stack(
-                      children: [
-                        Card(
-                          margin: const EdgeInsets.all(10),
-                          elevation: 12,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          color: Colors.purple,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15.0, vertical: 20.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24),
-                              gradient: LinearGradient(colors: [
-                                Colors.purple.shade800,
-                                Colors.purple.shade400
-                              ]),
-                            ),
-                            child: Stack(
+                  FutureBuilder<List<Complaint>>(
+                    future: fetchComplaints(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Center(
+                          child: Text('${snapshot.error}'),
+                        );
+                      } else if (!snapshot.hasData) {
+                        return Center(
+                          child: Text('No requests available.'),
+                        );
+                      } else {
+                        List<Complaint> complaints = snapshot.data!;
+
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: complaints.length,
+                          itemBuilder: (context, index) {
+                            Complaint complaint = complaints[index];
+                            return Stack(
                               children: [
-                                const Positioned(
-                                  top: 0,
-                                  right: 0,
-                                  child: Icon(
-                                    Icons.update,
-                                    size: 35,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                const Positioned(
-                                  bottom: 0,
-                                  right: 0,
-                                  child: Text('6/15/2023',
-                                      style: TextStyle(color: Colors.white)),
-                                ),
-                                const SizedBox(width: 10),
-                                Flex(
-                                  direction: Axis.horizontal,
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          const Text(
-                                            'Pet Wastes Complaint',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5),
+                                GestureDetector(
+                                  onTap: () {
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder: (context) => SpecificAnnouncementPage(data: data),
+                                    //   ),
+                                    // );
+                                  },
+                                  child: Card(
+                                    margin: const EdgeInsets.all(10),
+                                    elevation: 12,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(24),
+                                    ),
+                                    color: Colors.purple,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(24),
+                                        gradient: LinearGradient(colors: [
+                                          Colors.purple.shade800,
+                                          Colors.purple.shade400
+                                        ]),
+                                      ),
+                                      child: Stack(
+                                        children: [
+
                                           Row(
-                                            children: const [
-                                              Text(
-                                                'Status:',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                ),
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              CircleAvatar(
+                                                radius: 24,
+                                                backgroundImage: NetworkImage('${host ?? ''}/storage/${complaint.admin.photo}'),
                                               ),
-                                              SizedBox(
-                                                  width:
-                                                  5), // Add some spacing between the texts
-                                              Text(
-                                                'Pending',
-                                                style: TextStyle(
-                                                  color: Colors.red,
-                                                  fontSize: 15,
+                                              SizedBox(width: 10),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: <Widget>[
+
+                                                    Text(
+                                                      '${complaint.admin.firstName} ${complaint.admin.lastName}',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 10),
+                                                    Text(
+                                                      'Status: ${complaint.status}',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      '${complaint.title}',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15,
+                                                      ),
+                                                    ),
+
+                                                    Text(
+                                                      '${complaint.description}',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 35),
+                                                  ],
                                                 ),
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(height: 5),
-                                          Row(
-                                            children: const [
-                                              Text(
-                                                'Details:',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                  width:
-                                                  5), // Add some spacing between the texts
-                                            ],
-                                          ),
-                                          const Text(
-                                            'I hope this message finds you well. '
-                                                'I am writing to address a concerning '
-                                                'issue that has been observed in our '
-                                                'beloved subdivision recently.',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 15),
                                         ],
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                )
+
                               ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
+                            );
+                          },
+                        );
+                      }
+                    },
+                  ),
+
+
+
                 ],
               ),
             ),
           ),
-        ),
+
       ),
     );
   }

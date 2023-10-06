@@ -194,6 +194,7 @@ class Complaint {
   final String title;
   final String description;
   final String? photo;
+  final String? status;
   final Admin admin;
   final List<ComplaintUpdate>? updates;
 
@@ -201,6 +202,7 @@ class Complaint {
     required this.title,
     required this.description,
     this.photo,
+    required this.status,
     required this.admin,
     this.updates,
   });
