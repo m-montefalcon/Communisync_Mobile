@@ -60,6 +60,7 @@ Future<List<Complaint>> fetchComplaints() async {
           title: complaintData['complaint_title'],
           description: complaintData['complaint_desc'],
           photo: complaintData['complaint_photo'],
+          status: complaintData['complaint_status'],
           admin: Admin(
             id: complaintData['admin']['id'],
             userName: complaintData['admin']['user_name'],
