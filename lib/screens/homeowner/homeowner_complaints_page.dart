@@ -2,6 +2,7 @@ import 'package:communisyncmobile/backend/api/homeowner/CF/fetch_complaints.dart
 import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_add_complaint_page.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_complaints_specific_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -125,12 +126,12 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => SpecificAnnouncementPage(data: data),
-                                    //   ),
-                                    // );
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SpecificComplaintPage(data: complaint),
+                                      ),
+                                    );
                                   },
                                   child: Card(
                                     margin: const EdgeInsets.all(10),
@@ -150,7 +151,6 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                                       ),
                                       child: Stack(
                                         children: [
-
                                           Row(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: <Widget>[
