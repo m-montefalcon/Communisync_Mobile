@@ -56,20 +56,26 @@ Future<List<Complaint>> fetchComplaints() async {
 
 
 
-        return Complaint(
-          title: complaintData['complaint_title'],
-          description: complaintData['complaint_desc'],
-          photo: complaintData['complaint_photo'],
-          status: complaintData['complaint_status'],
-          admin: Admin(
+        AdminComplaints? admin;
+        if (complaintData['admin'] != null) {
+          admin = AdminComplaints(
             id: complaintData['admin']['id'],
             userName: complaintData['admin']['user_name'],
             firstName: complaintData['admin']['first_name'],
             lastName: complaintData['admin']['last_name'],
             photo: complaintData['admin']['photo'],
-          ),
+          );
+        }
+
+        return Complaint(
+          title: complaintData['complaint_title'],
+          description: complaintData['complaint_desc'],
+          photo: complaintData['complaint_photo'],
+          status: complaintData['complaint_status'],
+          admin: admin,
           updates: complaintUpdates,
         );
+
       }).toList();
 
       for (var data in complaints) {
@@ -77,11 +83,11 @@ Future<List<Complaint>> fetchComplaints() async {
         print('Description: ${data.description}');
         print('Photo: ${data.photo}');
 
-        print('Admin ID: ${data.admin.id}');
-        print('Admin Username: ${data.admin.userName}');
-        print('Admin First Name: ${data.admin.firstName}');
-        print('Admin Last Name: ${data.admin.lastName}');
-        print('Admin photo: ${data.admin.photo}');
+        print('Admin ID: ${data.admin?.id}');
+        print('Admin Username: ${data.admin?.userName}');
+        print('Admin First Name: ${data.admin?.firstName}');
+        print('Admin Last Name: ${data.admin?.lastName}');
+        print('Admin photo: ${data.admin?.photo}');
 
         if (data.updates != null) {
           for (var update in data.updates!) {

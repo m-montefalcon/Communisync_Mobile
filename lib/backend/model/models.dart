@@ -195,7 +195,7 @@ class Complaint {
   final String description;
   final String? photo;
   final String? status;
-  final Admin admin;
+  final AdminComplaints? admin;
   final List<ComplaintUpdate>? updates;
 
   Complaint({
@@ -218,4 +218,22 @@ class ComplaintUpdate {
     this.resolution,
     this.date,
   });
+}
+
+class AdminComplaints {
+  int? id;
+  String? userName;
+  String? firstName;
+  String? lastName;
+  String? photo;
+
+  AdminComplaints({
+   this.id,
+   this.userName,
+   this.firstName,
+   this.lastName,
+    this.photo
+  });
+
+
 }

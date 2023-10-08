@@ -117,104 +117,112 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                       } else {
                         List<Complaint> complaints = snapshot.data!;
 
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: complaints.length,
-                          itemBuilder: (context, index) {
-                            Complaint complaint = complaints[index];
-                            return Stack(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => SpecificComplaintPage(data: complaint),
-                                      ),
-                                    );
-                                  },
-                                  child: Card(
-                                    margin: const EdgeInsets.all(10),
-                                    elevation: 12,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(24),
-                                    ),
-                                    color: Colors.purple,
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
-                                      decoration: BoxDecoration(
+                        return Expanded(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: complaints.length,
+                            itemBuilder: (context, index) {
+                              Complaint complaint = complaints[index];
+                              return Stack(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SpecificComplaintPage(data: complaint),
+                                        ),
+                                      );
+                                    },
+                                    child: Card(
+                                      margin: const EdgeInsets.all(10),
+                                      elevation: 12,
+                                      shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(24),
-                                        gradient: LinearGradient(colors: [
-                                          Colors.purple.shade800,
-                                          Colors.purple.shade400
-                                        ]),
                                       ),
-                                      child: Stack(
-                                        children: [
-                                          Row(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              CircleAvatar(
-                                                radius: 24,
-                                                backgroundImage: NetworkImage('${host ?? ''}/storage/${complaint.admin.photo}'),
-                                              ),
-                                              SizedBox(width: 10),
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: <Widget>[
-
-                                                    Text(
-                                                      '${complaint.admin.firstName} ${complaint.admin.lastName}',
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: 10),
-                                                    Text(
-                                                      'Status: ${complaint.status}',
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      '${complaint.title}',
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 15,
-                                                      ),
-                                                    ),
-
-                                                    Text(
-                                                      '${complaint.description}',
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 15,
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: 35),
-                                                  ],
+                                      color: Colors.purple,
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(24),
+                                          gradient: LinearGradient(colors: [
+                                            Colors.purple.shade800,
+                                            Colors.purple.shade400
+                                          ]),
+                                        ),
+                                        child: Stack(
+                                          children: [
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                CircleAvatar(
+                                                  radius: 24,
+                                                  backgroundImage: complaint.admin != null
+                                                      ? NetworkImage('${host ?? ''}/storage/${complaint.admin?.photo}') as ImageProvider<Object>?
+                                                      : null,
+                                                  child: complaint.admin == null
+                                                      ? Icon(Icons.person)
+                                                      : null,
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                                SizedBox(width: 10),
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        complaint.admin != null
+                                                            ? 'Reviewed by ${complaint.admin?.firstName} ${complaint.admin?.lastName}'
+                                                            : 'Opened',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 10),
+                                                      Text(
+                                                        'Status: ${complaint.status}',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        '${complaint.title}',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        '${complaint.description}',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 35),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                )
-
-                              ],
-                            );
-                          },
+                                  )
+                                ],
+                              );
+                            },
+                          ),
                         );
                       }
                     },
                   ),
+
+
 
 
 
