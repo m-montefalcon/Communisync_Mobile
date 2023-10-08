@@ -60,23 +60,23 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
 
             children: [
               SizedBox(height: 20),
-              widget.data.admin.photo != null
+              widget.data.admin?.photo != null
                   ? Container(
                 width: 300,
                 height: 200,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage('${host ?? ''}/storage/${widget.data.admin.photo}'),
+                    image: NetworkImage('${host ?? ''}/storage/${widget.data.admin?.photo}'),
                     fit: BoxFit.cover,
                   ),
                 ),
               )
                   : Text('No profile available'),
               Center(
-                child: Text(widget.data.admin.firstName),
+                child: Text('${widget.data.admin?.firstName}'),
               ),
               Center(
-                child: Text(widget.data.admin.lastName),
+                child: Text('${widget.data.admin?.lastName}'),
               ),
               Center(
                 child: Text(widget.data.title),
@@ -97,6 +97,27 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
                 ),
               )
                   : Text('No complaint photo available'),
+              SizedBox(height: 20),
+              if (widget.data.updates != null)
+                Column(
+                  children: widget.data.updates!.map((update) {
+                    return Column(
+                      children: [
+                        if (update.update != null && update.resolution == null) // Add condition to check if there is no resolution
+                          Text('Update: ${update.update?.join(", ")}'),
+                        if (update.resolution != null)
+                          Text('Resolution: ${update.resolution}'),
+                        if (update.date != null)
+                          Text('Date: ${update.date}'),
+                        SizedBox(height: 20),
+                      ],
+                    );
+                  }).toList(),
+                ),
+
+
+
+
             ],
           ),
 

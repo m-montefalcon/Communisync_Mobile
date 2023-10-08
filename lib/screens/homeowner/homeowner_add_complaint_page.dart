@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:communisyncmobile/backend/api/homeowner/CF/submit_complaints.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -10,39 +13,42 @@ class AddComplaintsPage extends StatefulWidget {
 }
 
 class _AddComplaintsPageState extends State<AddComplaintsPage> {
-  final _compalinformKey = GlobalKey<FormState>();
+  final _complaintformKey = GlobalKey<FormState>();
   final TextEditingController _complaintTitle = TextEditingController();
   final TextEditingController _complaintDesc = TextEditingController();
   final TextEditingController _complaintDate = TextEditingController();
   final TextEditingController _complaintPhoto = TextEditingController();
+  final TextEditingController _complaintPhotoPath = TextEditingController();
 
   DateTime? _selectedDate;
   final ImagePicker _imagePicker = ImagePicker();
 
   Future<void> _getImage() async {
-    final XFile? image =
-        await _imagePicker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
     if (image != null) {
+      final imagePath = image.path;
+      print('Image path: $imagePath'); // Add this line to check the image path
       setState(() {
-        _complaintPhoto.text = image.path;
+        _complaintPhotoPath.text = imagePath;
       });
     }
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-    if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-        _complaintDate.text = DateFormat('MM/dd/yyyy').format(picked);
-      });
-    }
-  }
+
+  // Future<void> _selectDate(BuildContext context) async {
+  //   DateTime? picked = await showDatePicker(
+  //     context: context,
+  //     initialDate: DateTime.now(),
+  //     firstDate: DateTime(2000),
+  //     lastDate: DateTime(2101),
+  //   );
+  //   if (picked != null && picked != _selectedDate) {
+  //     setState(() {
+  //       _selectedDate = picked;
+  //       _complaintDate.text = DateFormat('MM/dd/yyyy').format(picked);
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +57,7 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
         title: Text('Add Complaint'),
       ),
         body: Form(
-            key: _compalinformKey,
+            key: _complaintformKey,
             child: SafeArea(
               child: Center(
                 child: SingleChildScrollView(
@@ -130,49 +136,7 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            border: Border.all(color: Colors.white),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: Row(
-                              children: [
-                                Icon(Icons.date_range_rounded),
-                                SizedBox(width: 10.0),
-                                Expanded(
-                                  child: TextFormField(
-                                    controller: _complaintDate,
-                                    keyboardType: TextInputType.datetime,
-                                    textInputAction: TextInputAction.next,
-                                    readOnly: true,
-                                    // Set the text field as read-only
-                                    onTap: () {
-                                      _selectDate(
-                                          context); // Add a function to handle date selection
-                                    },
-                                    decoration: const InputDecoration(
-                                      labelText: 'Date',
-                                      border: InputBorder.none,
-                                    ),
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Enter date';
-                                      } else {
-                                        return null;
-                                      }
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+
                       const SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -189,7 +153,7 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
                                 SizedBox(width: 10),
                                 Expanded(
                                   child: TextFormField(
-                                    controller: _complaintPhoto,
+                                    controller: _complaintPhotoPath,
                                     readOnly: true,
                                     onTap: _getImage,
                                     decoration: const InputDecoration(
@@ -225,7 +189,15 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
                             'Submit Complain',
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            submitComplaint(
+                              context,
+                              _complaintTitle.text,
+                              _complaintDesc.text,
+                              _complaintPhotoPath.text,
+                            );
+                          },
+
                         ),
                       ),
                       SizedBox(height: 15),
@@ -233,6 +205,8 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
                   ),
                 ),
               ),
-            )));
+            )
+        )
+    );
   }
 }
