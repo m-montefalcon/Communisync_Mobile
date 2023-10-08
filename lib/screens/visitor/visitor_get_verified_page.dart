@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:communisyncmobile/backend/api/visitor/get_verified.dart';
 import 'package:flutter/material.dart';
 
 class GetVerifiedVisitor extends StatefulWidget {
@@ -14,6 +17,7 @@ class _GetVerifiedVisitorState extends State<GetVerifiedVisitor> {
   final TextEditingController _lotNo = TextEditingController();
   List<TextEditingController> _controllers = [];
   final List<Widget> _textFields = [];
+
 
   @override
   void initState() {
@@ -41,36 +45,6 @@ class _GetVerifiedVisitorState extends State<GetVerifiedVisitor> {
                     color: Colors.purple,
                   ),
                   SizedBox(height: 15),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 15.0),
-                        child: TextFormField(
-                          controller: _userID,
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.next,
-                          decoration: const InputDecoration(
-                              labelText: 'User ID',
-                              border: InputBorder.none,
-                              icon: Icon(Icons.title_rounded)),
-                          validator: (value) {
-                            {
-                              if (value!.isEmpty) {
-                                return 'Enter User ID';
-                              } else {
-                                return null;
-                              }
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
                   const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -153,7 +127,17 @@ class _GetVerifiedVisitorState extends State<GetVerifiedVisitor> {
                         'Get Verified',
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        // print(_blockNo.text);
+                        // print(_lotNo.text);
+                        //
+                        List<String> familyMembers = [];
+                        for (TextEditingController controller in _controllers) {
+                          String name = controller.text;
+                          familyMembers.add('"$name"'); // Add quotation marks around each name
+                        }
+                        getVerified(context, int.parse(_blockNo.text), int.parse(_lotNo.text), familyMembers);
+                      },
                     ),
                   ),
                   SizedBox(height: 15),
@@ -169,6 +153,7 @@ class _GetVerifiedVisitorState extends State<GetVerifiedVisitor> {
   Widget _buildTextField(int index) {
     TextEditingController controller = TextEditingController();
     _controllers.add(controller);
+
     return Row(
       children: [
         Expanded(
