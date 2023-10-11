@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:communisyncmobile/backend/api/visitor/get_verified.dart';
+import 'package:communisyncmobile/backend/api/visitor/Verification/get_verified.dart';
 import 'package:flutter/material.dart';
 
 class GetVerifiedVisitor extends StatefulWidget {
@@ -18,7 +18,7 @@ class _GetVerifiedVisitorState extends State<GetVerifiedVisitor> {
   List<TextEditingController> _controllers = [];
   final List<Widget> _textFields = [];
 
-
+  bool _isVerifying = false;
   @override
   void initState() {
     super.initState();
@@ -127,19 +127,45 @@ class _GetVerifiedVisitorState extends State<GetVerifiedVisitor> {
                         'Get Verified',
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
-                      onPressed: () {
-                        // print(_blockNo.text);
-                        // print(_lotNo.text);
-                        //
+                      onPressed: () async {
                         List<String> familyMembers = [];
                         for (TextEditingController controller in _controllers) {
                           String name = controller.text;
                           familyMembers.add('"$name"'); // Add quotation marks around each name
                         }
-                        getVerified(context, int.parse(_blockNo.text), int.parse(_lotNo.text), familyMembers);
+
+                        // Show a SnackBar with a CircularProgressIndicator
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Row(
+                              children: [
+                                CircularProgressIndicator(),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15.0),
+                                  child: Text('Submitting...'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+
+                        try {
+                          await getVerified(context, int.parse(_blockNo.text), int.parse(_lotNo.text), familyMembers);
+                          // Hide the SnackBar when getVerified completes
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        } catch (e) {
+                          // Hide the SnackBar and show an error message when an error occurs
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('An error occurred: $e'),
+                            ),
+                          );
+                        }
                       },
                     ),
                   ),
+
                   SizedBox(height: 15),
                 ],
               ),

@@ -155,7 +155,7 @@ class User {
   final String email;
   final int? blockNo;
   final int? lotNo;
-  final bool? manualVisitOption;
+  final int? manualVisitOption;
   final String? photo;
 
   User({
