@@ -1,6 +1,8 @@
 
 import 'dart:convert';
 
+import 'package:communisyncmobile/screens/visitor/visitor_profile_page.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -40,17 +42,17 @@ Future<void> getVerified(context, int blockNo, int lotNo,
       },
     );
 
-    print('Logout API status code: ${response.statusCode}');
+    print(response.statusCode);
     if (response.statusCode == 200) {
       print(response.body);
       print(' successful');
-      // Navigator.pushAndRemoveUntil(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (BuildContext context) => const RootPage(),
-      //   ),
-      //       (Route<dynamic> route) => false,
-      // );
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => const VisitorProfilePage(),
+        ),
+            (Route<dynamic> route) => false,
+      );
     } else {
       print(response.body);
       throw Exception();
