@@ -39,12 +39,22 @@ Future<List<Complaint>> fetchComplaints() async {
         if (complaintUpdatesData != null) {
           try {
             complaintUpdates = complaintUpdatesData
-                .map((updateData) => ComplaintUpdate(
-              update: List<String>.from(updateData['update'] ?? []),
-              resolution: updateData['resolution'],
-              date: updateData['date'],
-            ))
+                .map((updateData) {
+              List<String>? updates;
+              if (updateData['update'] is List) {
+                updates = List<String>.from(updateData['update'].map((e) => e.toString()));
+              } else if (updateData['update'] is String) {
+                updates = [updateData['update']];
+              }
+              return ComplaintUpdate(
+                update: updates ?? [],
+                resolution: updateData['resolution'],
+                date: updateData['date'],
+              );
+            })
                 .toList();
+
+
           } catch (e) {
             print('Error decoding complaint updates: $e');
           }
