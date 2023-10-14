@@ -17,111 +17,174 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
   Widget build(BuildContext context) {
     String host = dotenv.get("API_HOST", fallback: "");
 
-    return  Scaffold(
-        body: NestedScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('SPECIFIC COMPLAINT'),
+      ),
+      body: Column(
+        children: [
+          SizedBox(height: 30),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 24,
+                        backgroundImage: NetworkImage(
+                            '${host ?? ''}/storage/${widget.data.admin?.photo}'),
+                      ),
+                      SizedBox(width: 12),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${widget.data.admin?.firstName} ${widget.data.admin?.lastName}',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Text(
+                                'Admin',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              SizedBox(width: 4),
+                              Icon(
+                                Icons.supervised_user_circle,
+                                size: 14,
+                                color: Colors.grey,
+                              ),
+                              SizedBox(width: 4),
+                              Text(
+                                '|',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              SizedBox(width: 4),
+                              Text(
+                                widget.data.title,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 2.0,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Column(
+                        children: [
+                          Text(
+                            '"${widget.data.description}"',
+                            style: TextStyle(
+                                fontSize: 14, fontStyle: FontStyle.italic),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 30),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: widget.data.updates!.map((update) {
+                                    return Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        if (update.update != null &&
+                                            update.resolution ==
+                                                null)
+                                          Text('Update: ${update.update?.join(", ")}'),
+                                        if (update.resolution != null)
+                                          Text('Resolution: ${update.resolution}'),
+                                        if (update.date != null) Text('Date: ${update.date}'),
+                                        SizedBox(height: 10),
+                                      ],
+                                    );
+                                  }).toList(),
 
-          floatHeaderSlivers: true,
-          headerSliverBuilder: (context, innerBoxIsScrolled)=>[
-            SliverAppBar(
-              floating: true,
-              backgroundColor: Colors.transparent,
-              automaticallyImplyLeading: false,
-              toolbarHeight: 110,
-              elevation: 0.0,
-              flexibleSpace: ClipPath(
-                clipper: AppBarCustomClipper(),
-                child: Container(
-                  height: 150,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    // gradient: LinearGradient(
-                    //   begin: Alignment.topLeft,
-                    //   end: Alignment.bottomRight,
-                    //   colors: [
-                    //     Colors.purple.shade800,
-                    //     Colors.purple.shade500,
-                    //   ],
-                    // ),
-                      color: Colors.purple.shade700),
-                  child: const Center(
-                    child: Text(
-                      'CommuniSync',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
             ),
-          ],
-          body: Column(
-
-            children: [
-              SizedBox(height: 20),
-              widget.data.admin?.photo != null
-                  ? Container(
-                width: 300,
-                height: 200,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage('${host ?? ''}/storage/${widget.data.admin?.photo}'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              )
-                  : Text('No profile available'),
-              Center(
-                child: Text('${widget.data.admin?.firstName}'),
-              ),
-              Center(
-                child: Text('${widget.data.admin?.lastName}'),
-              ),
-              Center(
-                child: Text(widget.data.title),
-              ),
-              Center(
-                child: Text(widget.data.description),
-              ),
-              SizedBox(height: 20),
-              widget.data.photo != null
-                  ? Container(
-                width: 300,
-                height: 200,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage('${host ?? ''}/storage/${widget.data.photo}'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              )
-                  : Text('No complaint photo available'),
-              SizedBox(height: 20),
-              if (widget.data.updates != null)
-                Column(
-                  children: widget.data.updates!.map((update) {
-                    return Column(
-                      children: [
-                        if (update.update != null && update.resolution == null) // Add condition to check if there is no resolution
-                          Text('Update: ${update.update?.join(", ")}'),
-                        if (update.resolution != null)
-                          Text('Resolution: ${update.resolution}'),
-                        if (update.date != null)
-                          Text('Date: ${update.date}'),
-                        SizedBox(height: 20),
-                      ],
-                    );
-                  }).toList(),
-                ),
-
-
-
-
-            ],
           ),
 
-        )
+          SizedBox(height: 20),
+
+          widget.data.photo != null
+              ? Container(
+                  width: 300,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(
+                          '${host ?? ''}/storage/${widget.data.photo}'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                )
+              : Text('No complaint photo available'),
+
+          SizedBox(height: 16),
+
+          const Divider(height: 1.0, color: Colors.black),
+
+          const SizedBox(height: 16.0),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(50),
+                  backgroundColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10))),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text(
+                'GOT IT',
+                style: TextStyle(fontSize: 20, color: Colors.white),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16.0),
+        ],
+      ),
     );
   }
 }
