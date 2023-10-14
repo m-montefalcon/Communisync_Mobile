@@ -1,5 +1,7 @@
+import 'package:communisyncmobile/backend/api/homeowner/PR/view_records_as_pdf.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_payment_pdfviewer_page.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -94,6 +96,14 @@ class _PaymentsHistoryState extends State<PaymentsHistory> {
                       fontWeight: FontWeight.normal,
                     ),
                   ),
+                  ElevatedButton(
+                    onPressed: () {
+                      fetchPdfRecord(context); // Pass the context here
+                    },
+                    child: Text('View PDF'),
+                  ),
+
+
 
                   Expanded(
                     child: ListView.builder(
