@@ -232,8 +232,28 @@ class AdminComplaints {
    this.userName,
    this.firstName,
    this.lastName,
-    this.photo
+   this.photo
   });
 
 
+}
+
+
+class PaymentRecords{
+  final String? message;
+  final int transactionNumber;
+  final String paymentDate;
+  final String? notes;
+  final String paymentAmount;
+  final AdminComplaints? admin;
+
+  PaymentRecords({
+    this.message,
+    required this.transactionNumber,
+    required this.paymentDate,
+    this.notes,
+    required this.paymentAmount,
+    this.admin
+
+  });
 }

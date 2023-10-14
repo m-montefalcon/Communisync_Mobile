@@ -1,5 +1,10 @@
+import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import '../../backend/api/homeowner/PR/fetch_payment_records.dart';
 
 class PaymentsHistory extends StatefulWidget {
   const PaymentsHistory({Key? key}) : super(key: key);
@@ -49,410 +54,211 @@ class _PaymentsHistoryState extends State<PaymentsHistory> {
             ),
           ),
         ],
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: Center(
-              child: Column(
+        body: FutureBuilder<List<PaymentRecords>>(
+          future: fetchRecords(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('Error: ${snapshot.error}'),
+              );
+            } else if (!snapshot.hasData) {
+              return Center(
+                child: Text('No payment records found.'),
+              );
+            } else {
+              final paymentRecords = snapshot.data!;
+              final message = paymentRecords.isNotEmpty ? paymentRecords[0].message : '';
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start, // Align text to the left
+
                 children: [
-                  Row(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(left: 15.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Payment History',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
+
+
+                  Text(
+                    'PAYMENT HISTORY',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    message!,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+
+                  Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: paymentRecords.length,
+                      itemBuilder: (context, index) {
+                        final PaymentRecords records = paymentRecords[index];
+                        return Card(
+                          margin: const EdgeInsets.all(10),
+                          elevation: 12,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          color: Colors.purple,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15.0,
+                              vertical: 20.0,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(24),
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.purple.shade800,
+                                  Colors.purple.shade400,
+                                ],
+                              ),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                const Text(
+                                  'Successfully paid',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Date of payment:',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      '${records.paymentDate}',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 5),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Transaction number:',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      '${records.transactionNumber}',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 5),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Amount:',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      '${records.paymentAmount}',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 5),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Notes:',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      records.notes ?? 'None', // Use null check here
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                      ),
+                                    )
+
+                                  ],
+                                ),
+                                const SizedBox(height: 5),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Received by:',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      '${records.admin?.firstName} ${records.admin?.lastName} ',
+                                      style: TextStyle(
+                                        color: Colors.greenAccent,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Stack(
-                    children: [
-                      Card(
-                        margin: const EdgeInsets.all(10),
-                        elevation: 12,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        color: Colors.purple,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15.0, vertical: 20.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            gradient: LinearGradient(colors: [
-                              Colors.purple.shade800,
-                              Colors.purple.shade400
-                            ]),
-                          ),
-                          child: Flex(
-                            direction: Axis.horizontal,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    const Text(
-                                      'Successfully paid',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Date of payment:',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            width:
-                                            5), // Add some spacing between the texts
-                                        Text(
-                                          '04/23/2023',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Transaction number:',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          '0034834764',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ), // Add some spacing between the texts
-                                      ],
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Ammount:',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          '2,000',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ), // Add some spacing between the texts
-                                      ],
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Received by:',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          'Management',
-                                          style: TextStyle(
-                                            color: Colors.greenAccent,
-                                            fontSize: 15,
-                                          ),
-                                        ), // Add some spacing between the texts
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Stack(
-                    children: [
-                      Card(
-                        margin: const EdgeInsets.all(10),
-                        elevation: 12,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        color: Colors.purple,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15.0, vertical: 20.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            gradient: LinearGradient(colors: [
-                              Colors.purple.shade800,
-                              Colors.purple.shade400
-                            ]),
-                          ),
-                          child: Flex(
-                            direction: Axis.horizontal,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    const Text(
-                                      'Successfully paid',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Date of payment:',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            width:
-                                            5), // Add some spacing between the texts
-                                        Text(
-                                          '03/22/2023',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Transaction number:',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          '00343847535',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ), // Add some spacing between the texts
-                                      ],
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Ammount:',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          '2,500',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ), // Add some spacing between the texts
-                                      ],
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Received by:',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          'Management',
-                                          style: TextStyle(
-                                            color: Colors.greenAccent,
-                                            fontSize: 15,
-                                          ),
-                                        ), // Add some spacing between the texts
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Stack(
-                    children: [
-                      Card(
-                        margin: const EdgeInsets.all(10),
-                        elevation: 12,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        color: Colors.purple,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15.0, vertical: 20.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            gradient: LinearGradient(colors: [
-                              Colors.purple.shade800,
-                              Colors.purple.shade400
-                            ]),
-                          ),
-                          child: Flex(
-                            direction: Axis.horizontal,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    const Text(
-                                      'Successfully paid',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Date of payment:',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            width:
-                                            5), // Add some spacing between the texts
-                                        Text(
-                                          '02/19/2023',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Transaction number:',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          '0034886457',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ), // Add some spacing between the texts
-                                      ],
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Ammount:',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          '2,350',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ), // Add some spacing between the texts
-                                      ],
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          'Received by:',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          'Management',
-                                          style: TextStyle(
-                                            color: Colors.greenAccent,
-                                            fontSize: 15,
-                                          ),
-                                        ), // Add some spacing between the texts
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                        );
+                      },
+                    ),
                   ),
                 ],
-              ),
-            ),
-          ),
+              );
+            }
+          },
         ),
+
+
+
+
+
       ),
+
     );
+
   }
+
+
 }
