@@ -26,6 +26,15 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
   Widget build(BuildContext context) {
     String host = dotenv.get("API_HOST", fallback: "");
 
+    String truncateDescription(String description) {
+      List<String> words = description.split(' ');
+      if (words.length > 4) {
+        return '${words.sublist(0, 4).join(' ')}...';
+      } else {
+        return description;
+      }
+    }
+
     return Scaffold(
       body: NestedScrollView(
         floatHeaderSlivers: true,
@@ -171,38 +180,52 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                                                     children: <Widget>[
                                                       Text(
                                                         complaint.admin != null
-                                                            ? 'Reviewed by ${complaint.admin?.firstName} ${complaint.admin?.lastName}'
+                                                            ? 'Reviewed by: '
                                                             : 'Opened',
                                                         style: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 15,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        '${complaint.admin?.firstName} ${complaint.admin?.lastName}',
+                                                        style: TextStyle(
+                                                          color: Colors.greenAccent,
+                                                          fontSize: 15,
                                                           fontWeight: FontWeight.bold,
                                                         ),
                                                       ),
-                                                      SizedBox(height: 10),
+                                                      SizedBox(height: 7),
                                                       Text(
                                                         'Status: ${complaint.status}',
                                                         style: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 15,
-                                                          fontWeight: FontWeight.bold,
                                                         ),
                                                       ),
                                                       Text(
-                                                        '${complaint.title}',
+                                                        'Title: ${complaint.title}',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 7),
+                                                      Text(
+                                                        'Details:',
                                                         style: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 15,
                                                         ),
                                                       ),
                                                       Text(
-                                                        '${complaint.description}',
+                                                        truncateDescription(complaint.description),
                                                         style: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 15,
                                                         ),
                                                       ),
-                                                      SizedBox(height: 35),
+                                                      SizedBox(height: 25),
                                                     ],
                                                   ),
                                                 ),

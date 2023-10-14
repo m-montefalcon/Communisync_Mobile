@@ -4,6 +4,7 @@ import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_specific_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/intl.dart';
 
 class AnnouncementPage extends StatefulWidget {
   const AnnouncementPage({Key? key}) : super(key: key);
@@ -25,6 +26,13 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
         return description;
       }
     }
+
+    String formatTimestamp(String dateTimeString) {
+      DateTime timestamp = DateTime.parse(dateTimeString);
+      final formatter = DateFormat('MMM d, yyyy');
+      return 'Date: ${formatter.format(timestamp)}';
+    }
+
 
     return Scaffold(
       body: NestedScrollView(
@@ -140,8 +148,12 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                       Positioned(
                                         bottom: 0,
                                         right: 0,
-                                        child: Text('Date: ${data.date}',
-                                            style: TextStyle(color: Colors.greenAccent)),
+                                        child: Text(
+                                          formatTimestamp(data.date),
+                                          style: TextStyle(
+                                            color: Colors.greenAccent,
+                                          ),
+                                        ),
                                       ),
                                       Row(
                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,7 +206,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                                     fontSize: 15,
                                                   ),
                                                 ),
-                                                SizedBox(height: 35),
+                                                SizedBox(height: 25),
                                               ],
                                             ),
                                           ),

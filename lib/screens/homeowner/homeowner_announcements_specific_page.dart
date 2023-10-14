@@ -1,6 +1,8 @@
 import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/intl.dart';
+import 'dart:core';
 
 class SpecificAnnouncementPage extends StatefulWidget {
   final Announcement data;
@@ -17,6 +19,12 @@ class _SpecificAnnouncementPageState extends State<SpecificAnnouncementPage> {
   Widget build(BuildContext context) {
     String host = dotenv.get("API_HOST", fallback: "");
 
+    String formatTimestamp(String dateTimeString) {
+      DateTime timestamp = DateTime.parse(dateTimeString);
+      final formatter = DateFormat('MMM d, yyyy');
+      return 'Date: ${formatter.format(timestamp)}';
+    }
+
     return Scaffold(
       body: Column(
         children: [
@@ -25,7 +33,6 @@ class _SpecificAnnouncementPageState extends State<SpecificAnnouncementPage> {
             width: double.infinity,
             child: Stack(
               children: [
-                // Your photo container or image
                 widget.data.photo != null
                     ? Container(
                         width: double.infinity,
@@ -84,6 +91,45 @@ class _SpecificAnnouncementPageState extends State<SpecificAnnouncementPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 24,
+                        backgroundImage: NetworkImage('${host ?? ''}/storage/${widget.data.admin.photo}'),
+                      ),
+                      SizedBox(width: 12),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('${widget.data.admin.firstName} ${widget.data.admin.lastName}',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Text(
+                                formatTimestamp(widget.data.date),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              SizedBox(width: 4),
+                              Icon(Icons.supervised_user_circle,
+                                size: 14,
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
                   Text(
                     widget.data.title,
                     style: const TextStyle(
@@ -95,12 +141,19 @@ class _SpecificAnnouncementPageState extends State<SpecificAnnouncementPage> {
                   const SizedBox(
                       height:
                           8.0), // Adjust the spacing between title and description
-                  Text(
-                    widget.data.description,
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(
-                      fontSize: 18.0, // Adjust the font size as needed
-                      color: Colors.black, // Adjust the text color as needed
+                  Container(
+                    constraints: BoxConstraints(
+                      maxHeight: 222,
+                    ),
+                    child: SingleChildScrollView(
+                      child: Text(
+                        widget.data.description,
+                        textAlign: TextAlign.start,
+                        style: const TextStyle(
+                          fontSize: 18.0, // Adjust the font size as needed
+                          color: Colors.black, // Adjust the text color as needed
+                        ),
+                      ),
                     ),
                   ),
 
