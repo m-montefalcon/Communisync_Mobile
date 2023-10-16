@@ -42,9 +42,11 @@ Future<User> profileUser() async {
           lotNo: userData['lot_no'],
           manualVisitOption: userData['manual_visit_option'],
           photo: userData['photo'],
+          familyMember: userData['family_member']
         );
-
+        print(user.familyMember);
         return user;
+
       } else {
         throw Exception('User data not found in the API response');
       }
