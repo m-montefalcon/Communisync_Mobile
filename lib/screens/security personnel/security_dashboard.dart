@@ -7,7 +7,8 @@ class SecurityDashboard extends StatefulWidget {
   @override
   State<SecurityDashboard> createState() => _SecurityDashboardState();
 }
-
+final _formKey = GlobalKey<FormState>();
+final TextEditingController _searchController = TextEditingController();
 class _SecurityDashboardState extends State<SecurityDashboard> {
   @override
   Widget build(BuildContext context) {
@@ -26,16 +27,7 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
               child: Container(
                 height: 150,
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    // gradient: LinearGradient(
-                    //   begin: Alignment.topLeft,
-                    //   end: Alignment.bottomRight,
-                    //   colors: [
-                    //     Colors.purple.shade800,
-                    //     Colors.purple.shade500,
-                    //   ],
-                    // ),
-                    color: Colors.purple.shade700),
+                decoration: BoxDecoration(color: Colors.purple.shade700),
                 child: const Center(
                   child: Text(
                     'CommuniSync',
@@ -49,437 +41,88 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
             ),
           ),
         ],
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: Center(
-              child: Column(
-                children: [
-                  const SizedBox(height: 5),
-                  Card(
-                    elevation: 12,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    color: Colors.purple,
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextField(
+                key: _formKey,
+                controller: _searchController,
+                decoration: InputDecoration(
+                  hintText: 'Search...',
+                  prefixIcon: IconButton(
+                      icon: const Icon(Icons.menu), onPressed: () {}),
+                  suffixIcon: IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: () async {
+                        setState(() {
+                          // _homeownersFuture =
+                          //     getCafSearchRequestApi(_searchController.text);
+                        });
+                      }),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
-                  const SizedBox(height: 15),
-                  Row(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(left: 15.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Visits History',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Stack(
-                    children: [
-                      Card(
-                        margin: const EdgeInsets.all(10),
-                        elevation: 12,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        color: Colors.purple,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5.0, vertical: 20.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            gradient: LinearGradient(colors: [
-                              Colors.purple.shade800,
-                              Colors.purple.shade400
-                            ]),
-                          ),
-                          child: Row(
-                            children: [
-                              const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Visitor',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Princess Kate',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '+639833746512',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(width: 50),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Homeowner',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'John Doe',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '+639738455098',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        right: 185,
-                        bottom: 40,
-                        child: Icon(
-                          Icons.arrow_forward,
-                          size: 35,
-                          color: Colors.greenAccent,
-                        ),
-                      ),
-                      const Positioned(
-                        right: 20,
-                        bottom: 40,
-                        child: Icon(
-                          Icons.check_circle,
-                          size: 35,
-                          color: Colors.greenAccent,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Stack(
-                    children: [
-                      Card(
-                        margin: const EdgeInsets.all(10),
-                        elevation: 12,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        color: Colors.purple,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5.0, vertical: 20.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            gradient: LinearGradient(colors: [
-                              Colors.purple.shade800,
-                              Colors.purple.shade400
-                            ]),
-                          ),
-                          child: Row(
-                            children: [
-                              const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Visitor',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Princess Kate',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '+639833746512',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(width: 50),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Homeowner',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'John Doe',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '+639738455098',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        right: 185,
-                        bottom: 40,
-                        child: Icon(
-                          Icons.arrow_forward,
-                          size: 35,
-                          color: Colors.greenAccent,
-                        ),
-                      ),
-                      const Positioned(
-                        right: 20,
-                        bottom: 40,
-                        child: Icon(
-                          Icons.block,
-                          size: 35,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Stack(
-                    children: [
-                      Card(
-                        margin: const EdgeInsets.all(10),
-                        elevation: 12,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        color: Colors.purple,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5.0, vertical: 20.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            gradient: LinearGradient(colors: [
-                              Colors.purple.shade800,
-                              Colors.purple.shade400
-                            ]),
-                          ),
-                          child: Row(
-                            children: [
-                              const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Visitor',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Princess Kate',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '+639833746512',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(width: 50),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Homeowner',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'John Doe',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '+639738455098',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        right: 185,
-                        bottom: 40,
-                        child: Icon(
-                          Icons.arrow_forward,
-                          size: 35,
-                          color: Colors.greenAccent,
-                        ),
-                      ),
-                      const Positioned(
-                        right: 20,
-                        bottom: 40,
-                        child: Icon(
-                          Icons.check_circle,
-                          size: 35,
-                          color: Colors.greenAccent,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Stack(
-                    children: [
-                      Card(
-                        margin: const EdgeInsets.all(10),
-                        elevation: 12,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        color: Colors.purple,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5.0, vertical: 20.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            gradient: LinearGradient(colors: [
-                              Colors.purple.shade800,
-                              Colors.purple.shade400
-                            ]),
-                          ),
-                          child: Row(
-                            children: [
-                              const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Visitor',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Princess Kate',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '+639833746512',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(width: 50),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const <Widget>[
-                                  Text(
-                                    'Homeowner',
-                                    style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'John Doe',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    '+639738455098',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        right: 185,
-                        bottom: 40,
-                        child: Icon(
-                          Icons.arrow_forward,
-                          size: 35,
-                          color: Colors.greenAccent,
-                        ),
-                      ),
-                      const Positioned(
-                        right: 20,
-                        bottom: 40,
-                        child: Icon(
-                          Icons.check_circle,
-                          size: 35,
-                          color: Colors.greenAccent,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                  contentPadding: const EdgeInsets.symmetric(vertical: 12.0),
+                ),
               ),
-            ),
+              const SizedBox(height: 16.0),
+              // FutureBuilder<>(
+              //   future: ,
+              //   builder: (context, snapshot) {
+              //     if (snapshot.connectionState == ConnectionState.waiting) {
+              //       // While data is loading, display a loading indicator
+              //       return const CircularProgressIndicator();
+              //     } else if (snapshot.hasError) {
+              //       // If there's an error, display an error message
+              //       return Text('Error: ${snapshot.error}');
+              //     } else if (snapshot.hasData) {
+              //       // If data is available, display it using a ListView
+              //       final data = snapshot.data;
+              //       return Expanded(
+              //         child: ListView.builder(
+              //           itemCount: data!.length,
+              //           itemBuilder: (context, index) {
+              //             final homeowner = data[index];
+              //             return ListTile(
+              //               leading: const Icon(
+              //                 Icons.face,
+              //                 size: 40,
+              //               ),
+              //               subtitle: Text(
+              //                 homeowner.userName,
+              //                 style: TextStyle(
+              //                   color: Colors.black54.withOpacity(.3),
+              //                 ),
+              //               ),
+              //               title: Text(
+              //                 '${homeowner.firstName} ${homeowner.lastName}',
+              //                 style: const TextStyle(
+              //                   color: Colors.black,
+              //                   fontSize: 20,
+              //                 ),
+              //               ),
+              //               onTap: () {
+              //                 Navigator.push(
+              //                     context,
+              //                     MaterialPageRoute(
+              //                         builder: (context) =>
+              //                             TapSpecificName(homeowner: homeowner)
+              //                     )
+              //                 );
+              //               },
+              //               // Add more fields as needed
+              //             );
+              //           },
+              //         ),
+              //       );
+              //     } else {
+              //       // If there's no data, display a message
+              //       return const Text('No data available');
+              //     }
+              //   },
+              // )
+            ],
           ),
         ),
       ),

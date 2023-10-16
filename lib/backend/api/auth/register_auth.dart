@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:communisyncmobile/screens/login_page.dart';
 import 'package:communisyncmobile/screens/visitor/visitor_bttmbar.dart';
 import 'package:flutter/material.dart';
@@ -13,26 +14,34 @@ Future<void> registerUser(
     String contactNumber,
     String email,
     String password,
+    String photoPath
     ) async {
   try {
     String host = dotenv.get("API_HOST", fallback: "");
     String registerApi = dotenv.get("REGISTER_API", fallback: "");
     final url = ('$host$registerApi');
     print("URL: $url");
-    final response = await http.post(
-      Uri.parse(url),
-      body: {
-        'user_name': userName,
-        'email': email,
-        'first_name': firstName,
-        'last_name': lastName,
-        'contact_number': contactNumber,
-        'password': password,
-      },
-      headers: {'Accept': 'application/json'},
-    );
-    print("Response status: ${response.statusCode}");
-    print("Response body: ${response.body}");
+
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+    request.headers['Accept'] = 'application/json';
+
+    // Add fields as parts
+    request.fields['user_name'] = userName;
+    request.fields['email'] = email;
+    request.fields['first_name'] = firstName;
+    request.fields['last_name'] = lastName;
+    request.fields['contact_number'] = contactNumber;
+    request.fields['password'] = password;
+
+    // Add photo as a part
+    // Read the photo file as bytes
+    File photoFile = File(photoPath);
+    List<int> photoBytes = await photoFile.readAsBytes();
+
+    // Add the photo file as a part
+    request.files.add(http.MultipartFile.fromBytes('photo', photoBytes, filename: 'photo.jpg'));
+
+    var response = await request.send();
 
     if (response.statusCode == 200) {
       print('Login successful');
@@ -42,12 +51,12 @@ Future<void> registerUser(
             (route) => false,
       );
     } else {
-      final responseBody = jsonDecode(response.body);
-      final errorMessage = responseBody['message'];
-      throw (errorMessage);
+      final responseBody = await response.stream.bytesToString();
+      final errorMessage = jsonDecode(responseBody)['message'];
+      throw errorMessage;
     }
   } catch (e) {
-    print("Exception caught in registerUser: ");
+    print("Exception caught in registerUser: $e");
     throw (e);
   }
 }
