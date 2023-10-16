@@ -155,8 +155,10 @@ class User {
   final String email;
   final int? blockNo;
   final int? lotNo;
-  final int? manualVisitOption;
+  late final int? manualVisitOption;
   final String? photo;
+  final String? familyMember;
+
 
   User({
     required this.firstName,
@@ -168,6 +170,7 @@ class User {
     this.lotNo,
     this.manualVisitOption,
     this.photo,
+    this.familyMember
   });
 }
 

@@ -3,6 +3,7 @@
   import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
   import 'package:communisyncmobile/constants/profile_widget.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_update_profile.dart';
   import 'package:communisyncmobile/screens/login_page.dart';
   import 'package:communisyncmobile/screens/register_page.dart';
   import 'package:flutter/material.dart';
@@ -241,7 +242,7 @@ import 'package:communisyncmobile/constants/custom_clipper.dart';
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => const RegisterPage()));
+                                              builder: (context) =>  UpdateProfileHomeowner(user: widget.user)));
                                     },
                                   ),
                                 ],
