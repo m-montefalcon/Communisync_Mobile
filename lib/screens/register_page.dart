@@ -2,6 +2,10 @@ import 'package:communisyncmobile/screens/visitor/visitor_bttmbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
 
 import '../backend/api/auth/register_auth.dart';
 import 'login_page.dart';
@@ -21,7 +25,12 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _contactNumber = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _profilePicturePath = TextEditingController();
+
   // final TextEditingController _confirmPasswordController = TextEditingController();
+  File? _profilePicture;
+
+
 
   @override
   void dispose() {
@@ -55,6 +64,17 @@ class _RegisterPageState extends State<RegisterPage> {
       backgroundColor: Colors.red,
     );
   }
+  Future<void> _pickProfilePicture() async {
+    final imagePicker = ImagePicker();
+    final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      final imageFile = File(pickedFile.path);
+      setState(() {
+        _profilePicture = imageFile;
+        _profilePicturePath.text = pickedFile.path;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +88,22 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
-                    Icons.face,
-                    size: 120,
-                    color: Colors.purple,
+                  GestureDetector(
+                    onTap: _pickProfilePicture,
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundColor: Colors.purple,
+                      backgroundImage: _profilePicture != null
+                          ? FileImage(_profilePicture!)
+                          : null,
+                      child: _profilePicture == null
+                          ? Icon(
+                        Icons.camera_alt,
+                        size: 40,
+                        color: Colors.white,
+                      )
+                          : null,
+                    ),
                   ),
                   const Text(
                     'CommuniSync',
@@ -275,47 +307,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 25),
-                  //   child: Container(
-                  //     decoration: BoxDecoration(
-                  //         color: Colors.grey[200],
-                  //         border: Border.all(color: Colors.white),
-                  //         borderRadius: BorderRadius.circular(10)),
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.only(left: 15),
-                  //       child: TextFormField(
-                  //         // controller: _confirmPasswordController,
-                  //         obscureText: !confirmPasswordVisible,
-                  //         keyboardType: TextInputType.text,
-                  //         textInputAction: TextInputAction.done,
-                  //         decoration: InputDecoration(
-                  //           labelText: 'Confirm Password',
-                  //           border: InputBorder.none,
-                  //           icon: const Icon(Icons.key_outlined),
-                  //           suffixIcon: IconButton(
-                  //             icon: Icon(
-                  //                 confirmPasswordVisible
-                  //                     ? Icons.visibility
-                  //                     : Icons.visibility_off,
-                  //                 color: Colors.grey),
-                  //             onPressed: () {
-                  //               setState(() {
-                  //                 confirmPasswordVisible =
-                  //                     !confirmPasswordVisible;
-                  //               });
-                  //             },
-                  //           ),
-                  //         ),
-                  //         validator: (val) => val != _passwordController.text
-                  //             ? 'Password does not match.'
-                  //             : null,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // const SizedBox(height: 20),
-
                   loading
                       ? const CircularProgressIndicator()
                       : Padding(
@@ -351,11 +342,13 @@ class _RegisterPageState extends State<RegisterPage> {
                             _emailController.text,
                             _contactNumber.text,
                             _passwordController.text,
+                            _profilePicturePath.text,
                           );
+                          print('profile pic path ${_profilePicturePath}');
                         } catch (e) {
                           print(e);
                           ScaffoldMessenger.of(context).showSnackBar(
-                            buildErrorSnackBar('An error occurred: $e'),
+                            buildErrorSnackBar('$e'),
                           );
                         }
 
