@@ -80,10 +80,16 @@ class _UpdateProfileHomeownerState extends State<UpdateProfileHomeowner> {
     _isManualVisitEnabled = widget.user.manualVisitOption == 1;
     List<String> familyMembers = (jsonDecode(widget.user.familyMember ?? '[]') as List).map((item) => item.toString()).toList();
 
-    for (var i = 0; i < familyMembers.length; i++) {
-      TextEditingController controller = TextEditingController(text: familyMembers[i]);
+    if (familyMembers.isEmpty) {
+      TextEditingController controller = TextEditingController();
       _controllers.add(controller);
-      _textFields.add(_buildTextField(i, controller));
+      _textFields.add(_buildTextField(0, controller));
+    } else {
+      for (var i = 0; i < familyMembers.length; i++) {
+        TextEditingController controller = TextEditingController(text: familyMembers[i]);
+        _controllers.add(controller);
+        _textFields.add(_buildTextField(i, controller));
+      }
     }
 
   }
@@ -553,47 +559,6 @@ class _UpdateProfileHomeownerState extends State<UpdateProfileHomeowner> {
                     children: _textFields,
                   ),
                   const SizedBox(height: 10),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: TextFormField(
-                          controller: _passwordController,
-                          obscureText: !passwordVisible,
-                          decoration: InputDecoration(
-                            labelText: 'Password',
-                            border: InputBorder.none,
-                            icon: const Icon(Icons.key_outlined),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                  passwordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: Colors.grey),
-                              onPressed: () {
-                                setState(() {
-                                  passwordVisible = !passwordVisible;
-                                });
-                              },
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter your password.';
-                            } else {
-                              return null;
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
                   const SizedBox(height: 10),
                   loading
                       ? const CircularProgressIndicator()
@@ -633,25 +598,23 @@ class _UpdateProfileHomeownerState extends State<UpdateProfileHomeowner> {
                           //   _profilePicturePath.text,
                           // );
                           print('profile pic path ${_profilePicturePath.text}');
-                          print('profile pic path ${_userNameController.text}');
-                          print('profile pic path ${_firstNameController.text}');
-                          print('profile pic path ${_lastNameController.text}');
+                          print('username ${_userNameController.text}');
+                          print('fname ${_firstNameController.text}');
+                          print('lname ${_lastNameController.text}');
 
-                          print('profile pic path ${_emailController.text}');
-                          print('profile pic path ${_contactNumber.text}');
-                          print('profile pic path ${_blockNumberController.text}');
-                          print('profile pic path ${_lotNumberController.text}');
-                          print('profile pic path ${_passwordController.text}');
+                          print('email ${_emailController.text}');
+                          print('contactnumber ${_contactNumber.text}');
+                          print('blocknumber ${_blockNumberController.text}');
+                          print('lotnumber ${_lotNumberController.text}');
+                          print('password ${_passwordController.text}');
 
-                          print('profile pic path ${_isManualVisitEnabled.toString()}');
+                          print('mvo ${_isManualVisitEnabled.toString()}');
                           List<String> familyMembers = [];
                           for (TextEditingController controller in _controllers) {
                             String name = controller.text;
                             familyMembers.add('"$name"'); // Add quotation marks around each name
                           }
                           print('Family members: $familyMembers');
-
-
                         } catch (e) {
                           print(e);
                           ScaffoldMessenger.of(context).showSnackBar(

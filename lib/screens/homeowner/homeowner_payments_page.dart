@@ -5,6 +5,7 @@ import 'package:communisyncmobile/screens/homeowner/homeowner_payment_pdfviewer_
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../backend/api/homeowner/PR/fetch_payment_records.dart';
 
@@ -67,20 +68,39 @@ class _PaymentsHistoryState extends State<PaymentsHistory> {
               return Center(
                 child: Text('Error: ${snapshot.error}'),
               );
-            } else if (!snapshot.hasData) {
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              // Calculate the number of months between January 2023 and the current date
+              final currentDate = DateTime.now();
+              final january2023 = DateTime(2023, 0);
+              final monthsBehind = (currentDate.year - january2023.year) * 12 +
+                  (currentDate.month - january2023.month);
+
+              // Calculate the next payment date (current month)
+              final nextPaymentDate = DateTime(currentDate.year, currentDate.month);
+
+              // Format the message
+              final message = 'No payment records found. \nYou are behind by $monthsBehind months. \n Next payment is for ${DateFormat('MMMM yyyy').format(nextPaymentDate)}';
+
               return Center(
-                child: Text('No payment records found.'),
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ),
               );
             } else {
               final paymentRecords = snapshot.data!;
               final message = paymentRecords.isNotEmpty ? paymentRecords[0].message : '';
 
               return Column(
-                crossAxisAlignment: CrossAxisAlignment.start, // Align text to the left
-
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
-
                   Text(
                     'PAYMENT HISTORY',
                     style: TextStyle(
@@ -90,7 +110,7 @@ class _PaymentsHistoryState extends State<PaymentsHistory> {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    message!,
+                    message.toString(),
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.normal,
@@ -98,13 +118,10 @@ class _PaymentsHistoryState extends State<PaymentsHistory> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      fetchPdfRecord(context); // Pass the context here
+                      fetchPdfRecord(context);
                     },
                     child: Text('View PDF'),
                   ),
-
-
-
                   Expanded(
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -246,7 +263,7 @@ class _PaymentsHistoryState extends State<PaymentsHistory> {
                                       ),
                                     ),
                                   ],
-                                ),
+                                ),// ... Other payment record details
                               ],
                             ),
                           ),
@@ -259,6 +276,7 @@ class _PaymentsHistoryState extends State<PaymentsHistory> {
             }
           },
         ),
+
 
 
 
