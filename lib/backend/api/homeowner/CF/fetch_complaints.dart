@@ -110,7 +110,7 @@ Future<List<Complaint>> fetchComplaints() async {
 
       return complaints;
     } else {
-      throw Exception('not 200');
+      throw Exception('An error occurred');
     }
   } catch (e, stackTrace) {
     print('An error occurred: $e');
