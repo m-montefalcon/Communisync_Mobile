@@ -9,6 +9,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../backend/api/auth/register_auth.dart';
+import '../../backend/api/auth/update_profile_as_homeowner.dart';
 
 class UpdateProfileHomeowner extends StatefulWidget {
   final User user;
@@ -587,34 +588,29 @@ class _UpdateProfileHomeownerState extends State<UpdateProfileHomeowner> {
                         });
 
                         try {
-                          // await registerUser(
-                          //   context,
-                          //   _userNameController.text,
-                          //   _firstNameController.text,
-                          //   _lastNameController.text,
-                          //   _emailController.text,
-                          //   _contactNumber.text,
-                          //   _passwordController.text,
-                          //   _profilePicturePath.text,
-                          // );
-                          print('profile pic path ${_profilePicturePath.text}');
-                          print('username ${_userNameController.text}');
-                          print('fname ${_firstNameController.text}');
-                          print('lname ${_lastNameController.text}');
-
-                          print('email ${_emailController.text}');
-                          print('contactnumber ${_contactNumber.text}');
-                          print('blocknumber ${_blockNumberController.text}');
-                          print('lotnumber ${_lotNumberController.text}');
-                          print('password ${_passwordController.text}');
-
-                          print('mvo ${_isManualVisitEnabled.toString()}');
                           List<String> familyMembers = [];
                           for (TextEditingController controller in _controllers) {
                             String name = controller.text;
                             familyMembers.add('"$name"'); // Add quotation marks around each name
                           }
-                          print('Family members: $familyMembers');
+
+                          // Call the updateProfileAsHomeowner function with the collected parameters
+                          await updateProfileAsHomeowner(
+                            context,
+                            _profilePicturePath.text,
+                            _userNameController.text,
+                            _firstNameController.text,
+                            _lastNameController.text,
+                            _emailController.text,
+                            _contactNumber.text,
+                            _blockNumberController.text,
+                            _lotNumberController.text,
+                            _isManualVisitEnabled,
+                            familyMembers,
+                          );
+
+                          // Print a message after the function call if needed
+                          print('updateProfileAsHomeowner function called successfully');
                         } catch (e) {
                           print(e);
                           ScaffoldMessenger.of(context).showSnackBar(
