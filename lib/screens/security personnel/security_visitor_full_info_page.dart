@@ -14,7 +14,7 @@ class VisitorFullInfoPage extends StatefulWidget {
 
 String host = dotenv.get("API_HOST", fallback: "");
 
-
+bool isLoadingAccept = false;
 class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
   @override
   Widget build(BuildContext context) {
@@ -142,14 +142,31 @@ class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: () async {
+                  onPressed: isLoadingAccept
+                      ? null
+                      : () async {
+                    setState(() {
+                      isLoadingAccept = true;
+                    });
                     try {
                       await acceptQr(context, widget.requestQr.id);
-                    } catch (e) {}
+                    } catch (e) {
+                      // Handle the error, perhaps show a dialog or a toast.
+                    } finally {
+                      if (mounted) { // Ensure the widget is still in the tree.
+                        setState(() {
+                          isLoadingAccept = false;
+                        });
+                      }
+                    }
                   },
-                  style:
-                  ElevatedButton.styleFrom(backgroundColor: Colors.black54),
-                  child: const Text('Accept'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black54,
+                    shape: CircleBorder(), // This makes the button circular.
+                  ),
+                  child: isLoadingAccept
+                      ? CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.white))
+                      : const Icon(Icons.check), // Using icon for a more symmetrical look.
                 ),
                 const SizedBox(width: 20),
                 ElevatedButton(
@@ -162,9 +179,11 @@ class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
                           (Route<dynamic> route) => false,
                     );
                   },
-                  style:
-                  ElevatedButton.styleFrom(backgroundColor: Colors.black54),
-                  child: const Text('Decline'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black54,
+                    shape: CircleBorder(), // This makes the button circular.
+                  ),
+                  child: const Icon(Icons.close), // Using icon for a more symmetrical look.
                 ),
               ],
 

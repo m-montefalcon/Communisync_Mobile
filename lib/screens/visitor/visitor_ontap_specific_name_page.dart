@@ -192,7 +192,7 @@ class _TapSpecificNameState extends State<TapSpecificName> {
                   ),
                   onPressed: _isLoading ? null : _acceptNames, // Disable button when loading
                   child: const Text(
-                    'Accept',
+                    'Send Request',
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
                 ),
