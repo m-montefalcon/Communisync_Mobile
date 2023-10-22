@@ -5,6 +5,7 @@ import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:communisyncmobile/constants/profile_widget.dart';
 import 'package:communisyncmobile/screens/login_page.dart';
 import 'package:communisyncmobile/screens/register_page.dart';
+import 'package:communisyncmobile/screens/security%20personnel/security_profile_update_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -241,7 +242,7 @@ class _UserProfileWidget extends State<UserProfileWidget> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => const RegisterPage()));
+                                            builder: (context) =>  UpdateProfileSecurity(user: widget.user)));
                                   },
                                 ),
                               ],
