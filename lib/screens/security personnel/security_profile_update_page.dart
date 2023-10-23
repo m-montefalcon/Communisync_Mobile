@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:communisyncmobile/backend/api/auth/update_profile.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -13,31 +14,29 @@ class UpdateProfileSecurity extends StatefulWidget {
   State<UpdateProfileSecurity> createState() => _UpdateProfileSecurityState();
 }
 
-final _formKey = GlobalKey<FormState>();
-final TextEditingController _userNameController = TextEditingController();
-final TextEditingController _firstNameController = TextEditingController();
-final TextEditingController _lastNameController = TextEditingController();
-final TextEditingController _emailController = TextEditingController();
-final TextEditingController _contactNumber = TextEditingController();
-final TextEditingController _passwordController = TextEditingController();
-final TextEditingController _profilePicturePath = TextEditingController();
-final TextEditingController _blockNumberController = TextEditingController();
-final TextEditingController _lotNumberController = TextEditingController();
-bool _isManualVisitEnabled = false; // Initialize to false
-
-// final TextEditingController _confirmPasswordController = TextEditingController();
-File? _profilePicture;
-
-var formKey = GlobalKey<FormState>();
-bool passwordVisible = true;
-bool confirmPasswordVisible = true;
-bool loading = false;
-bool _isHovered = false;
-List<TextEditingController> _controllers = [];
-final List<Widget> _textFields = [];
-
-
 class _UpdateProfileSecurityState extends State<UpdateProfileSecurity> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _contactNumber = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _profilePicturePath = TextEditingController();
+  final TextEditingController _blockNumberController = TextEditingController();
+  final TextEditingController _lotNumberController = TextEditingController();
+  bool _isManualVisitEnabled = false; // Initialize to false
+
+  File? _profilePicture;
+
+  var formKey = GlobalKey<FormState>();
+  bool passwordVisible = true;
+  bool confirmPasswordVisible = true;
+  bool loading = false;
+  bool _isHovered = false;
+  List<TextEditingController> _controllers = [];
+  final List<Widget> _textFields = [];
+
   @override
   void initState() {
     super.initState();
@@ -59,7 +58,6 @@ class _UpdateProfileSecurityState extends State<UpdateProfileSecurity> {
     _emailController.dispose();
     _contactNumber.dispose();
     _passwordController.dispose();
-    // _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -69,6 +67,7 @@ class _UpdateProfileSecurityState extends State<UpdateProfileSecurity> {
       backgroundColor: Colors.red,
     );
   }
+
   Future<void> _pickProfilePicture() async {
     final imagePicker = ImagePicker();
     final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
@@ -352,27 +351,21 @@ class _UpdateProfileSecurityState extends State<UpdateProfileSecurity> {
                         });
 
                         try {
-                          List<String> familyMembers = [];
-                          for (TextEditingController controller in _controllers) {
-                            String name = controller.text;
-                            familyMembers.add('"$name"'); // Add quotation marks around each name
-                          }
+
 
                           // Call the updateProfileAsHomeowner function with the collected parameters
-                          await updateProfileAsHomeowner(
+                          await UpdateProfile(
                             context,
-                            _profilePicturePath.text,
                             _userNameController.text,
                             _firstNameController.text,
                             _lastNameController.text,
                             _emailController.text,
                             _contactNumber.text,
 
-
                           );
 
                           // Print a message after the function call if needed
-                          print('updateProfileAsHomeowner function called successfully');
+                        print('updateProfileAsHomeowner function called successfully');
                         } catch (e) {
                           print(e);
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -387,7 +380,6 @@ class _UpdateProfileSecurityState extends State<UpdateProfileSecurity> {
                     ),
                   ),
                   const SizedBox(height: 10),
-
                 ],
               ),
             ),
