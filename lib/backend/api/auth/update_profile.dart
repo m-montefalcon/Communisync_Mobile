@@ -4,6 +4,7 @@ import 'package:communisyncmobile/screens/homeowner/homeowner_profile_page.dart'
 import 'package:communisyncmobile/screens/security%20personnel/security_bttmbar.dart';
 import 'package:communisyncmobile/screens/security%20personnel/security_dashboard.dart';
 import 'package:communisyncmobile/screens/security%20personnel/security_profile_page.dart';
+import 'package:communisyncmobile/screens/visitor/visitor_bttmbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,6 +30,8 @@ Future<void> UpdateProfile(
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('token') ?? '';
+    String role = prefs.getString('role') ?? '';
+
     int id = prefs.getInt('id') ?? 0;
     final url = '$host$updateProfileAsHomeowner$id';
     final response = await http.put(
@@ -53,10 +56,19 @@ Future<void> UpdateProfile(
       // Print the message
       print(' ${response.statusCode}');
       print(' ${response.body}');
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => SecurityPersonnelBottomBar()),
-      );
+      if(role == '3' || role == '4'){
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => SecurityPersonnelBottomBar()),
+        );
+      }
+      else{
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => VisitorBottombar()),
+        );
+      }
+
 
 
     } else {
