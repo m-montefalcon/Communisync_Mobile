@@ -1,3 +1,5 @@
+
+
 import 'dart:io';
 
 import 'package:communisyncmobile/backend/api/auth/update_profile.dart';
@@ -6,15 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
 
-class UpdateProfileSecurity extends StatefulWidget {
+class UpdateProfileVisitor extends StatefulWidget {
   final User user;
-  const UpdateProfileSecurity({super.key, required this.user});
+
+  const UpdateProfileVisitor({super.key, required this.user});
 
   @override
-  State<UpdateProfileSecurity> createState() => _UpdateProfileSecurityState();
+  State<UpdateProfileVisitor> createState() => _UpdateProfileVisitorState();
 }
 
-class _UpdateProfileSecurityState extends State<UpdateProfileSecurity> {
+class _UpdateProfileVisitorState extends State<UpdateProfileVisitor> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _firstNameController = TextEditingController();
@@ -80,7 +83,7 @@ class _UpdateProfileSecurityState extends State<UpdateProfileSecurity> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     String host = dotenv.get("API_HOST", fallback: "");
-    return Scaffold(
+    return  Scaffold(
       backgroundColor: Colors.grey[300],
       body: Form(
         key: _formKey,
@@ -361,7 +364,7 @@ class _UpdateProfileSecurityState extends State<UpdateProfileSecurity> {
                           );
 
                           // Print a message after the function call if needed
-                        print('updateProfileAsHomeowner function called successfully');
+                          print('updateProfileAsHomeowner function called successfully');
                         } catch (e) {
                           print(e);
                           ScaffoldMessenger.of(context).showSnackBar(
