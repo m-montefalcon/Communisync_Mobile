@@ -1,10 +1,13 @@
+import 'package:communisyncmobile/backend/api/homeowner/AF/fetch_announcements.dart';
 import 'package:communisyncmobile/backend/api/homeowner/CAF/fetch_all_request_homeowner.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_page.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_specific_page.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_fetches_all_caf_requests.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_fetches_specific_caf_requests.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -24,6 +27,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    String host = dotenv.get("API_HOST", fallback: "");
+
     return Scaffold(
       body: NestedScrollView(
         floatHeaderSlivers: true,
@@ -68,61 +73,121 @@ class _DashboardPageState extends State<DashboardPage> {
             child: Center(
               child: Column(
                 children: [
-                  const SizedBox(height: 5),
-                  Card(
-                    elevation: 12,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    color: Colors.purple,
-                    child: Container(
-                      padding: const EdgeInsets.all(32.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(24),
-                        gradient: LinearGradient(colors: [
-                          Colors.purple.shade800,
-                          Colors.purple.shade400
-                        ]),
-                      ),
-                      child: GestureDetector(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
+
+                  FutureBuilder<List<Announcement>>(
+                    future: fetchAnnouncements(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        // Filter the announcements to only include those with pictures
+                        List<Announcement> announcementsWithPictures = snapshot.data!.where((announcement) {
+                          return announcement.photo != null && announcement.photo!.isNotEmpty;
+                        }).toList();
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            const Icon(Icons.tips_and_updates_rounded,
-                                size: 50, color: Colors.white),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text('Announcements',
-                                    style: TextStyle(
+                            Card(
+                              elevation: 12,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              color: Colors.purple,
+                              child: Container(
+                                padding: const EdgeInsets.all(16.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(24),
+                                  gradient: LinearGradient(colors: [
+                                    Colors.purple.shade800,
+                                    Colors.purple.shade400,
+                                  ]),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.tips_and_updates_rounded,
+                                        size: 40, color: Colors.white),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      'Announcements',
+                                      style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: Theme.of(context)
-                                            .textTheme
-                                            .headlineSmall!
-                                            .fontSize)),
-                                Text('Swipe to see more...',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge!
-                                            .fontSize))
-                              ],
-                            ),
+                                        fontSize: Theme.of(context).textTheme.headlineSmall!.fontSize,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Container(
+                                      height: 200,
+                                      child: PageView.builder(
+                                        itemCount: announcementsWithPictures.length,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => SpecificAnnouncementPage(
+                                                    data: announcementsWithPictures[index], // Pass the specific data
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            child: Card(
+                                              elevation: 12,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(24),
+                                              ),
+                                              color: Colors.purple,
+                                              child: Container(
+                                                height: 200,
+                                                padding: const EdgeInsets.all(16.0),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(24),
+                                                  gradient: LinearGradient(colors: [
+                                                    Colors.purple.shade800,
+                                                    Colors.purple.shade400,
+                                                  ]),
+                                                ),
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    if (announcementsWithPictures[index].photo != null)
+                                                      Expanded(
+                                                        child: SizedBox(
+                                                          height: double.infinity,
+                                                          width: 300,
+                                                          child: ClipRRect(
+                                                            borderRadius: BorderRadius.circular(12.0),
+                                                            child: Image.network(
+                                                              '$host/storage/${announcementsWithPictures[index].photo!}',
+                                                              fit: BoxFit.fill,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+
+
+                                  ],
+                                ),
+                              ),
+                            )
+
                           ],
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const AnnouncementPage()));
-                        },
-                      ),
-                    ),
+                        );
+                      }
+                    },
                   ),
+
                   const SizedBox(height: 15),
                   FutureBuilder<List<Request>>(
                     future: getIdFromSharedPreferencesAndFetchData(context),
