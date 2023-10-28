@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:communisyncmobile/backend/api/auth/update_profile_picture.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/screens/login_page.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +75,16 @@ class _UpdateProfileHomeownerState extends State<UpdateProfileHomeowner> {
     _lastNameController.text = widget.user.lastName;
     _emailController.text = widget.user.email;
     _contactNumber.text = widget.user.contactNumber;
-    _profilePicturePath.text = widget.user.photo!;
+    if (widget.user.photo != null) {
+      _profilePicturePath.text = widget.user.photo!;
+    } else {
+      // Handle the case where widget.user.photo is null
+      // You can set a default value or do nothing depending on your requirements
+      // For example:
+      // _profilePicturePath.text = 'default_image_path.png';
+      // or
+      // _profilePicturePath.text = '';
+    }
     _blockNumberController.text = widget.user.blockNo.toString();
     _lotNumberController.text = widget.user.lotNo.toString();
 
@@ -101,17 +111,57 @@ class _UpdateProfileHomeownerState extends State<UpdateProfileHomeowner> {
       backgroundColor: Colors.red,
     );
   }
-  Future<void> _pickProfilePicture() async {
-    final imagePicker = ImagePicker();
-    final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      final imageFile = File(pickedFile.path);
-      setState(() {
-        _profilePicture = imageFile;
-        _profilePicturePath.text = pickedFile.path;
-      });
+  final ImagePicker _imagePicker = ImagePicker();
+
+  Future<void> getImageProfilePic() async {
+    final XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      final imagePath = image.path;
+
+      try {
+        _profilePicturePath.text = image.path;
+
+        // Show a circular progress indicator while uploading
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return Center(
+              child: CircularProgressIndicator(), // Add circular progress indicator
+            );
+          },
+        );
+
+        // Upload the image to the server
+        await updateProfilePicture(context, image.path);
+
+        // Set the updated profile picture URL in the local state
+        setState(() {
+          _profilePicturePath.text = image.path;
+        });
+
+        // Close the progress indicator dialog
+
+      } catch (e) {
+        print('Error uploading profile picture: $e');
+        // Handle the error, e.g., show an error message to the user
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to upload profile picture. Please try again.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+
+        // Close the progress indicator dialog
+        Navigator.pop(context);
+      }
     }
   }
+
+
+
+
+
 
 
   @override
@@ -178,25 +228,26 @@ class _UpdateProfileHomeownerState extends State<UpdateProfileHomeowner> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: _pickProfilePicture,
+                    onTap: getImageProfilePic,
                     child: CircleAvatar(
                       radius: 60,
                       backgroundColor: Colors.purple,
-                      backgroundImage: _profilePicture != null
+                      backgroundImage: (_profilePicture != null)
                           ? FileImage(_profilePicture!) as ImageProvider<Object>
-                          : (widget.user.photo != null
+                          : ((widget.user.photo != null)
                           ? NetworkImage('$host/storage/${widget.user.photo}')
                           : null),
-
-                      child: _profilePicture == null && widget.user.photo == null
-                          ? Icon(
-                        Icons.camera_alt,
-                        size: 40,
-                        color: Colors.white,
-                      )
-                          : null,
+                      child: Visibility(
+                        visible: _profilePicture == null && widget.user.photo == null,
+                        child: Icon(
+                          Icons.camera_alt,
+                          size: 40,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
+
 
                   const Text(
                     'CommuniSync',

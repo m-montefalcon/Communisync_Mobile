@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:communisyncmobile/backend/api/auth/update_profile.dart';
+import 'package:communisyncmobile/backend/api/auth/update_profile_picture.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -63,18 +64,54 @@ class _UpdateProfileSecurityState extends State<UpdateProfileSecurity> {
       backgroundColor: Colors.red,
     );
   }
+  final ImagePicker _imagePicker = ImagePicker();
 
-  Future<void> _pickProfilePicture() async {
-    final imagePicker = ImagePicker();
-    final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      final imageFile = File(pickedFile.path);
-      setState(() {
-        _profilePicture = imageFile;
-        _profilePicturePath.text = pickedFile.path;
-      });
+  Future<void> getImageProfilePic() async {
+    final XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      final imagePath = image.path;
+
+      try {
+        _profilePicturePath.text = image.path;
+
+        // Show a circular progress indicator while uploading
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return Center(
+              child: CircularProgressIndicator(), // Add circular progress indicator
+            );
+          },
+        );
+
+        // Upload the image to the server
+        await updateProfilePicture(context, image.path);
+
+        // Set the updated profile picture URL in the local state
+        setState(() {
+          _profilePicturePath.text = image.path;
+        });
+
+        // Close the progress indicator dialog
+
+      } catch (e) {
+        print('Error uploading profile picture: $e');
+        // Handle the error, e.g., show an error message to the user
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to upload profile picture. Please try again.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+
+        // Close the progress indicator dialog
+        Navigator.pop(context);
+      }
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +128,7 @@ class _UpdateProfileSecurityState extends State<UpdateProfileSecurity> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: _pickProfilePicture,
+                    onTap: getImageProfilePic,
                     child: CircleAvatar(
                       radius: 60,
                       backgroundColor: Colors.purple,

@@ -58,12 +58,10 @@ Future<void> updateProfileAsHomeowner(
       // Print the message
       print(' ${response.statusCode}');
       print(' ${response.body}');
-      Navigator.pushAndRemoveUntil(
+      Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const ProfilePage()),
-            (route) => false,
+        MaterialPageRoute(builder: (context) => HomeownerBottomNavigationBar()),
       );
-
 
     } else {
       print('Error: ${response.statusCode}');
