@@ -122,7 +122,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                     Container(
                                       height: 200,
                                       child: PageView.builder(
-                                        itemCount: announcementsWithPictures.length,
+                                        itemCount: announcementsWithPictures.length >= 3 ? 3 : announcementsWithPictures.length,
                                         itemBuilder: (context, index) {
                                           return GestureDetector(
                                             onTap: () {
@@ -189,6 +189,26 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
 
                   const SizedBox(height: 15),
+                  Row(
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.only(left: 15.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Visitation Requests',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+
                   FutureBuilder<List<Request>>(
                     future: getIdFromSharedPreferencesAndFetchData(context),
                     builder: (context, snapshot) {
