@@ -39,7 +39,7 @@ class _AllRequestVSTwoState extends State<AllRequestVSTwo> {
                   //     Colors.purple.shade500,
                   //   ],
                   // ),
-                    color: Colors.purple.shade700
+                    color: Colors.green.shade700
                 ),
                 child: const Center(
                   child: Text(
@@ -110,15 +110,15 @@ class _AllRequestVSTwoState extends State<AllRequestVSTwo> {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(24),
                                       ),
-                                      color: Colors.purple,
+                                      color: Colors.green,
                                       child: Container(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 5.0, vertical: 20.0),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(24),
                                           gradient: LinearGradient(colors: [
-                                            Colors.purple.shade800,
-                                            Colors.purple.shade400
+                                            Colors.green.shade800,
+                                            Colors.green.shade400
                                           ]),
                                         ),
                                         child: Row(

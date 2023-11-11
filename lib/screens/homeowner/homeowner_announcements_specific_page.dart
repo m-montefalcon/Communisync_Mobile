@@ -135,7 +135,7 @@ class _SpecificAnnouncementPageState extends State<SpecificAnnouncementPage> {
                     style: const TextStyle(
                       fontSize: 30.0, // Adjust the font size as needed
                       fontWeight: FontWeight.bold,
-                      color: Colors.black, // Adjust the text color as needed
+                      color: Colors.green, // Adjust the text color as needed
                     ),
                   ),
                   const SizedBox(
@@ -159,7 +159,7 @@ class _SpecificAnnouncementPageState extends State<SpecificAnnouncementPage> {
 
                   const Spacer(),
 
-                  const Divider(height: 1.0, color: Colors.black),
+                  const Divider(height: 1.0, color: Colors.green),
 
                   const SizedBox(height: 16.0),
 
@@ -168,7 +168,7 @@ class _SpecificAnnouncementPageState extends State<SpecificAnnouncementPage> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           minimumSize: const Size.fromHeight(50),
-                          backgroundColor: Colors.black,
+                          backgroundColor: Colors.green,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       onPressed: () {

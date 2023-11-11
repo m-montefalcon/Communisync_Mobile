@@ -185,7 +185,7 @@ class _TapSpecificNameState extends State<TapSpecificName> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(310, 45),
-                    backgroundColor: Colors.purple[400],
+                    backgroundColor: Colors.green[400],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

@@ -101,16 +101,11 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                       //     Colors.purple.shade500,
                       //   ],
                       // ),
-                        color: Colors.purple.shade700
+                        color: Colors.green.shade700
                     ),
-                    child: const Center(
-                      child: Text(
-                        'CommuniSync',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold),
-                      ),
+                    child: Center(
+                      child: Image.asset('assets/images/logo-white.png',
+                          width: 160, height: 160),
                     ),
                   ),
                 ),
@@ -152,7 +147,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                                   ),
                                   shape: BoxShape.circle,
                                   border: Border.all(
-                                    color: Colors.purple,
+                                    color: Colors.green,
                                     width: 5.0,
                                   ),
                                 )
@@ -162,12 +157,12 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                                     ),
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: Colors.purple,
+                                      color: Colors.green,
                                       width: 5.0,
                                     )),
                                 child: const CircleAvatar(
                                   backgroundColor: Colors.transparent,
-                                  radius: 120,
+                                  radius: 90,
                                 ),
                               ),
 
@@ -188,24 +183,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                                 ),
                               ),
                               SizedBox(
-                                height: 50,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    GestureDetector(
-                                      child: ProfileWidget(
-                                        icon: Icons.person,
-                                        title: ' ${user.userName}',
-
-                                      ),
-                                      onTap: () {},
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              SizedBox(
-                                height: 70,
+                                height: 55,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -220,7 +198,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                                 ),
                               ),
                               SizedBox(
-                                height: 70,
+                                height: 55,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -235,7 +213,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                                 ),
                               ),
                               SizedBox(
-                                height: 70,
+                                height: 55,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -261,7 +239,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                                 ),
                               ),
                               SizedBox(
-                                height: 70,
+                                height: 55,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -281,7 +259,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                                 ),
                               ),
                               SizedBox(
-                                height: 50,
+                                height: 55,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [

@@ -131,7 +131,7 @@ class _UpdateProfileSecurityState extends State<UpdateProfileSecurity> {
                     onTap: getImageProfilePic,
                     child: CircleAvatar(
                       radius: 60,
-                      backgroundColor: Colors.purple,
+                      backgroundColor: Colors.green,
                       backgroundImage: _profilePicture != null
                           ? FileImage(_profilePicture!) as ImageProvider<Object>
                           : (widget.user.photo != null
@@ -364,7 +364,7 @@ class _UpdateProfileSecurityState extends State<UpdateProfileSecurity> {
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size.fromHeight(50),
-                        backgroundColor: Colors.purple,
+                        backgroundColor: Colors.green,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),

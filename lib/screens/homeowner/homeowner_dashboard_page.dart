@@ -53,16 +53,11 @@ class _DashboardPageState extends State<DashboardPage> {
                   //     Colors.purple.shade500,
                   //   ],
                   // ),
-                  color: Colors.purple.shade700
+                  color: Colors.green.shade700
                 ),
-                child: const Center(
-                  child: Text(
-                    'CommuniSync',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
-                  ),
+                child: Center(
+                  child: Image.asset('assets/images/logo-white.png',
+                      width: 160, height: 160),
                 ),
               ),
             ),
@@ -95,14 +90,14 @@ class _DashboardPageState extends State<DashboardPage> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(24),
                               ),
-                              color: Colors.purple,
+                              color: Colors.green,
                               child: Container(
                                 padding: const EdgeInsets.all(16.0),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(24),
                                   gradient: LinearGradient(colors: [
-                                    Colors.purple.shade800,
-                                    Colors.purple.shade400,
+                                    Colors.green.shade800,
+                                    Colors.green.shade400,
                                   ]),
                                 ),
                                 child: Column(
@@ -140,15 +135,15 @@ class _DashboardPageState extends State<DashboardPage> {
                                               shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.circular(24),
                                               ),
-                                              color: Colors.purple,
+                                              color: Colors.green,
                                               child: Container(
                                                 height: 200,
                                                 padding: const EdgeInsets.all(16.0),
                                                 decoration: BoxDecoration(
                                                   borderRadius: BorderRadius.circular(24),
                                                   gradient: LinearGradient(colors: [
-                                                    Colors.purple.shade800,
-                                                    Colors.purple.shade400,
+                                                    Colors.green.shade800,
+                                                    Colors.green.shade400,
                                                   ]),
                                                 ),
                                                 child: Column(
@@ -274,15 +269,15 @@ class _DashboardPageState extends State<DashboardPage> {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(24),
                                       ),
-                                      color: Colors.purple,
+                                      color: Colors.green,
                                       child: Container(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 5.0, vertical: 20.0),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(24),
                                           gradient: LinearGradient(colors: [
-                                            Colors.purple.shade800,
-                                            Colors.purple.shade400
+                                            Colors.green.shade800,
+                                            Colors.green.shade400
                                           ]),
                                         ),
                                         child: Row(
@@ -375,15 +370,15 @@ class _DashboardPageState extends State<DashboardPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(24),
                         ),
-                        color: Colors.purple,
+                        color: Colors.green,
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 5.0, vertical: 20.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(24),
                             gradient: LinearGradient(colors: [
-                              Colors.purple.shade800,
-                              Colors.purple.shade400
+                              Colors.green.shade800,
+                              Colors.green.shade400
                             ]),
                           ),
                           child: Row(
@@ -465,15 +460,15 @@ class _DashboardPageState extends State<DashboardPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(24),
                         ),
-                        color: Colors.purple,
+                        color: Colors.green,
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 5.0, vertical: 20.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(24),
                             gradient: LinearGradient(colors: [
-                              Colors.purple.shade800,
-                              Colors.purple.shade400
+                              Colors.green.shade800,
+                              Colors.green.shade400
                             ]),
                           ),
                           child: Row(

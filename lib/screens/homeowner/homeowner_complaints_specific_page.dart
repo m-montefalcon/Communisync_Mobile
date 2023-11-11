@@ -93,7 +93,7 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: Colors.grey,
+                        color: Colors.green,
                         width: 2.0,
                       ),
                     ),
@@ -161,7 +161,7 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
 
           SizedBox(height: 16),
 
-          const Divider(height: 1.0, color: Colors.black),
+          const Divider(height: 1.0, color: Colors.green),
 
           const SizedBox(height: 16.0),
 
@@ -170,7 +170,7 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                   minimumSize: const Size.fromHeight(50),
-                  backgroundColor: Colors.black,
+                  backgroundColor: Colors.green,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
               onPressed: () {

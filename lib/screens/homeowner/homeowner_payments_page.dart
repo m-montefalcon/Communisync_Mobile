@@ -43,15 +43,10 @@ class _PaymentsHistoryState extends State<PaymentsHistory> {
                   //     Colors.purple.shade500,
                   //   ],
                   // ),
-                    color: Colors.purple.shade700),
-                child: const Center(
-                  child: Text(
-                    'CommuniSync',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
-                  ),
+                    color: Colors.green.shade700),
+                child: Center(
+                  child: Image.asset('assets/images/logo-white.png',
+                      width: 160, height: 160),
                 ),
               ),
             ),
@@ -135,7 +130,7 @@ class _PaymentsHistoryState extends State<PaymentsHistory> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(24),
                           ),
-                          color: Colors.purple,
+                          color: Colors.green,
                           child: Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 15.0,
@@ -145,8 +140,8 @@ class _PaymentsHistoryState extends State<PaymentsHistory> {
                               borderRadius: BorderRadius.circular(24),
                               gradient: LinearGradient(
                                 colors: [
-                                  Colors.purple.shade800,
-                                  Colors.purple.shade400,
+                                  Colors.green.shade800,
+                                  Colors.green.shade400,
                                 ],
                               ),
                             ),

@@ -34,7 +34,7 @@ class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
               ),
               shape: BoxShape.circle,
               border: Border.all(
-                color: Colors.purple,
+                color: Colors.green,
                 width: 5.0,
               ),
             )
@@ -44,7 +44,7 @@ class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
                 ),
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: Colors.purple,
+                  color: Colors.green,
                   width: 5.0,
                 )),
             child: const CircleAvatar(

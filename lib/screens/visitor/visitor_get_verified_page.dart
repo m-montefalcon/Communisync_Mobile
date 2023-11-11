@@ -42,7 +42,7 @@ class _GetVerifiedVisitorState extends State<GetVerifiedVisitor> {
                   Icon(
                     Icons.verified_user_rounded,
                     size: 120,
-                    color: Colors.purple,
+                    color: Colors.green,
                   ),
                   SizedBox(height: 15),
                   const SizedBox(height: 10),
@@ -118,7 +118,7 @@ class _GetVerifiedVisitorState extends State<GetVerifiedVisitor> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size.fromHeight(50),
-                        backgroundColor: Colors.purple,
+                        backgroundColor: Colors.green,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),

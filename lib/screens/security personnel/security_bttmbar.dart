@@ -38,7 +38,7 @@ class _SecurityPersonnelBottomBarState
         backgroundColor: Colors.white,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        selectedItemColor: Colors.purple,
+        selectedItemColor: Colors.green,
         elevation: 0,
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
@@ -52,7 +52,7 @@ class _SecurityPersonnelBottomBarState
           BottomNavigationBarItem(
             icon: Container(
               decoration: BoxDecoration(
-                color: Colors.purple,
+                color: Colors.green,
                 borderRadius: BorderRadius.circular(20),
               ),
               padding: const EdgeInsets.all(10),

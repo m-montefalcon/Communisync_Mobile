@@ -33,7 +33,6 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
       return 'Date: ${formatter.format(timestamp)}';
     }
 
-
     return Scaffold(
       body: NestedScrollView(
         floatHeaderSlivers: true,
@@ -58,15 +57,10 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                     //     Colors.purple.shade500,
                     //   ],
                     // ),
-                    color: Colors.purple.shade700),
-                child: const Center(
-                  child: Text(
-                    'CommuniSync',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
-                  ),
+                    color: Colors.green.shade700),
+                child: Center(
+                  child: Image.asset('assets/images/logo-white.png',
+                      width: 160, height: 160),
                 ),
               ),
             ),
@@ -123,7 +117,8 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => SpecificAnnouncementPage(data: data),
+                                    builder: (context) =>
+                                        SpecificAnnouncementPage(data: data),
                                   ),
                                 );
                               },
@@ -133,14 +128,15 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(24),
                                 ),
-                                color: Colors.purple,
+                                color: Colors.green,
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15.0, vertical: 20.0),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(24),
                                     gradient: LinearGradient(colors: [
-                                      Colors.purple.shade800,
-                                      Colors.purple.shade400
+                                      Colors.green.shade800,
+                                      Colors.green.shade400
                                     ]),
                                   ),
                                   child: Stack(
@@ -151,21 +147,24 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                         child: Text(
                                           formatTimestamp(data.date),
                                           style: TextStyle(
-                                            color: Colors.greenAccent,
+                                            color: Colors.black,
                                           ),
                                         ),
                                       ),
                                       Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
                                           CircleAvatar(
                                             radius: 24,
-                                            backgroundImage: NetworkImage('${host ?? ''}/storage/${data.admin.photo}'),
+                                            backgroundImage: NetworkImage(
+                                                '${host ?? ''}/storage/${data.admin.photo}'),
                                           ),
                                           SizedBox(width: 10),
                                           Expanded(
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 Text(
                                                   '${data.admin.firstName} ${data.admin.lastName}',
@@ -180,7 +179,8 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                                   style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 15,
-                                                    fontWeight: FontWeight.normal,
+                                                    fontWeight:
+                                                        FontWeight.normal,
                                                   ),
                                                 ),
                                                 SizedBox(height: 7),
@@ -200,7 +200,8 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  truncateDescription(data.description),
+                                                  truncateDescription(
+                                                      data.description),
                                                   style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 15,
@@ -217,7 +218,6 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                 ),
                               ),
                             )
-
                           ],
                         );
                       },
@@ -228,15 +228,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
             ),
           ],
         ),
-
-
-
-
-
-
-
-
       ),
-      );
+    );
   }
 }
