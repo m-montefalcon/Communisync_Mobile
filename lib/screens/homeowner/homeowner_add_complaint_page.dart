@@ -67,7 +67,7 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
                       const Icon(
                         Icons.live_help_rounded,
                         size: 120,
-                        color: Colors.purple,
+                        color: Colors.green,
                       ),
                       SizedBox(height: 10),
                       Padding(
@@ -180,7 +180,7 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size.fromHeight(50),
-                            backgroundColor: Colors.purple,
+                            backgroundColor: Colors.green,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),

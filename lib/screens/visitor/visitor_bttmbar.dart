@@ -37,7 +37,7 @@ class _VisitorBottombarState extends State<VisitorBottombar> {
         backgroundColor: Colors.white,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        selectedItemColor: Colors.purple,
+        selectedItemColor: Colors.green,
         elevation: 0,
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
@@ -51,7 +51,7 @@ class _VisitorBottombarState extends State<VisitorBottombar> {
           BottomNavigationBarItem(
             icon: Container(
               decoration: BoxDecoration(
-                color: Colors.purple,
+                color: Colors.green,
                 borderRadius: BorderRadius.circular(20),
               ),
               padding: const EdgeInsets.all(10),

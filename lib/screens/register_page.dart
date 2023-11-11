@@ -92,7 +92,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     onTap: _pickProfilePicture,
                     child: CircleAvatar(
                       radius: 60,
-                      backgroundColor: Colors.purple,
+                      backgroundColor: Colors.green,
                       backgroundImage: _profilePicture != null
                           ? FileImage(_profilePicture!)
                           : null,
@@ -314,7 +314,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size.fromHeight(50),
-                        backgroundColor: Colors.purple,
+                        backgroundColor: Colors.green,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),

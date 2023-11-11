@@ -31,17 +31,11 @@ class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
                 height: 150,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: Colors.purple.shade700,
+                  color: Colors.green.shade700,
                 ),
-                child: const Center(
-                  child: Text(
-                    'CommuniSync',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                child: Center(
+                  child: Image.asset('assets/images/logo-white.png',
+                      width: 160, height: 160),
                 ),
               ),
             ),
@@ -99,7 +93,7 @@ class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
                                 margin: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: Colors.purple,
+                                    color: Colors.green,
                                     width: 2.0,
                                   ),
                                   borderRadius: BorderRadius.circular(10.0),

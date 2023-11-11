@@ -38,7 +38,7 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
                     ),
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: Colors.purple,
+                      color: Colors.green,
                       width: 5.0,
                     ),
                   )
@@ -48,7 +48,7 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
                     ),
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: Colors.purple,
+                      color: Colors.green,
                       width: 5.0,
                     )),
             child: const CircleAvatar(

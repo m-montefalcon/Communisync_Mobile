@@ -39,15 +39,10 @@ class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
               child: Container(
                 height: 150,
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(color: Colors.purple.shade700),
-                child: const Center(
-                  child: Text(
-                    'CommuniSync',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
-                  ),
+                decoration: BoxDecoration(color: Colors.green.shade700),
+                child: Center(
+                  child: Image.asset('assets/images/logo-white.png',
+                      width: 160, height: 160),
                 ),
               ),
             ),

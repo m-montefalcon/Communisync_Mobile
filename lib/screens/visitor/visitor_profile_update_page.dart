@@ -133,7 +133,7 @@ class _UpdateProfileVisitorState extends State<UpdateProfileVisitor> {
                     onTap: getImageProfilePic,
                     child: CircleAvatar(
                       radius: 60,
-                      backgroundColor: Colors.purple,
+                      backgroundColor: Colors.green,
                       backgroundImage: _profilePicture != null
                           ? FileImage(_profilePicture!) as ImageProvider<Object>
                           : (widget.user.photo != null
@@ -366,7 +366,7 @@ class _UpdateProfileVisitorState extends State<UpdateProfileVisitor> {
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size.fromHeight(50),
-                        backgroundColor: Colors.purple,
+                        backgroundColor: Colors.green,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),

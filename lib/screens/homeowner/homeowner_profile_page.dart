@@ -95,16 +95,11 @@ import 'package:communisyncmobile/screens/homeowner/homeowner_profile_update_pag
                       //     Colors.purple.shade500,
                       //   ],
                       // ),
-                        color: Colors.purple.shade700
+                        color: Colors.green.shade700
                     ),
-                    child: const Center(
-                      child: Text(
-                        'CommuniSync',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold),
-                      ),
+                    child: Center(
+                      child: Image.asset('assets/images/logo-white.png',
+                          width: 160, height: 160),
                     ),
                   ),
                 ),
@@ -146,7 +141,7 @@ import 'package:communisyncmobile/screens/homeowner/homeowner_profile_update_pag
                                 ),
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: Colors.purple,
+                                  color: Colors.green,
                                   width: 5.0,
                                 ),
                               )
@@ -156,12 +151,12 @@ import 'package:communisyncmobile/screens/homeowner/homeowner_profile_update_pag
                                   ),
                                   shape: BoxShape.circle,
                                   border: Border.all(
-                                    color: Colors.purple,
+                                    color: Colors.green,
                                     width: 5.0,
                                   )),
                               child: const CircleAvatar(
                                 backgroundColor: Colors.transparent,
-                                radius: 120,
+                                radius: 90,
                               ),
                             ),
 
@@ -181,25 +176,9 @@ import 'package:communisyncmobile/screens/homeowner/homeowner_profile_update_pag
                                 color: Colors.black54.withOpacity(.3),
                               ),
                             ),
-                            SizedBox(
-                              height: 50,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                    child: ProfileWidget(
-                                      icon: Icons.person,
-                                      title: ' ${user.userName}',
-
-                                    ),
-                                    onTap: () {},
-                                  ),
-                                ],
-                              ),
-                            ),
 
                             SizedBox(
-                              height: 70,
+                              height: 60,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -214,7 +193,7 @@ import 'package:communisyncmobile/screens/homeowner/homeowner_profile_update_pag
                               ),
                             ),
                             SizedBox(
-                              height: 70,
+                              height: 60,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -229,7 +208,7 @@ import 'package:communisyncmobile/screens/homeowner/homeowner_profile_update_pag
                               ),
                             ),
                             SizedBox(
-                              height: 70,
+                              height: 60,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -249,7 +228,7 @@ import 'package:communisyncmobile/screens/homeowner/homeowner_profile_update_pag
                               ),
                             ),
                             SizedBox(
-                              height: 50,
+                              height: 60,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [

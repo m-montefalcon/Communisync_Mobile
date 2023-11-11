@@ -39,7 +39,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      backgroundColor: Colors.grey[300],
       body: Form(
         key: formKey,
         child: SafeArea(
@@ -48,24 +47,24 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Hello there!',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-                  ),
-                  const SizedBox(height: 5),
-                  const Text(
-                    'Welcome to CommuniSync',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  // Image.asset(
-                  //   'assets/CommuniSyncLogo.png',width: 300),
-                  const SizedBox(height: 50),
+                  //  Text(
+                  //   'Welcome to',
+                  //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.green[700]),
+                  // ),
+                  // const SizedBox(height: 50),
+                  // const Text(
+                  //   'Welcome to CommuniSync',
+                  //   style: TextStyle(fontSize: 20),
+                  // ),
+                  Image.asset(
+                    'assets/images/official-logo-green.png',width: 300),
+                  const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     child: Container(
                       decoration: BoxDecoration(
                           color: Colors.grey[200],
-                          border: Border.all(color: Colors.white),
+                          border: Border.all(color: Colors.green),
                           borderRadius: BorderRadius.circular(10)),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15.0),
@@ -76,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: const InputDecoration(
                                 hintText: 'Username',
                                 border: InputBorder.none,
-                                icon: Icon(Icons.alternate_email_outlined)),
+                                icon: Icon(Icons.sentiment_very_satisfied)),
                             // validator: (value) {
                             //   if(value!.isEmpty || !RegExp(r'[a-z0-9]+@[a-z]+\.[a-z]{2,3}').hasMatch(value)) {
                             //     return 'Please enter your username.';
@@ -94,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Container(
                       decoration: BoxDecoration(
                           color: Colors.grey[200],
-                          border: Border.all(color: Colors.white),
+                          border: Border.all(color: Colors.green),
                           borderRadius: BorderRadius.circular(10)),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15),
@@ -136,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                           minimumSize: const Size.fromHeight(50),
-                          backgroundColor: Colors.purple[400],
+                          backgroundColor: Colors.green,
                           shape: RoundedRectangleBorder(
                               borderRadius:
                               BorderRadius.circular(10)
