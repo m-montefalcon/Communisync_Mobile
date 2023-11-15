@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:communisyncmobile/backend/api/homeowner/CF/submit_complaints.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_bttmbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -22,6 +23,7 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
 
   DateTime? _selectedDate;
   final ImagePicker _imagePicker = ImagePicker();
+  bool _isLoading = false;
 
   Future<void> _getImage() async {
     final XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
@@ -185,21 +187,47 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          child: const Text(
+                          child: _isLoading
+                              ? CircularProgressIndicator()  // Display the circular progress indicator when loading
+                              : const Text(
                             'Submit Complain',
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
-                          onPressed: () {
-                            submitComplaint(
-                              context,
-                              _complaintTitle.text,
-                              _complaintDesc.text,
-                              _complaintPhotoPath.text,
-                            );
-                          },
+                          onPressed: _isLoading
+                              ? null  // Disable the button when loading
+                              : () async {
+                            // Set loading state to true when the button is pressed
+                            setState(() {
+                              _isLoading = true;
+                            });
 
+                            try {
+                              // Perform the complaint submission logic
+                              await submitComplaint(
+                                context,
+                                _complaintTitle.text,
+                                _complaintDesc.text,
+                                _complaintPhotoPath.text,
+                              );
+
+                              // Navigate to HomeownerBottomBar after successful submission
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => HomeownerBottomNavigationBar()),
+                              );
+                            } catch (error) {
+                              // Handle errors here
+                              print("Error: $error");
+                            } finally {
+                              // Set loading state to false when the complaint submission is complete
+                              setState(() {
+                                _isLoading = false;
+                              });
+                            }
+                          },
                         ),
                       ),
+
                       SizedBox(height: 15),
                     ],
                   ),

@@ -21,7 +21,22 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
     super.initState();
     _complaintsFuture = fetchComplaints();
   }
+  String getStatusString(String? status) {
+    if (status == null) {
+      return 'Unknown Status';
+    }
 
+    switch (int.tryParse(status)) {
+      case 1:
+        return 'Submitted';
+      case 2:
+        return 'Opened';
+      case 3:
+        return 'Resolved';
+      default:
+        return 'Unknown Status';
+    }
+  }
   @override
   Widget build(BuildContext context) {
     String host = dotenv.get("API_HOST", fallback: "");
@@ -160,13 +175,13 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                                               children: <Widget>[
                                                 CircleAvatar(
                                                   radius: 24,
-                                                  backgroundImage: complaint.admin != null
-                                                      ? NetworkImage('${host ?? ''}/storage/${complaint.admin?.photo}') as ImageProvider<Object>?
+                                                  backgroundImage: complaint.admin?.photo != null
+                                                      ? NetworkImage('${host ?? ''}/storage/${complaint.admin?.photo ?? ''}') as ImageProvider<Object>?
                                                       : null,
-                                                  child: complaint.admin == null
-                                                      ? Icon(Icons.person)
-                                                      : null,
+                                                  child: complaint.admin == null ? Icon(Icons.person) : null,
                                                 ),
+
+
                                                 SizedBox(width: 10),
                                                 Expanded(
                                                   child: Column(
@@ -175,23 +190,24 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                                                       Text(
                                                         complaint.admin != null
                                                             ? 'Reviewed by: '
-                                                            : 'Opened',
+                                                            : 'Pending',
                                                         style: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 15,
                                                         ),
                                                       ),
                                                       Text(
-                                                        '${complaint.admin?.firstName} ${complaint.admin?.lastName}',
+                                                        '${complaint.admin?.firstName ?? ''} ${complaint.admin?.lastName ?? ''}',
                                                         style: TextStyle(
                                                           color: Colors.greenAccent,
                                                           fontSize: 15,
                                                           fontWeight: FontWeight.bold,
                                                         ),
                                                       ),
+
                                                       SizedBox(height: 7),
                                                       Text(
-                                                        'Status: ${complaint.status}',
+                                                        'Status: ${getStatusString(complaint.status)}',
                                                         style: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 15,

@@ -34,15 +34,20 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
                     children: [
                       CircleAvatar(
                         radius: 24,
-                        backgroundImage: NetworkImage(
-                            '${host ?? ''}/storage/${widget.data.admin?.photo}'),
+                        backgroundImage: widget.data.admin?.photo != null
+                            ? NetworkImage('${host ?? ''}/storage/${widget.data.admin?.photo}')
+                            : null,
+                        child: widget.data.admin?.photo == null
+                            ? Icon(Icons.person)
+                            : null,
                       ),
+
                       SizedBox(width: 12),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${widget.data.admin?.firstName} ${widget.data.admin?.lastName}',
+                            '${widget.data.admin?.firstName ?? ''} ${widget.data.admin?.lastName ?? 'Pending'}',
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold,
@@ -75,11 +80,12 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
                               ),
                               SizedBox(width: 4),
                               Text(
-                                widget.data.title,
+                                widget.data.title ?? '',
                                 style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
                               ),
                             ],
                           ),
@@ -102,9 +108,11 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
                       child: Column(
                         children: [
                           Text(
-                            '"${widget.data.description}"',
+                            '"${widget.data.description ?? ''}"',
                             style: TextStyle(
-                                fontSize: 14, fontStyle: FontStyle.italic),
+                              fontSize: 14,
+                              fontStyle: FontStyle.italic,
+                            ),
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(height: 30),
@@ -114,22 +122,20 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: widget.data.updates!.map((update) {
+                                  children: (widget.data.updates ?? []).map((update) {
                                     return Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        if (update.update != null &&
-                                            update.resolution ==
-                                                null)
-                                          Text('Update: ${update.update?.join(", ")}'),
-                                        if (update.resolution != null)
-                                          Text('Resolution: ${update.resolution}'),
-                                        if (update.date != null) Text('Date: ${update.date}'),
+                                        if (update?.update != null &&
+                                            update?.resolution == null)
+                                          Text('Update: ${update?.update?.join(", ") ?? ''}'),
+                                        if (update?.resolution != null)
+                                          Text('Resolution: ${update?.resolution ?? ''}'),
+                                        if (update?.date != null) Text('Date: ${update?.date ?? ''}'),
                                         SizedBox(height: 10),
                                       ],
                                     );
                                   }).toList(),
-
                                 ),
                               )
                             ],
@@ -142,37 +148,34 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
               ),
             ),
           ),
-
           SizedBox(height: 20),
-
           widget.data.photo != null
               ? Container(
-                  width: 300,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(
-                          '${host ?? ''}/storage/${widget.data.photo}'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                )
+            width: 300,
+            height: 200,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                  '${host ?? ''}/storage/${widget.data.photo ?? ''}',
+                ),
+                fit: BoxFit.cover,
+              ),
+            ),
+          )
               : Text('No complaint photo available'),
-
           SizedBox(height: 16),
-
           const Divider(height: 1.0, color: Colors.green),
-
           const SizedBox(height: 16.0),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(50),
-                  backgroundColor: Colors.green,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))),
+                minimumSize: const Size.fromHeight(50),
+                backgroundColor: Colors.green,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
               onPressed: () {
                 Navigator.pop(context);
               },
