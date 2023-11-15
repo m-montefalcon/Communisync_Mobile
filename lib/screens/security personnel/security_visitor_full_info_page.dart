@@ -134,6 +134,27 @@ class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
             ],
           ),
           const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(width: 40),
+              Icon(
+                Icons.person,
+                color: Colors.black54.withOpacity(.5),
+                size: 35,
+              ),
+              Text(
+                ': ${widget.requestQr.visitMembers != null ? widget.requestQr.visitMembers?.join(', ') : 'No members'}',
+                // ^^^ This checks if visitMembers is not null, and then joins the list with ', ' if not null.
+                style: const TextStyle(
+                  color: Colors.black54,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+
           const Divider(
               color: Colors.black, indent: 20, endIndent: 20, height: 25),
           Center(

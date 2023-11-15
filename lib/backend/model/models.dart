@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Request {
   final int id;
   final int visitorId;
@@ -258,5 +260,24 @@ class PaymentRecords{
     required this.paymentAmount,
     this.admin
 
+  });
+}
+
+
+class Logbook {
+  final int id;
+  final Visitor? visitor;
+  final List<String>? visitMembers;
+  final String? contactNumber;
+  final String visitDate;
+  final String visitTime;
+
+  Logbook( {
+    required this.id,
+    this.visitor,
+    this.visitMembers,
+    this.contactNumber,
+    required this.visitDate,
+    required this.visitTime,
   });
 }
