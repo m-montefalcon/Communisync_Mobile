@@ -171,14 +171,17 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
           const SizedBox(height: 5),
           Center(
             child: Text(
-              '${widget.request.visitMembers}',
-              style: const TextStyle(
+              ' ${widget.request.visitMembers?.map((member) => member.toString()).join(', ')?.replaceAll(RegExp(r'[\[\]"]'), '') ?? 'No members'} ', // Use null-aware operator
+              style: TextStyle(
                 color: Colors.black54,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
+
+
+
           const Divider(
               color: Colors.black, indent: 20, endIndent: 20, height: 25),
           Center(

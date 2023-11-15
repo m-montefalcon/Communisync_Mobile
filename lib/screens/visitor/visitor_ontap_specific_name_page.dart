@@ -1,3 +1,4 @@
+import 'package:communisyncmobile/screens/visitor/visitor_bttmbar.dart';
 import 'package:flutter/material.dart';
 import 'package:communisyncmobile/backend/api/visitor/request_ca.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -89,9 +90,8 @@ class _TapSpecificNameState extends State<TapSpecificName> {
   }
 
   void _acceptNames() async {
-    // Set loading state to true
     setState(() {
-      _isLoading = true;
+      _isLoading = true; // Set loading state to true
     });
 
     // Create a list of strings from visitMembers TextEditingControllers
@@ -102,27 +102,38 @@ class _TapSpecificNameState extends State<TapSpecificName> {
     }
 
     try {
-      // Call the requestCa function with the necessary parameters
-      await requestCa(
-        context,
-        widget.homeowner.id, // Replace with the actual homeownerId property
-        _selectedFamilyMember, // Use the selected family member
-        visitMembers, // Pass the list of visit members with quotation marks
-      );
+      // Simulating an asynchronous operation, replace this with your actual logic
+      await Future.delayed(Duration(seconds: 2));
 
-      // Set loading state to false when the request is complete
+      // Set loading state to false when the operation is complete
       setState(() {
         _isLoading = false;
+
+        // Call the requestCa function with the necessary parameters
+        requestCa(
+          context,
+          widget.homeowner.id, // Replace with the actual homeownerId property
+          _selectedFamilyMember, // Use the selected family member
+          visitMembers, // Pass the list of visit members with quotation marks
+        );
+
+        // Navigate to VisitorBottombar upon success
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => VisitorBottombar()),
+        );
       });
     } catch (error) {
       // Handle any errors here
       print("Error: $error");
+
       // Set loading state to false even in case of an error
       setState(() {
         _isLoading = false;
       });
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +202,7 @@ class _TapSpecificNameState extends State<TapSpecificName> {
                     ),
                   ),
                   onPressed: _isLoading ? null : _acceptNames, // Disable button when loading
-                  child: const Text(
+                  child: Text(
                     'Send Request',
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
@@ -202,6 +213,7 @@ class _TapSpecificNameState extends State<TapSpecificName> {
                   ),
               ],
             )
+
           ],
         ),
       ),

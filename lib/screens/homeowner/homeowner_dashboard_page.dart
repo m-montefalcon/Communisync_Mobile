@@ -202,7 +202,6 @@ class _DashboardPageState extends State<DashboardPage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 15),
 
                   FutureBuilder<List<Request>>(
                     future: getIdFromSharedPreferencesAndFetchData(context),
@@ -218,43 +217,17 @@ class _DashboardPageState extends State<DashboardPage> {
                       } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                         // Handle the case where there are no requests.
                         return Center(
-                          child: Text('No requests available.'),
+                          child: Container(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text(
+                                'No requests available.'
+                            ),
+                          ),
                         );
                       } else {
                         final List<Request> requests = snapshot.data!;
                         return Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Requests',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                     print('see more clicked');
-                                     Navigator.push(context,
-                                         MaterialPageRoute(
-                                             builder: (context)=>AllRequestVSTwo()
-                                         )
-                                     );
-                                    },
-                                    child: Text(
-                                      'See More',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
                             ListView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
@@ -272,42 +245,64 @@ class _DashboardPageState extends State<DashboardPage> {
                                       color: Colors.green,
                                       child: Container(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 5.0, vertical: 20.0),
+                                          horizontal: 5.0,
+                                          vertical: 20.0,
+                                        ),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(24),
-                                          gradient: LinearGradient(colors: [
-                                            Colors.green.shade800,
-                                            Colors.green.shade400
-                                          ]),
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Colors.green.shade800,
+                                              Colors.green.shade400
+                                            ],
+                                          ),
                                         ),
                                         child: Row(
                                           children: [
+                                            // Circular Photo on the most left
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 10),
+                                              child: CircleAvatar(
+                                                radius: 24,
+                                                backgroundImage: NetworkImage(
+                                                  '${host ?? ''}/storage/${request.visitor.photo}',
+                                                ),
+                                              ),
+                                            ),
+
+
                                             const SizedBox(width: 10),
+
+                                            // Padding to the right of the circular photo
+                                            const SizedBox(width: 10),
+
+                                            // Visitor's name at the top center
                                             Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
-                                              children:  <Widget>[
+                                              children: [
+                                                // Visitor's name at the top
                                                 Text(
-                                                  'Request ID: ${request.id.toString()}',
+                                                  '${request.visitor.firstName} ${request.visitor.lastName}',
                                                   style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 15,
+                                                    fontWeight: FontWeight.bold, // Adjust as needed
                                                   ),
                                                 ),
+
+                                                const SizedBox(height: 10),
+
+                                                // Date at the bottom center
                                                 Text(
-                                                  'Visitor ID: ${request.visitorId}',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 15,
-                                                  ),
+                                                  ' ${request.date} ',
+                                                  style: TextStyle(color: Colors.white),
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(width: 18),
-                                             Text(
-                                                'testing: ${request.date}',
-                                                style: TextStyle(color: Colors.white)),
                                           ],
                                         ),
+
+
                                       ),
                                     ),
                                     Positioned(
@@ -318,24 +313,53 @@ class _DashboardPageState extends State<DashboardPage> {
                                           Request tappedRequest = requests[index];
                                           Navigator.push(
                                             context,
-                                            MaterialPageRoute(builder: (context) => SpecificRequestVSTwo(request: tappedRequest)),
+                                            MaterialPageRoute(
+                                              builder: (context) => SpecificRequestVSTwo(
+                                                request: tappedRequest,
+                                              ),
+                                            ),
                                           );
                                           print('clicked');
                                         },
-                                        child:  Icon(
+                                        child: Icon(
                                           Icons.navigate_next,
                                           size: 35,
                                           color: Colors.white,
                                         ),
                                       ),
                                     ),
-
                                   ],
                                 );
                               },
                             ),
+
+                            // Container to hold the "See More" button
+                            Container(
+                              alignment: Alignment.centerRight,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: TextButton(
+                                  onPressed: () {
+                                    print('see more clicked');
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AllRequestVSTwo(),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    'See More',
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         );
+
 
                       }
                     },

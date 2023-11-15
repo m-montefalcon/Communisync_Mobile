@@ -123,29 +123,46 @@ class _AllRequestVSTwoState extends State<AllRequestVSTwo> {
                                         ),
                                         child: Row(
                                           children: [
+                                            // Circular Photo on the most left
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 10),
+                                              child: CircleAvatar(
+                                                radius: 24,
+                                                backgroundImage: NetworkImage(
+                                                  '${host ?? ''}/storage/${request.visitor.photo}',
+                                                ),
+                                              ),
+                                            ),
+
+
                                             const SizedBox(width: 10),
+
+                                            // Padding to the right of the circular photo
+                                            const SizedBox(width: 10),
+
+                                            // Visitor's name at the top center
                                             Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
-                                              children:  <Widget>[
+                                              children: [
+                                                // Visitor's name at the top
                                                 Text(
-                                                  'Request ID: ${request.id.toString()}',
+                                                  '${request.visitor.firstName} ${request.visitor.lastName}',
                                                   style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 15,
+                                                    fontWeight: FontWeight.bold, // Adjust as needed
                                                   ),
                                                 ),
+
+                                                const SizedBox(height: 10),
+
+                                                // Date at the bottom center
                                                 Text(
-                                                  'Visitor ID: ${request.visitorId}',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 15,
-                                                  ),
+                                                  ' ${request.date} ',
+                                                  style: TextStyle(color: Colors.white),
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(width: 18),
-                                            const Text('6/15/2023',
-                                                style: TextStyle(color: Colors.white)),
                                           ],
                                         ),
                                       ),
