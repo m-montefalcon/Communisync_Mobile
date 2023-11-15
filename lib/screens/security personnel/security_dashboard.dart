@@ -1,6 +1,8 @@
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:flutter/material.dart';
 
+import '../../backend/api/personnel/checks_current_visitor.dart';
+
 class SecurityDashboard extends StatefulWidget {
   const SecurityDashboard({Key? key}) : super(key: key);
 
@@ -50,6 +52,7 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                   suffixIcon: IconButton(
                       icon: const Icon(Icons.search),
                       onPressed: () async {
+                        await checksCurrentVisitors();
                         setState(() {
                           // _homeownersFuture =
                           //     getCafSearchRequestApi(_searchController.text);
