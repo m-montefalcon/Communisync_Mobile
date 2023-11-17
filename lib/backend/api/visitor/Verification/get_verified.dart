@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:communisyncmobile/screens/visitor/visitor_bttmbar.dart';
 import 'package:communisyncmobile/screens/visitor/visitor_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -49,7 +50,7 @@ Future<void> getVerified(context, int blockNo, int lotNo,
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => const VisitorProfilePage(),
+          builder: (BuildContext context) => const VisitorBottombar(),
         ),
             (Route<dynamic> route) => false,
       );

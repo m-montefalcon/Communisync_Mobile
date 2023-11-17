@@ -574,7 +574,8 @@ class _UpdateProfileHomeownerState extends State<UpdateProfileHomeowner> {
                     Padding(
                       padding: const EdgeInsets.only(left: 25, right: 25, top: 5),
                       child: Text(
-                        'Toggle this switch to enable manual visit option.',
+                        'Toggle this switch to enable manual visit option. \n'
+                            'Visitors will be able to visit you without QR code',
                         style: TextStyle(
                           fontStyle: FontStyle.italic,
                         ),
