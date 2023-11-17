@@ -1,3 +1,4 @@
+import 'package:communisyncmobile/screens/security%20personnel/security_announcement_page.dart';
 import 'package:communisyncmobile/screens/security%20personnel/security_dashboard.dart';
 import 'package:communisyncmobile/screens/security%20personnel/security_profile_page.dart';
 import 'package:communisyncmobile/screens/security%20personnel/security_qr_code.dart';
@@ -17,6 +18,7 @@ class _SecurityPersonnelBottomBarState
 
   static const List<Widget> _widgetOptions = <Widget>[
     SecurityDashboard(),
+    SecurityAnnouncementPage(),
     SecurityQrCode(),
     SecurityProfilePage(),
   ];
@@ -34,41 +36,59 @@ class _SecurityPersonnelBottomBarState
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        selectedItemColor: Colors.green,
-        elevation: 0,
-        type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-          const BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home_rounded,
-              size: 25,
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Container(
-              decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.circular(20),
+      bottomNavigationBar: Container(
+        color: Colors.white,
+        padding: EdgeInsets.all(10),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.white,
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          selectedItemColor: Colors.green,
+          elevation: 0,
+          type: BottomNavigationBarType.fixed,
+          items: <BottomNavigationBarItem>[
+            const BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home_rounded,
+                size: 25,
               ),
-              padding: const EdgeInsets.all(10),
-              child: const Icon(Icons.qr_code_rounded,
-                  size: 35, color: Colors.white),
+              label: 'Home',
             ),
-            label: '',
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person_rounded,
-              size: 25,
+            const BottomNavigationBarItem(
+              icon: Icon(
+                Icons.tips_and_updates_rounded,
+                size: 25,
+              ),
+              label: 'Announce',
             ),
-            label: 'Profile',
-          ),
-        ],
+            const BottomNavigationBarItem(
+              icon: Icon(
+                Icons.qr_code_rounded,
+                size: 25,
+              ),
+              label: 'QR Code',
+            ),
+            // BottomNavigationBarItem(
+            //   icon: Container(
+            //     decoration: BoxDecoration(
+            //       color: Colors.green,
+            //       borderRadius: BorderRadius.circular(20),
+            //     ),
+            //     padding: const EdgeInsets.all(10),
+            //     child: const Icon(Icons.qr_code_rounded,
+            //         size: 35, color: Colors.white),
+            //   ),
+            //   label: '',
+            // ),
+            const BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person_rounded,
+                size: 25,
+              ),
+              label: 'Profile',
+            ),
+          ],
+        ),
       ),
     );
   }
