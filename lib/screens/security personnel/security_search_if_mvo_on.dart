@@ -1,7 +1,7 @@
-import 'package:communisyncmobile/screens/security%20personnel/security_add_manual_logbook.dart';
 import 'package:flutter/material.dart';
 import '../../backend/api/personnel/check_if_mvo_on.dart';
 import '../../backend/model/models.dart';
+import 'security_add_manual_logbook.dart';
 
 class SearchIfMvoOn extends StatefulWidget {
   const SearchIfMvoOn({Key? key}) : super(key: key);
@@ -12,6 +12,27 @@ class SearchIfMvoOn extends StatefulWidget {
 
 class _SearchIfMvoOnState extends State<SearchIfMvoOn> {
   final TextEditingController _searchController = TextEditingController();
+  Homeowner? _searchResult;
+  bool _isLoading = false;
+
+  Future<void> _performSearch() async {
+    setState(() {
+      _isLoading = true; // Set the flag to true when search starts
+    });
+
+    String searchText = _searchController.text;
+    if (searchText.isNotEmpty) {
+      Homeowner? result = await _fetchHomeowner(searchText);
+      setState(() {
+        _searchResult = result;
+        _isLoading = false; // Set the flag to false when search is complete
+      });
+    } else {
+      setState(() {
+        _isLoading = false; // Set the flag to false if search text is empty
+      });
+    }
+  }
 
   Future<Homeowner?> _fetchHomeowner(String fullName) async {
     try {
@@ -49,10 +70,7 @@ class _SearchIfMvoOnState extends State<SearchIfMvoOn> {
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.search),
                   onPressed: () {
-                    String searchText = _searchController.text;
-                    setState(() {
-                      // Trigger a rebuild with the new search text
-                    });
+                    _performSearch();
                   },
                 ),
                 border: OutlineInputBorder(
@@ -63,86 +81,77 @@ class _SearchIfMvoOnState extends State<SearchIfMvoOn> {
             ),
             const SizedBox(height: 16.0),
             Expanded(
-              child: FutureBuilder<Homeowner?>(
-                future: _fetchHomeowner(_searchController.text),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text(''),
-                    );
-                  } else if (snapshot.hasData && snapshot.data != null) {
-                    Homeowner homeowner = snapshot.data!;
-                    return ListView.builder(
-                      itemCount: 1, // Display only one item
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            // Add the navigation logic here
-                            // For example, you can use Navigator.push to navigate to another screen
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AddManualLogbookPage(homeowner: homeowner,),
-                              ),
-                            );
-                          },
-                          child: Card(
-                            margin: const EdgeInsets.all(10),
-                            elevation: 12,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12), // Adjust the border radius
-                            ),
-                            color: Colors.green,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20.0, // Adjust the horizontal padding
-                                vertical: 16.0, // Adjust the vertical padding
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12), // Adjust the border radius
-                                gradient: LinearGradient(
-                                  colors: [Colors.green.shade800, Colors.green.shade400],
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      // Visitor's name at the top
-                                      Text(
-                                        '${homeowner.firstName} ${homeowner.lastName}',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18, // Adjust the font size
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    );
-
-                  } else {
-                    return Center(
-                      child: Text('No data available'),
-                    );
-                  }
-                },
-              ),
+              child: _isLoading
+                  ? Center(
+                child: CircularProgressIndicator(),
+              )
+                  : _buildSearchResult(),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildSearchResult() {
+    if (_searchResult != null) {
+      Homeowner homeowner = _searchResult!;
+      return ListView.builder(
+        itemCount: 1,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddManualLogbookPage(homeowner: homeowner),
+                ),
+              );
+            },
+            child: Card(
+              margin: const EdgeInsets.all(10),
+              elevation: 12,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              color: Colors.green,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 16.0,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  gradient: LinearGradient(
+                    colors: [Colors.green.shade800, Colors.green.shade400],
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${homeowner.firstName} ${homeowner.lastName}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    } else {
+      return Center(
+        child: Text('No data available'),
+      );
+    }
   }
 }

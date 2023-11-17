@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
 
+import '../../backend/api/personnel/mvo_add.dart';
 import '../../backend/model/models.dart';
 
 class AddManualLogbookPage extends StatefulWidget {
@@ -14,6 +15,7 @@ class AddManualLogbookPage extends StatefulWidget {
 }
 
 class _AddManualLogbookPageState extends State<AddManualLogbookPage> {
+  final TextEditingController _phoneNumberController = TextEditingController();
   final List<Widget> _textFields = [];
   final List<TextEditingController> _controllers = [];
   List<String> _familyMemberChoices = [];
@@ -31,22 +33,22 @@ class _AddManualLogbookPageState extends State<AddManualLogbookPage> {
   void _initializeFamilyMembers() {
     _familyMemberChoices = [];
 
-    // You should replace this logic with your actual implementation
-    // if (widget.homeowner.familyMember != null) {
-    //   String familyMembersString = widget.homeowner.familyMember!.toString();
-    //   // Remove brackets and quotation marks
-    //   familyMembersString =
-    //       familyMembersString.replaceAll('[', '').replaceAll(']', '').replaceAll('"', '');
-    //   _familyMemberChoices.addAll(familyMembersString.split(',').map((e) => e.trim()));
-    // }
+    if (widget.homeowner.familyMember != null) {
+      String familyMembersString = widget.homeowner.familyMember!.toString();
+      // Remove brackets and quotation marks
+      familyMembersString =
+          familyMembersString.replaceAll('[', '').replaceAll(']', '').replaceAll('"', '');
+      _familyMemberChoices.addAll(familyMembersString.split(',').map((e) => e.trim()));
+    }
 
     // Always add the firstName and lastName as the first option
     _familyMemberChoices.insert(0, '${widget.homeowner.firstName} ${widget.homeowner.lastName}');
   }
 
+
   Widget _buildTextField(int index) {
     TextEditingController controller = TextEditingController();
-    _controllers.add(controller);
+    _controllers.insert(index, controller); // Insert controller at the given index
 
     return Row(
       children: [
@@ -87,17 +89,44 @@ class _AddManualLogbookPageState extends State<AddManualLogbookPage> {
     );
   }
 
+  Widget _buildPhoneNumberInput() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12.0),
+      child: TextField(
+        controller: _phoneNumberController,
+        keyboardType: TextInputType.phone,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
+          hintText: 'Phone Number:',
+        ),
+      ),
+    );
+  }
   void _acceptNames() async {
     setState(() {
       _isLoading = true; // Set loading state to true
     });
 
     // Create a list of strings from visitMembers TextEditingControllers
+    // Create a list of strings from visitMembers TextEditingControllers
     List<String> visitMembers = [];
     for (TextEditingController controller in _controllers) {
       String name = controller.text;
       visitMembers.add('"$name"'); // Add quotation marks around each name
     }
+
+    // Add the phone number to the list
+    String phoneNumber = _phoneNumberController.text;
+
+    // Print the homeowner ID
+    print("Homeowner ID: ${widget.homeowner.id}");
+    print(phoneNumber);
+    print(_selectedFamilyMember.toString());
+
+    // Rest of the code remains unchanged
 
     try {
       // Simulating an asynchronous operation, replace this with your actual logic
@@ -110,20 +139,15 @@ class _AddManualLogbookPageState extends State<AddManualLogbookPage> {
         // Print the visit_members
         print("Visit Members: $visitMembers");
 
-        // Call the requestCa function with the necessary parameters
-        // (Assuming this function is defined in your code)
-        // requestCa(
-        //   context,
-        //   homeownerId, // Replace with the actual homeownerId property
-        //   _selectedFamilyMember, // Use the selected family member
-        //   visitMembers, // Pass the list of visit members with quotation marks
-        // );
+        MvoAdd(
+          context,
+          widget.homeowner.id, // Pass the homeowner ID
+          phoneNumber,
+          _selectedFamilyMember,
+          visitMembers, // Pass the list of visit members with quotation marks
+        );
 
-        // Navigate to VisitorBottombar upon success
-        // Navigator.pushReplacement(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => VisitorBottombar()),
-        // );
+
       });
     } catch (error) {
       // Handle any errors here
@@ -136,6 +160,9 @@ class _AddManualLogbookPageState extends State<AddManualLogbookPage> {
     }
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,6 +173,8 @@ class _AddManualLogbookPageState extends State<AddManualLogbookPage> {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
+            Text('Select who to visit'),
+
             PopupMenuButton<String>(
               onSelected: (String selectedValue) {
                 // Handle the selected value as needed
@@ -171,6 +200,7 @@ class _AddManualLogbookPageState extends State<AddManualLogbookPage> {
                   ];
                 }
               },
+
               child: ListTile(
                 title: Text(
                   _selectedFamilyMember.isEmpty
@@ -180,11 +210,16 @@ class _AddManualLogbookPageState extends State<AddManualLogbookPage> {
                 trailing: Icon(Icons.arrow_drop_down),
               ),
             ),
-
             SizedBox(height: 16.0),
 
             // Display the selected family member
             Text('Selected Family Member: $_selectedFamilyMember'),
+            SizedBox(height: 16.0),
+            _buildPhoneNumberInput(),
+
+
+
+            SizedBox(height: 16.0),
 
             Expanded(
               child: ListView.separated(
@@ -207,7 +242,8 @@ class _AddManualLogbookPageState extends State<AddManualLogbookPage> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: _isLoading ? null : _acceptNames,
+                  onPressed: (_isLoading || _selectedFamilyMember.isEmpty) ? null : _acceptNames,
+                  // Disable the button if _isLoading is true or _selectedFamilyMember is empty
                   child: Text(
                     'Confirm',
                     style: TextStyle(fontSize: 20, color: Colors.white),
@@ -219,9 +255,11 @@ class _AddManualLogbookPageState extends State<AddManualLogbookPage> {
                   ),
               ],
             ),
+
           ],
         ),
       ),
     );
   }
+
 }

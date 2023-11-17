@@ -196,9 +196,9 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                                           child: CircleAvatar(
                                             radius: 24,
                                             backgroundImage: logbook.visitor != null
-                                                ? NetworkImage('${host ?? ''}/storage/${logbook.visitor!.photo}')
+                                                ? NetworkImage('${host ?? ''}/storage/${logbook.visitor!.photo ?? ''}')
                                                 : null,
-                                            child: logbook.visitor == null
+                                            child: logbook.visitor?.photo == null
                                                 ? Icon(Icons.person, size: 24, color: Colors.white)
                                                 : null,
                                           ),
@@ -209,7 +209,7 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              '${logbook.visitor?.firstName} ${logbook.visitor?.lastName}',
+                                              '${logbook.visitor?.firstName ?? 'Manually Visited'} ${logbook.visitor?.lastName ?? ''}',
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 15,
@@ -218,13 +218,15 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                                             ),
                                             const SizedBox(height: 10),
                                             Text(
-                                              'Date: ${logbook.visitDate}',
+                                              'Date: ${logbook.visitDate != null ? logbook.visitDate : 'N/A'}',
                                               style: TextStyle(color: Colors.white),
                                             ),
+
                                             Text(
-                                              'Time: ${logbook.visitTime}',
+                                              'Time: ${logbook.visitTime != null ? logbook.visitTime : 'N/A'}',
                                               style: TextStyle(color: Colors.white),
                                             ),
+
                                             if (logbook.visitMembers != null)
                                               Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,7 +241,7 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                                                       return Padding(
                                                         padding: const EdgeInsets.only(bottom: 2.0),
                                                         child: Text(
-                                                          member,
+                                                          member ?? 'N/A',
                                                           style: TextStyle(color: Colors.white),
                                                         ),
                                                       );
@@ -271,6 +273,7 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                             );
                           },
                         ),
+
                       );
                     }
                   },

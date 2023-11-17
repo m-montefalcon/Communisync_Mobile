@@ -34,9 +34,12 @@ Future<List<Logbook>> checksCurrentVisitors() async {
       List<Logbook> logbook = logbookListData.map((logbookData) {
         // Parse the visit_members string as JSON array
         final visitMembersData = logbookData['visit_members'];
-        final List<String>? visitMember = visitMembersData is String
+        final List<String>? visitMember = visitMembersData != null
+            ? (visitMembersData is String
             ? List<String>.from(json.decode(visitMembersData))
-            : visitMembersData?.cast<String>();
+            : visitMembersData.cast<String>())
+            : null;
+
 
         return Logbook(
           id: logbookData['id'],
@@ -44,7 +47,8 @@ Future<List<Logbook>> checksCurrentVisitors() async {
           visitTime: logbookData['visit_time_in'],
           contactNumber: logbookData['contact_number'],
           visitMembers: visitMember,
-          visitor: Visitor(
+          visitor: logbookData['visitor'] != null
+              ? Visitor(
             id: logbookData['visitor']['id'],
             userName: logbookData['visitor']['user_name'],
             firstName: logbookData['visitor']['first_name'],
@@ -53,7 +57,9 @@ Future<List<Logbook>> checksCurrentVisitors() async {
             role: logbookData['visitor']['role'],
             email: logbookData['visitor']['email'],
             photo: logbookData['visitor']['photo'],
-          ),
+          )
+              : null,
+
         );
       }).toList();
 

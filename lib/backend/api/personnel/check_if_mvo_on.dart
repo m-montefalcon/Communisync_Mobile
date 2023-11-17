@@ -65,7 +65,7 @@ Future<Homeowner> checksIfMvoOn(String fullName) async {
 
     } else {
       print(': ${response.body}');
-      throw Exception('Failed to fetch homeowner data');
+      throw (': ${response.body}');
     }
 
 
