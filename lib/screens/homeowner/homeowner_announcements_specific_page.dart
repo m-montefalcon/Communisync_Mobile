@@ -26,67 +26,48 @@ class _SpecificAnnouncementPageState extends State<SpecificAnnouncementPage> {
     }
 
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: 325,
-            width: double.infinity,
-            child: Stack(
-              children: [
-                widget.data.photo != null
-                    ? Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                '$host/storage/${widget.data.photo}'),
-                            fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 325,
+              width: double.infinity,
+              child: Stack(
+                children: [
+                  widget.data.photo != null
+                      ? Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  '$host/storage/${widget.data.photo}'),
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                      )
-                    : const Center(child: Text('No announcement photo available')),
+                        )
+                      : const Center(child: Text('No announcement photo available')),
 
-                // Gradient effect for the title and description
-                Positioned.fill(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        stops: const [0, 1],
-                        colors: [
-                          Colors.white.withOpacity(1),
-                          Colors.transparent
-                        ],
+                  // Gradient effect for the title and description
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          stops: const [0, 1],
+                          colors: [
+                            Colors.white.withOpacity(1),
+                            Colors.transparent
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          // SizedBox(height: 20),
-          // widget.data.admin.photo != null
-          //     ? Container(
-          //   width: 300,
-          //   height: 200,
-          //   decoration: BoxDecoration(
-          //     image: DecorationImage(
-          //       image: NetworkImage('${host ?? ''}/storage/${widget.data.admin.photo}'),
-          //       fit: BoxFit.cover,
-          //     ),
-          //   ),
-          // )
-          //     : Text('No announcement photo available'),
-          // Center(
-          //   child: Text(widget.data.admin.firstName),
-          // ),
-          // Center(
-          //   child: Text(widget.data.admin.lastName),
-          // ),
-          Expanded(
-            child: Padding(
+            Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,11 +138,11 @@ class _SpecificAnnouncementPageState extends State<SpecificAnnouncementPage> {
                     ),
                   ),
 
-                  const Spacer(),
+                  const SizedBox(height: 9.0),
 
                   const Divider(height: 1.0, color: Colors.green),
 
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 9.0),
 
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -183,8 +164,8 @@ class _SpecificAnnouncementPageState extends State<SpecificAnnouncementPage> {
                 ],
               ),
             ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }

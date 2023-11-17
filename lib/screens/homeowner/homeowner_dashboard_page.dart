@@ -117,7 +117,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                     Container(
                                       height: 200,
                                       child: PageView.builder(
-                                        itemCount: announcementsWithPictures.length >= 3 ? 3 : announcementsWithPictures.length,
+                                        itemCount: announcementsWithPictures.length >= 5 ? 5 : announcementsWithPictures.length,
                                         itemBuilder: (context, index) {
                                           return GestureDetector(
                                             onTap: () {
@@ -170,8 +170,6 @@ class _DashboardPageState extends State<DashboardPage> {
                                         },
                                       ),
                                     ),
-
-
                                   ],
                                 ),
                               ),
