@@ -130,158 +130,159 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                 final user = snapshot.data!;
                 return Builder(
                     builder: (context) {
-                      return SingleChildScrollView(
+                      return Expanded(
                         child: Container(
                           padding: const EdgeInsets.all(16),
                           height: size.height,
                           width: size.width,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                decoration: user.photo != null
-                                    ? BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                        '$host/storage/' + user.photo!),
-                                  ),
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Colors.green,
-                                    width: 5.0,
-                                  ),
-                                )
-                                    : BoxDecoration(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  decoration: user.photo != null
+                                      ? BoxDecoration(
                                     image: DecorationImage(
-                                      image: AssetImage('assets/images/user-avatar.png'),
+                                      image: NetworkImage(
+                                          '$host/storage/' + user.photo!),
                                     ),
                                     shape: BoxShape.circle,
                                     border: Border.all(
                                       color: Colors.green,
                                       width: 5.0,
-                                    )),
-                                child: const CircleAvatar(
-                                  backgroundColor: Colors.transparent,
-                                  radius: 90,
+                                    ),
+                                  )
+                                      : BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage('assets/images/user-avatar.png'),
+                                      ),
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: Colors.green,
+                                        width: 5.0,
+                                      )),
+                                  child: const CircleAvatar(
+                                    backgroundColor: Colors.transparent,
+                                    radius: 90,
+                                  ),
                                 ),
-                              ),
 
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                user.firstName + ' ' + user.lastName,
-                                style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 20,
+                                const SizedBox(
+                                  height: 5,
                                 ),
-                              ),
-                              Text(
-                                "Visitor",
-                                style: TextStyle(
-                                  color: Colors.black54.withOpacity(.3),
+                                Text(
+                                  user.firstName + ' ' + user.lastName,
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 20,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 55,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    GestureDetector(
-                                      child:  ProfileWidget(
-                                        icon: Icons.phone_iphone,
-                                        title: '${user.contactNumber}',
+                                Text(
+                                  "Visitor",
+                                  style: TextStyle(
+                                    color: Colors.black54.withOpacity(.3),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 55,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                        child:  ProfileWidget(
+                                          icon: Icons.phone_iphone,
+                                          title: '${user.contactNumber}',
+                                        ),
+                                        onTap: () {},
                                       ),
-                                      onTap: () {},
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 55,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    GestureDetector(
-                                      child:  ProfileWidget(
-                                          icon: Icons.email,
-                                          title: '${user.email}'
+                                SizedBox(
+                                  height: 55,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                        child:  ProfileWidget(
+                                            icon: Icons.email,
+                                            title: '${user.email}'
+                                        ),
+                                        onTap: () {},
                                       ),
-                                      onTap: () {},
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 55,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    GestureDetector(
-                                      child: const ProfileWidget(
-                                        icon: Icons.verified,
-                                        title: 'Get Verified',
-                                      ),
-                                      onTap: () async {
-                                        try {
-                                          await verificationExisting(context);
-                                        } catch (e) {
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(
-                                              content: Text('An error occurred: $e'),
-                                            ),
-                                          );
-                                        }
-                                      },
+                                SizedBox(
+                                  height: 55,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                        child: const ProfileWidget(
+                                          icon: Icons.verified,
+                                          title: 'Get Verified',
+                                        ),
+                                        onTap: () async {
+                                          try {
+                                            await verificationExisting(context);
+                                          } catch (e) {
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(
+                                                content: Text('An error occurred: $e'),
+                                              ),
+                                            );
+                                          }
+                                        },
 
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 55,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    GestureDetector(
-                                      child: const ProfileWidget(
-                                        icon: Icons.settings,
-                                        title: 'Edit Profile',
                                       ),
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>  UpdateProfileVisitor(user: widget.user)));
-                                      },
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 55,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    GestureDetector(
-                                      child: const ProfileWidget(
-                                        icon: Icons.logout,
-                                        title: 'Log Out',
+                                SizedBox(
+                                  height: 55,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                        child: const ProfileWidget(
+                                          icon: Icons.settings,
+                                          title: 'Edit Profile',
+                                        ),
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>  UpdateProfileVisitor(user: widget.user)));
+                                        },
                                       ),
-                                      onTap: () async {
-                                        try {
-                                          await logout(context);
-                                        } catch (e) {
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            buildErrorSnackBar('An error occurred: $e'),
-                                          );
-                                        }
-                                      },
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                                SizedBox(
+                                  height: 55,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                        child: const ProfileWidget(
+                                          icon: Icons.logout,
+                                          title: 'Log Out',
+                                        ),
+                                        onTap: () async {
+                                          try {
+                                            await logout(context);
+                                          } catch (e) {
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              buildErrorSnackBar('An error occurred: $e'),
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );

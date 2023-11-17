@@ -21,11 +21,10 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
       appBar: AppBar(
         title: Text('SPECIFIC COMPLAINT'),
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 30),
-          Expanded(
-            child: Padding(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,23 +69,6 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
                                 size: 14,
                                 color: Colors.grey,
                               ),
-                              SizedBox(width: 4),
-                              Text(
-                                '|',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              SizedBox(width: 4),
-                              Text(
-                                widget.data.title ?? '',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
                             ],
                           ),
                         ],
@@ -107,6 +89,15 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
                       padding: EdgeInsets.all(8),
                       child: Column(
                         children: [
+                          Text(
+                            'Title: ${widget.data.title ?? ''}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 10),
                           Text(
                             '"${widget.data.description ?? ''}"',
                             style: TextStyle(
@@ -147,46 +138,46 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
                 ],
               ),
             ),
-          ),
-          SizedBox(height: 20),
-          widget.data.photo != null
-              ? Container(
-            width: 300,
-            height: 200,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(
-                  '${host ?? ''}/storage/${widget.data.photo ?? ''}',
-                ),
-                fit: BoxFit.cover,
-              ),
-            ),
-          )
-              : Text('No complaint photo available'),
-          SizedBox(height: 16),
-          const Divider(height: 1.0, color: Colors.green),
-          const SizedBox(height: 16.0),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size.fromHeight(50),
-                backgroundColor: Colors.green,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+            SizedBox(height: 20),
+            widget.data.photo != null
+                ? Container(
+              width: 300,
+              height: 200,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                    '${host ?? ''}/storage/${widget.data.photo ?? ''}',
+                  ),
+                  fit: BoxFit.cover,
                 ),
               ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text(
-                'GOT IT',
-                style: TextStyle(fontSize: 20, color: Colors.white),
+            )
+                : Text('No complaint photo available'),
+            SizedBox(height: 16),
+            const Divider(height: 1.0, color: Colors.green),
+            const SizedBox(height: 16.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(50),
+                  backgroundColor: Colors.green,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'GOT IT',
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 16.0),
-        ],
+            const SizedBox(height: 16.0),
+          ],
+        ),
       ),
     );
   }
