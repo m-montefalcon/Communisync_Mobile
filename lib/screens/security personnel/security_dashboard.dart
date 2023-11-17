@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:communisyncmobile/screens/security%20personnel/security_add_manual_logbook.dart';
+import 'package:communisyncmobile/screens/security%20personnel/security_search_if_mvo_on.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
@@ -135,7 +137,10 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      print('Add Manually pressed');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SearchIfMvoOn()),
+                      );
                     },
                     child: Text('Add Manually'),
                   ),
