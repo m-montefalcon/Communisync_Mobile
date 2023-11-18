@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "280956075602",
+    "project_id": "communisync-notif",
+    "storage_bucket": "communisync-notif.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:280956075602:android:8930a64ea9e7c55543298b",
+        "android_client_info": {
+          "package_name": "com.example.communisync_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChwkYqySLhkR5jHg-c9499qCWVM6LJ0o4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:280956075602:android:d6f0f0095f5d95ad43298b",
+        "android_client_info": {
+          "package_name": "com.example.communisyncmobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChwkYqySLhkR5jHg-c9499qCWVM6LJ0o4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
