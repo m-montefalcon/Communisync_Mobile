@@ -13,8 +13,6 @@ void main() async {
   await dotenv.load(fileName: "dotenv");
   print("Before Firebase.initializeApp()");
   try {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
     AwesomeNotifications().initialize(
       null,
@@ -28,40 +26,6 @@ void main() async {
         )
       ],
     );
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-    // Initialize Firebase messaging foreground handler
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print("Handling a foreground message: ${message.messageId}");
-      // Show notification using awesome_notifications
-      showAwesomeNotification(message.notification?.title, message.notification?.body);
-
-      // Show overlay after the notification
-      showOverlayNotification((context) {
-        return CustomOverlay(
-          title: message.notification?.title,
-          body: message.notification?.body,
-        );
-      }, key: Key('overlay'));
-    });
-
-    // Also handle when the app is in the foreground but opened from a terminated state
-    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
-      if (message != null) {
-        print("Handling initial message: ${message.messageId}");
-        showAwesomeNotification(message.notification?.title, message.notification?.body);
-
-        // Show overlay after the notification
-        showOverlayNotification((context) {
-          return CustomOverlay(
-            title: message.notification?.title,
-            body: message.notification?.body,
-          );
-        }, key: Key('overlay'));
-      }
-    });
-
-    print("Firebase.initializeApp() succeeded");
   } catch (e) {
     print("Firebase.initializeApp() failed: $e");
   }
@@ -135,11 +99,6 @@ void Notify() async {
   );
 }
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print("Handling a background message: ${message.messageId}");
-  // Firebase push notification
-  AwesomeNotifications().createNotificationFromJsonData(message.data);
-}
 
 void showAwesomeNotification(String? title, String? body) async {
   // Check if notifications are allowed
