@@ -1,11 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart'; // Import Firebase Messaging
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import '../../../firebase_options.dart';
+import '../../../main.dart';
 import '../../../screens/login_page.dart';
+
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:overlay_support/overlay_support.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 Future<void> registerUser(
     context,
@@ -19,6 +28,8 @@ Future<void> registerUser(
     ) async {
   try {
     // Get the FCM token
+    await initializeFirebase();
+
     String? fcmToken = await FirebaseMessaging.instance.getToken();
     print(fcmToken);
 
@@ -69,4 +80,72 @@ Future<void> registerUser(
     print("Exception caught in registerUser: $e");
     throw (e);
   }
+}
+Future<void> initializeFirebase() async {
+  // Load environment variables from the dotenv file
+  await dotenv.load(fileName: "dotenv");
+  print("Before Firebase.initializeApp()");
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+    AwesomeNotifications().initialize(
+      null,
+      [
+        NotificationChannel(
+          channelKey: 'basic_channel',
+          channelName: 'Basic notifications',
+          channelDescription: 'Notification channel for basic tests',
+          defaultColor: Color(0xFF9D50DD),
+          ledColor: Colors.white,
+        )
+      ],
+    );
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+    // Initialize Firebase messaging foreground handler
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("Handling a foreground message: ${message.messageId}");
+      // Show notification using awesome_notifications
+      showAwesomeNotification(message.notification?.title, message.notification?.body);
+
+      // Show overlay after the notification
+      showOverlayNotification((context) {
+        return CustomOverlay(
+          title: message.notification?.title,
+          body: message.notification?.body,
+        );
+      }, key: Key('overlay'),
+          duration: Duration(seconds: 7)
+      );
+    });
+
+    // Also handle when the app is in the foreground but opened from a terminated state
+    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+      if (message != null) {
+        print("Handling initial message: ${message.messageId}");
+        showAwesomeNotification(message.notification?.title, message.notification?.body);
+
+        // Show overlay after the notification
+        showOverlayNotification((context) {
+          return CustomOverlay(
+            title: message.notification?.title,
+            body: message.notification?.body,
+          );
+        }, key: Key('overlay'),
+            duration: Duration(seconds: 7));
+      }
+    });
+
+    print("Firebase.initializeApp() succeeded");
+  } catch (e) {
+    print("Firebase.initializeApp() failed: $e");
+  }
+  print("After Firebase.initializeApp()");
+}
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print("Handling a background message: ${message.messageId}");
+  // Firebase push notification
+  AwesomeNotifications().createNotificationFromJsonData(message.data);
+
 }

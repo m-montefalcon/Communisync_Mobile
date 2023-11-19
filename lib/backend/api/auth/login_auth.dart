@@ -128,7 +128,9 @@ Future<void> initializeFirebase() async {
           title: message.notification?.title,
           body: message.notification?.body,
         );
-      }, key: Key('overlay'));
+      }, key: Key('overlay'),
+          duration: Duration(seconds: 7)
+      );
     });
 
     // Also handle when the app is in the foreground but opened from a terminated state
@@ -143,7 +145,8 @@ Future<void> initializeFirebase() async {
             title: message.notification?.title,
             body: message.notification?.body,
           );
-        }, key: Key('overlay'));
+        }, key: Key('overlay'),
+            duration: Duration(seconds: 7));
       }
     });
 
