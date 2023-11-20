@@ -33,7 +33,7 @@ Future<void> logout(context) async {
       await prefs.remove('token');
       await prefs.remove('role');
       await prefs.remove('id');
-      await prefs.remove('fcm_token');
+      // await prefs.remove('fcm_token');
 
       // Unsubscribe from Firebase Messaging topics
       FirebaseMessaging.instance.unsubscribeFromTopic('role_$role');

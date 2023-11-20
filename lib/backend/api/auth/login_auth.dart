@@ -37,7 +37,7 @@ Future<void> loginUser(context, String email, String password) async {
       Map<String, dynamic> user = responseData['user'] as Map<String, dynamic>;
       String role = user['role'];
       int id = user['id'];
-      String fcmToken = responseData['fcm_token']; // Get the FCM token
+      // String fcmToken = responseData['fcm_token']; // Get the FCM token
 
 
       if (token != null && role != null) {
@@ -49,8 +49,8 @@ Future<void> loginUser(context, String email, String password) async {
         await prefs.setString('token', token);
         await prefs.setString('role', role);
         await prefs.setInt('id', id);
-        await prefs.setString('fcm_token', fcmToken); // Save the FCM token
-        print('$fcmToken');
+        // await prefs.setString('fcm_token', fcmToken); // Save the FCM token
+        // print('$fcmToken');
 
 
 
