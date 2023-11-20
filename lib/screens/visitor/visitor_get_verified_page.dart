@@ -40,18 +40,32 @@ class _GetVerifiedVisitorState extends State<GetVerifiedVisitor> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    Icons.verified_user_rounded,
-                    size: 120,
+                    Icons.verified_rounded,
+                    size: 150,
                     color: Colors.green,
                   ),
                   SizedBox(height: 15),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 30.0),
+                        child: Text(
+                          'Household Information',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     child: Container(
                       decoration: BoxDecoration(
                           color: Colors.grey[200],
-                          border: Border.all(color: Colors.white),
+                          border: Border.all(color: Colors.green),
                           borderRadius: BorderRadius.circular(10)),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15.0),
@@ -62,7 +76,7 @@ class _GetVerifiedVisitorState extends State<GetVerifiedVisitor> {
                           decoration: const InputDecoration(
                               labelText: 'Block Number',
                               border: InputBorder.none,
-                              icon: Icon(Icons.title_rounded)),
+                              icon: Icon(Icons.numbers_rounded)),
                           validator: (value) {
                             {
                               if (value!.isEmpty) {
@@ -82,7 +96,7 @@ class _GetVerifiedVisitorState extends State<GetVerifiedVisitor> {
                     child: Container(
                       decoration: BoxDecoration(
                           color: Colors.grey[200],
-                          border: Border.all(color: Colors.white),
+                          border: Border.all(color: Colors.green),
                           borderRadius: BorderRadius.circular(10)),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15.0),
@@ -93,7 +107,7 @@ class _GetVerifiedVisitorState extends State<GetVerifiedVisitor> {
                           decoration: const InputDecoration(
                               labelText: 'Lot Number',
                               border: InputBorder.none,
-                              icon: Icon(Icons.title_rounded)),
+                              icon: Icon(Icons.numbers_rounded)),
                           validator: (value) {
                             {
                               if (value!.isEmpty) {
@@ -194,14 +208,14 @@ class _GetVerifiedVisitorState extends State<GetVerifiedVisitor> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  hintText: 'Name:',
+                  hintText: 'Family Member Name:',
                 ),
               ),
             ),
           ),
         ),
         IconButton(
-          icon: const Icon(Icons.add, color: Colors.green),
+          icon: const Icon(Icons.group_add_rounded, color: Colors.green),
           onPressed: () {
             setState(() {
               _textFields.insert(index + 1, _buildTextField(index + 1));
@@ -209,7 +223,7 @@ class _GetVerifiedVisitorState extends State<GetVerifiedVisitor> {
           },
         ),
         IconButton(
-          icon: const Icon(Icons.remove, color: Colors.red),
+          icon: const Icon(Icons.group_remove_rounded, color: Colors.red),
           onPressed: () {
             setState(() {
               _textFields.removeAt(index);

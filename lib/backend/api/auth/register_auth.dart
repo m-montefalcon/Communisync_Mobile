@@ -1,20 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:communisyncmobile/firebase_options.dart';
+import 'package:communisyncmobile/main.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart'; // Import Firebase Messaging
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-import '../../../firebase_options.dart';
-import '../../../main.dart';
-import '../../../screens/login_page.dart';
-
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../screens/login_page.dart';
 
 Future<void> registerUser(
     context,
@@ -27,9 +23,8 @@ Future<void> registerUser(
     String photoPath,
     ) async {
   try {
-    // Get the FCM token
     await initializeFirebase();
-
+    // Get the FCM token
     String? fcmToken = await FirebaseMessaging.instance.getToken();
     print(fcmToken);
 
@@ -81,6 +76,9 @@ Future<void> registerUser(
     throw (e);
   }
 }
+
+
+
 Future<void> initializeFirebase() async {
   // Load environment variables from the dotenv file
   await dotenv.load(fileName: "dotenv");
@@ -115,9 +113,7 @@ Future<void> initializeFirebase() async {
           title: message.notification?.title,
           body: message.notification?.body,
         );
-      }, key: Key('overlay'),
-          duration: Duration(seconds: 7)
-      );
+      }, key: Key('overlay'));
     });
 
     // Also handle when the app is in the foreground but opened from a terminated state
@@ -132,8 +128,7 @@ Future<void> initializeFirebase() async {
             title: message.notification?.title,
             body: message.notification?.body,
           );
-        }, key: Key('overlay'),
-            duration: Duration(seconds: 7));
+        }, key: Key('overlay'));
       }
     });
 

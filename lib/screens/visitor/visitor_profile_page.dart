@@ -10,8 +10,6 @@ import 'package:communisyncmobile/screens/visitor/visitor_profile_update_page.da
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-
-
 class VisitorProfilePage extends StatelessWidget {
   const VisitorProfilePage({Key? key}) : super(key: key);
 
@@ -47,8 +45,6 @@ class VisitorProfilePage extends StatelessWidget {
   }
 }
 
-
-
 class UserProfileWidget extends StatefulWidget {
   final User user;
 
@@ -57,247 +53,242 @@ class UserProfileWidget extends StatefulWidget {
   @override
   State<UserProfileWidget> createState() => _UserProfileWidget();
 }
+
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+@override
+class _UserProfileWidget extends State<UserProfileWidget> {
+  SnackBar buildErrorSnackBar(String errorMessage) {
+    return SnackBar(
+      content: Text(errorMessage),
+      backgroundColor: Colors.red,
+    );
+  }
 
-
-
-  @override
-  class _UserProfileWidget extends State<UserProfileWidget> {
-    SnackBar buildErrorSnackBar(String errorMessage) {
-      return SnackBar(
-        content: Text(errorMessage),
-        backgroundColor: Colors.red,
-      );
-    }
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     String host = dotenv.get("API_HOST", fallback: "");
 
     return ScaffoldMessenger(
         child: Scaffold(
-          key: GlobalKey<ScaffoldState>(),
-
-          body: NestedScrollView(
-            floatHeaderSlivers: true,
-            headerSliverBuilder: (context, innerBoxIsScrolled) => [
-              SliverAppBar(
-                floating: true,
-                backgroundColor: Colors.transparent,
-                automaticallyImplyLeading: false,
-                toolbarHeight: 110,
-                elevation: 0.0,
-                flexibleSpace: ClipPath(
-                  clipper: AppBarCustomClipper(),
-                  child: Container(
-                    height: 150,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      // gradient: LinearGradient(
-                      //   begin: Alignment.topLeft,
-                      //   end: Alignment.bottomRight,
-                      //   colors: [
-                      //     Colors.purple.shade800,
-                      //     Colors.purple.shade500,
-                      //   ],
-                      // ),
-                        color: Colors.green.shade700
-                    ),
-                    child: Center(
-                      child: Image.asset('assets/images/logo-white.png',
-                          width: 160, height: 160),
-                    ),
-                  ),
+      key: GlobalKey<ScaffoldState>(),
+      body: NestedScrollView(
+        floatHeaderSlivers: true,
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverAppBar(
+            floating: true,
+            backgroundColor: Colors.transparent,
+            automaticallyImplyLeading: false,
+            toolbarHeight: 110,
+            elevation: 0.0,
+            flexibleSpace: ClipPath(
+              clipper: AppBarCustomClipper(),
+              child: Container(
+                height: 150,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    // gradient: LinearGradient(
+                    //   begin: Alignment.topLeft,
+                    //   end: Alignment.bottomRight,
+                    //   colors: [
+                    //     Colors.purple.shade800,
+                    //     Colors.purple.shade500,
+                    //   ],
+                    // ),
+                    color: Colors.green.shade700),
+                child: Center(
+                  child: Image.asset('assets/images/logo-white.png',
+                      width: 160, height: 160),
                 ),
               ),
-
-
-            ], body: FutureBuilder<User>(
-            future: profileUser(), // Your API function to fetch user profile
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                // While waiting for data, display circular progress indicators
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (snapshot.hasError) {
-                // If there's an error, display an error message
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
-              } else if (snapshot.hasData) {
-                // If data is available, display the user's profile using UserProfileWidget
-                final user = snapshot.data!;
-                return Builder(
-                    builder: (context) {
-                      return Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.all(16),
-                          height: size.height,
-                          width: size.width,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                Container(
-                                  decoration: user.photo != null
-                                      ? BoxDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                          '$host/storage/' + user.photo!),
-                                    ),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.green,
-                                      width: 5.0,
-                                    ),
-                                  )
-                                      : BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage('assets/images/user-avatar.png'),
-                                      ),
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: Colors.green,
-                                        width: 5.0,
-                                      )),
-                                  child: const CircleAvatar(
-                                    backgroundColor: Colors.transparent,
-                                    radius: 90,
+            ),
+          ),
+        ],
+        body: FutureBuilder<User>(
+          future: profileUser(), // Your API function to fetch user profile
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // While waiting for data, display circular progress indicators
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              // If there's an error, display an error message
+              return Center(
+                child: Text('Error: ${snapshot.error}'),
+              );
+            } else if (snapshot.hasData) {
+              // If data is available, display the user's profile using UserProfileWidget
+              final user = snapshot.data!;
+              return Builder(builder: (context) {
+                return Container(
+                  padding: const EdgeInsets.all(16),
+                  height: size.height,
+                  width: size.width,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: user.photo != null
+                              ? BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        '$host/storage/' + user.photo!),
                                   ),
-                                ),
-
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  user.firstName + ' ' + user.lastName,
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 20,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.green,
+                                    width: 5.0,
                                   ),
-                                ),
-                                Text(
-                                  "Visitor",
-                                  style: TextStyle(
-                                    color: Colors.black54.withOpacity(.3),
+                                )
+                              : BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/user-avatar.png'),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 55,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      GestureDetector(
-                                        child:  ProfileWidget(
-                                          icon: Icons.phone_iphone,
-                                          title: '${user.contactNumber}',
-                                        ),
-                                        onTap: () {},
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 55,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      GestureDetector(
-                                        child:  ProfileWidget(
-                                            icon: Icons.email,
-                                            title: '${user.email}'
-                                        ),
-                                        onTap: () {},
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 55,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      GestureDetector(
-                                        child: const ProfileWidget(
-                                          icon: Icons.verified,
-                                          title: 'Get Verified',
-                                        ),
-                                        onTap: () async {
-                                          try {
-                                            await verificationExisting(context);
-                                          } catch (e) {
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                              SnackBar(
-                                                content: Text('An error occurred: $e'),
-                                              ),
-                                            );
-                                          }
-                                        },
-
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 55,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      GestureDetector(
-                                        child: const ProfileWidget(
-                                          icon: Icons.settings,
-                                          title: 'Edit Profile',
-                                        ),
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>  UpdateProfileVisitor(user: widget.user)));
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 55,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      GestureDetector(
-                                        child: const ProfileWidget(
-                                          icon: Icons.logout,
-                                          title: 'Log Out',
-                                        ),
-                                        onTap: () async {
-                                          try {
-                                            await logout(context);
-                                          } catch (e) {
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                              buildErrorSnackBar('An error occurred: $e'),
-                                            );
-                                          }
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.green,
+                                    width: 5.0,
+                                  )),
+                          child: const CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            radius: 90,
                           ),
                         ),
-                      );
-                    }
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          user.firstName + ' ' + user.lastName,
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Text(
+                          "Visitor",
+                          style: TextStyle(
+                            color: Colors.black54.withOpacity(.3),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 50,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                child: ProfileWidget(
+                                  icon: Icons.phone_iphone,
+                                  title: '${user.contactNumber}',
+                                ),
+                                onTap: () {},
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 50,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                child: ProfileWidget(
+                                    icon: Icons.email,
+                                    title: '${user.email}'),
+                                onTap: () {},
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 50,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                child: const ProfileWidget(
+                                  icon: Icons.verified,
+                                  title: 'Get Verified',
+                                ),
+                                onTap: () async {
+                                  try {
+                                    await verificationExisting(context);
+                                  } catch (e) {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(
+                                      SnackBar(
+                                        content:
+                                            Text('An error occurred: $e'),
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 50,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                child: const ProfileWidget(
+                                  icon: Icons.settings,
+                                  title: 'Edit Profile',
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              UpdateProfileVisitor(
+                                                  user: widget.user)));
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 50,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                child: const ProfileWidget(
+                                  icon: Icons.logout,
+                                  title: 'Log Out',
+                                ),
+                                onTap: () async {
+                                  try {
+                                    await logout(context);
+                                  } catch (e) {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(
+                                      buildErrorSnackBar(
+                                          'An error occurred: $e'),
+                                    );
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 );
-              } else {
-                // Handle other cases
-                return Center(
-                  child: Text('No data available'),
-                );
-              }
-            },
-          ),
-          ),
-        )
-    );
+              });
+            } else {
+              // Handle other cases
+              return Center(
+                child: Text('No data available'),
+              );
+            }
+          },
+        ),
+      ),
+    ));
   }
 }

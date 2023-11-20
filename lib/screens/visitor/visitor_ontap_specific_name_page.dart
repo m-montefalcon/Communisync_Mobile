@@ -54,7 +54,6 @@ class _TapSpecificNameState extends State<TapSpecificName> {
       children: [
         Expanded(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.0),
             child: TextField(
               controller: controller,
               decoration: InputDecoration(
@@ -69,7 +68,7 @@ class _TapSpecificNameState extends State<TapSpecificName> {
         ),
         SizedBox(width: 5.0),
         IconButton(
-          icon: const Icon(Icons.add, color: Colors.green),
+          icon: const Icon(Icons.group_add_rounded, color: Colors.green),
           onPressed: () {
             setState(() {
               _textFields.insert(index + 1, _buildTextField(index + 1));
@@ -77,7 +76,7 @@ class _TapSpecificNameState extends State<TapSpecificName> {
           },
         ),
         IconButton(
-          icon: const Icon(Icons.remove, color: Colors.red),
+          icon: const Icon(Icons.group_remove_rounded, color: Colors.red),
           onPressed: () {
             setState(() {
               _textFields.removeAt(index);
@@ -145,6 +144,8 @@ class _TapSpecificNameState extends State<TapSpecificName> {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
+            Text(widget.homeowner.userName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            SizedBox(height: 5),
             PopupMenuButton<String>(
               onSelected: (String selectedValue) {
                 // Handle the selected value as needed
@@ -171,14 +172,28 @@ class _TapSpecificNameState extends State<TapSpecificName> {
                 }
               },
               child: ListTile(
-                title: Text(_selectedFamilyMember.isEmpty ? "Select Destination Person" : _selectedFamilyMember),
-                trailing: Icon(Icons.arrow_drop_down),
+                title: Text(
+                  _selectedFamilyMember.isEmpty ? "Select Destination Person" : _selectedFamilyMember,
+                  style: const TextStyle(fontSize: 18, color: Colors.white), // Text color
+                ),
+                tileColor: Colors.green, // Background color
+                trailing: Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.white, // Icon color
+                ),
               ),
             ),
-            SizedBox(height: 16.0),
+            SizedBox(height: 10.0),
 
             // Display the selected family member
-            Text('Selected Family Member: $_selectedFamilyMember'),
+            Row(
+              children: [
+                Text('Selected Family Member: ', style: TextStyle(fontSize: 15,)),
+                Text('$_selectedFamilyMember', style: TextStyle(fontSize: 15, color: Colors.green, fontWeight: FontWeight.bold))
+              ],
+            ),
+
+            SizedBox(height: 16.0),
 
             Expanded(
               child: ListView.separated(
@@ -190,13 +205,12 @@ class _TapSpecificNameState extends State<TapSpecificName> {
               ),
             ),
             SizedBox(height: 16.0),
-            Text(widget.homeowner.userName),
             Stack(
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(310, 45),
-                    backgroundColor: Colors.green[400],
+                    backgroundColor: Colors.green,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

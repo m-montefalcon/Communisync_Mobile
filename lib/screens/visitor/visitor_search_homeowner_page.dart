@@ -56,7 +56,7 @@ class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
                 key: _formKey,
                 controller: _searchController,
                 decoration: InputDecoration(
-                  hintText: 'Search...',
+                  hintText: 'Search here...',
                   prefixIcon: IconButton(
                       icon: const Icon(Icons.menu), onPressed: () {}),
                   suffixIcon: IconButton(
@@ -99,7 +99,8 @@ class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
                             subtitle: Text(
                               homeowner.userName,
                               style: TextStyle(
-                                color: Colors.black54.withOpacity(.3),
+                                fontSize: 20,
+                                color: Colors.black54,
                               ),
                             ),
                             title: Text(
