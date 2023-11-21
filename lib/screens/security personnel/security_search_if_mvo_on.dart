@@ -12,36 +12,35 @@ class SearchIfMvoOn extends StatefulWidget {
 
 class _SearchIfMvoOnState extends State<SearchIfMvoOn> {
   final TextEditingController _searchController = TextEditingController();
-  Homeowner? _searchResult;
+  List<Homeowner> _searchResults = [];
   bool _isLoading = false;
 
   Future<void> _performSearch() async {
     setState(() {
-      _isLoading = true; // Set the flag to true when search starts
+      _isLoading = true;
     });
 
     String searchText = _searchController.text;
     if (searchText.isNotEmpty) {
-      Homeowner? result = await _fetchHomeowner(searchText);
+      List<Homeowner> results = await _fetchHomeowners(searchText);
       setState(() {
-        _searchResult = result;
-        _isLoading = false; // Set the flag to false when search is complete
+        _searchResults = results;
+        _isLoading = false;
       });
     } else {
       setState(() {
-        _isLoading = false; // Set the flag to false if search text is empty
+        _isLoading = false;
       });
     }
   }
 
-  Future<Homeowner?> _fetchHomeowner(String fullName) async {
+  Future<List<Homeowner>> _fetchHomeowners(String fullName) async {
     try {
-      // Simulating a delay. Replace this with actual data fetching logic.
       await Future.delayed(Duration(seconds: 2));
       return checksIfMvoOn(fullName);
     } catch (e) {
       print('Error fetching data: $e');
-      return null;
+      return [];
     }
   }
 
@@ -63,7 +62,6 @@ class _SearchIfMvoOnState extends State<SearchIfMvoOn> {
                 prefixIcon: IconButton(
                   icon: const Icon(Icons.menu),
                   onPressed: () {
-                    // Handle menu icon press
                     print('Menu icon pressed');
                   },
                 ),
@@ -85,7 +83,7 @@ class _SearchIfMvoOnState extends State<SearchIfMvoOn> {
                   ? Center(
                 child: CircularProgressIndicator(),
               )
-                  : _buildSearchResult(),
+                  : _buildSearchResults(),
             ),
           ],
         ),
@@ -93,18 +91,19 @@ class _SearchIfMvoOnState extends State<SearchIfMvoOn> {
     );
   }
 
-  Widget _buildSearchResult() {
-    if (_searchResult != null) {
-      Homeowner homeowner = _searchResult!;
+  Widget _buildSearchResults() {
+    if (_searchResults.isNotEmpty) {
       return ListView.builder(
-        itemCount: 1,
+        itemCount: _searchResults.length,
         itemBuilder: (context, index) {
+          Homeowner homeowner = _searchResults[index];
           return GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AddManualLogbookPage(homeowner: homeowner),
+                  builder: (context) =>
+                      AddManualLogbookPage(homeowner: homeowner),
                 ),
               );
             },

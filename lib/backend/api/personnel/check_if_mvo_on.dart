@@ -10,7 +10,7 @@ import 'dart:convert';
 
 import '../../model/models.dart';
 
-Future<Homeowner> checksIfMvoOn(String fullName) async {
+Future<List<Homeowner>> checksIfMvoOn(String fullName) async {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('token') ?? '';
@@ -32,43 +32,46 @@ Future<Homeowner> checksIfMvoOn(String fullName) async {
     );
 
     if (response.statusCode == 200) {
+      print(': ${response.body}');
+
       // Parse the JSON response manually
-      final Map<String, dynamic> jsonResponse = json.decode(response.body);
-      final Map<String, dynamic> userJson = jsonResponse['user'];
+      final List<dynamic> jsonResponse = json.decode(response.body)['user'];
 
-      dynamic familyMemberJson = userJson['family_member'];
-      List<String>? familyMember;
+      List<Homeowner> homeowners = jsonResponse.map((userJson) {
+        List<String>? familyMember = [];
 
-      if (familyMemberJson != null) {
-        if (familyMemberJson is String) {
-          // Convert the String to a List if it is a String
-          familyMember = List<String>.from(json.decode(familyMemberJson));
-        } else if (familyMemberJson is List) {
-          // Use the List if it is already a List
-          familyMember = List<String>.from(familyMemberJson);
+        if (userJson.containsKey('family_member')) {
+          dynamic familyMemberJson = userJson['family_member'];
+
+          if (familyMemberJson != null) {
+            if (familyMemberJson is String) {
+              familyMember = List<String>.from(json.decode(familyMemberJson));
+            } else if (familyMemberJson is List) {
+              familyMember = List<String>.from(familyMemberJson);
+            }
+          }
         }
-      }
 
-      Homeowner homeowner = Homeowner(
-        id: userJson['id'] as int,
-        userName: userJson['user_name'] as String,
-        firstName: userJson['first_name'] as String,
-        lastName: userJson['last_name'] as String,
-        familyMember: familyMember,
-      );
-      // Access homeowner properties
-      print('Homeowner ID: ${homeowner.id}');
-      print('Homeowner UserName: ${homeowner.userName}');
-      print('Homeowner UserName: ${homeowner.familyMember}');
-      // ... other properties
-      return homeowner;
+        return Homeowner(
+          id: userJson['id'] as int,
+          userName: userJson['user_name'] as String,
+          firstName: userJson['first_name'] as String,
+          lastName: userJson['last_name'] as String,
+          familyMember: familyMember,
+        );
+      }).toList();
 
+      homeowners.forEach((homeowner) {
+        print('Homeowner ID: ${homeowner.id}');
+        print('Homeowner UserName: ${homeowner.userName}');
+        print('Homeowner Family Member: ${homeowner.familyMember}');
+      });
+
+      return homeowners;
     } else {
       print(': ${response.body}');
-      throw (': ${response.body}');
+      throw Exception(': ${response.body}');
     }
-
-
   } catch (e, stackTrace) {
     print('An error occurred: $e');
     print(stackTrace);
