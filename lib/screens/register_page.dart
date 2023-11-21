@@ -398,8 +398,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                     _userNameController.text,
                                     _firstNameController.text,
                                     _lastNameController.text,
-                                    _emailController.text,
                                     _contactNumber.text,
+
+                                    _emailController.text,
                                     _passwordController.text,
                                     _profilePicturePath.text,
                                   );
