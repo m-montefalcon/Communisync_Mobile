@@ -179,7 +179,7 @@ class _UserProfileWidget extends State<UserProfileWidget> {
                             children: [
                               GestureDetector(
                                 child: ProfileWidget(
-                                  icon: Icons.phone_iphone,
+                                  icon: Icons.email,
                                   title: '${user.contactNumber}',
                                 ),
                                 onTap: () {},
@@ -194,7 +194,7 @@ class _UserProfileWidget extends State<UserProfileWidget> {
                             children: [
                               GestureDetector(
                                 child: ProfileWidget(
-                                    icon: Icons.email,
+                                    icon: Icons.phone_iphone,
                                     title: '${user.email}'),
                                 onTap: () {},
                               ),

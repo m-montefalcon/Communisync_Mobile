@@ -390,7 +390,7 @@ class _UpdateProfileHomeownerState extends State<UpdateProfileHomeowner> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15.0),
                         child: TextFormField(
-                            controller: _contactNumber,
+                            controller: _emailController,
                             // maxLength: 11,
                             keyboardType: TextInputType.number,
                             textInputAction: TextInputAction.next,
@@ -424,7 +424,7 @@ class _UpdateProfileHomeownerState extends State<UpdateProfileHomeowner> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15.0),
                         child: TextFormField(
-                            controller: _emailController,
+                            controller: _contactNumber,
                             keyboardType: TextInputType.emailAddress,
                             textInputAction: TextInputAction.next,
                             decoration: const InputDecoration(
