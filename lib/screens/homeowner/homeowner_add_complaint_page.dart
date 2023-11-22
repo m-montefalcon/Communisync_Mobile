@@ -67,8 +67,8 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Icon(
-                        Icons.live_help_rounded,
-                        size: 120,
+                        Icons.report_problem_rounded,
+                        size: 150,
                         color: Colors.green,
                       ),
                       SizedBox(height: 10),
@@ -86,7 +86,7 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
                               keyboardType: TextInputType.text,
                               textInputAction: TextInputAction.next,
                               decoration: const InputDecoration(
-                                  labelText: 'Complaint Title',
+                                  hintText: 'Complaint Title',
                                   border: InputBorder.none,
                                   icon: Icon(Icons.title_rounded)),
                               validator: (value) {
@@ -120,7 +120,7 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
                                 maxLines: null,
                                 textInputAction: TextInputAction.next,
                                 decoration: const InputDecoration(
-                                    labelText: 'Descriptions',
+                                    hintText: 'Descriptions',
                                     border: InputBorder.none,
                                     icon: Icon(Icons.description_rounded)),
                                 validator: (value) {
@@ -159,7 +159,7 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
                                     readOnly: true,
                                     onTap: _getImage,
                                     decoration: const InputDecoration(
-                                      labelText: 'Attach photo/s here',
+                                      hintText: 'Attach photo here',
                                       border: InputBorder.none,
                                     ),
                                     validator: (value) {
