@@ -49,15 +49,8 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                 height: 150,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    // gradient: LinearGradient(
-                    //   begin: Alignment.topLeft,
-                    //   end: Alignment.bottomRight,
-                    //   colors: [
-                    //     Colors.purple.shade800,
-                    //     Colors.purple.shade500,
-                    //   ],
-                    // ),
-                    color: Colors.green.shade700),
+                  color: Colors.green.shade700,
+                ),
                 child: Center(
                   child: Image.asset('assets/images/logo-white.png',
                       width: 160, height: 160),
@@ -66,172 +59,182 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
             ),
           ),
         ],
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              SafeArea(
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 15.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Text(
-                          'Announcements',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
+        body: RefreshIndicator(
+          onRefresh: () async {
+            // Implement your refresh logic here
+            // For example, you can setState and re-fetch data
+            setState(() {
+              // Update state variables or re-fetch data
+            });
+          },
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: [
+                SafeArea(
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 15.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text(
+                            'Announcements',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              FutureBuilder<List<Announcement>>(
-                future: fetchAnnouncements(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text('${snapshot.error}'),
-                    );
-                  } else if (!snapshot.hasData) {
-                    return Center(
-                      child: Text('No requests available.'),
-                    );
-                  } else {
-                    final List<Announcement> announcementData = snapshot.data!;
+                FutureBuilder<List<Announcement>>(
+                  future: fetchAnnouncements(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text('${snapshot.error}'),
+                      );
+                    } else if (!snapshot.hasData) {
+                      return Center(
+                        child: Text('No requests available.'),
+                      );
+                    } else {
+                      final List<Announcement> announcementData = snapshot.data!;
 
-                    return Expanded(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: announcementData.length,
-                        itemBuilder: (context, index) {
-                          final Announcement data = announcementData[index];
-                          return Stack(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          SpecificAnnouncementPage(data: data),
-                                    ),
-                                  );
-                                },
-                                child: Card(
-                                  margin: const EdgeInsets.all(10),
-                                  elevation: 12,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(24),
-                                  ),
-                                  color: Colors.green,
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15.0, vertical: 20.0),
-                                    decoration: BoxDecoration(
+                      return Expanded(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: announcementData.length,
+                          itemBuilder: (context, index) {
+                            final Announcement data = announcementData[index];
+                            return Stack(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            SpecificAnnouncementPage(data: data),
+                                      ),
+                                    );
+                                  },
+                                  child: Card(
+                                    margin: const EdgeInsets.all(10),
+                                    elevation: 12,
+                                    shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(24),
-                                      gradient: LinearGradient(colors: [
-                                        Colors.green.shade800,
-                                        Colors.green.shade400
-                                      ]),
                                     ),
-                                    child: Stack(
-                                      children: [
-                                        Positioned(
-                                          bottom: 0,
-                                          right: 0,
-                                          child: Text(
-                                            formatTimestamp(data.date),
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            CircleAvatar(
-                                              radius: 24,
-                                              backgroundImage: NetworkImage(
-                                                  '${host ?? ''}/storage/${data.admin.photo}'),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text(
-                                                    '${data.admin.firstName} ${data.admin.lastName}',
-                                                    style: TextStyle(
-                                                      color: Colors.greenAccent,
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    'Admin',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 7),
-                                                  Text(
-                                                    'Title: ${data.title}',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 7),
-                                                  Text(
-                                                    'Details:',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    truncateDescription(
-                                                        data.description),
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 25),
-                                                ],
+                                    color: Colors.green,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15.0, vertical: 20.0),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(24),
+                                        gradient: LinearGradient(colors: [
+                                          Colors.green.shade800,
+                                          Colors.green.shade400
+                                        ]),
+                                      ),
+                                      child: Stack(
+                                        children: [
+                                          Positioned(
+                                            bottom: 0,
+                                            right: 0,
+                                            child: Text(
+                                              formatTimestamp(data.date),
+                                              style: TextStyle(
+                                                color: Colors.black,
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ],
+                                          ),
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              CircleAvatar(
+                                                radius: 24,
+                                                backgroundImage: NetworkImage(
+                                                    '${host ?? ''}/storage/${data.admin.photo}'),
+                                              ),
+                                              SizedBox(width: 10),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      '${data.admin.firstName} ${data.admin.lastName}',
+                                                      style: TextStyle(
+                                                        color: Colors.greenAccent,
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Admin',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 7),
+                                                    Text(
+                                                      'Title: ${data.title}',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 7),
+                                                    Text(
+                                                      'Details:',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      truncateDescription(
+                                                          data.description),
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 25),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              )
-                            ],
-                          );
-                        },
-                      ),
-                    );
-                  }
-                },
-              ),
-            ],
+                                )
+                              ],
+                            );
+                          },
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

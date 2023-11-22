@@ -15,12 +15,15 @@ class ComplaintsPage extends StatefulWidget {
 
 class _ComplaintsPageState extends State<ComplaintsPage> {
   Future<List<Complaint>>? _complaintsFuture;
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+  GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
     super.initState();
     _complaintsFuture = fetchComplaints();
   }
+
   String getStatusString(String? status) {
     if (status == null) {
       return 'Unknown Status';
@@ -37,6 +40,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
         return 'Unknown Status';
     }
   }
+
   @override
   Widget build(BuildContext context) {
     String host = dotenv.get("API_HOST", fallback: "");
@@ -74,51 +78,56 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
             ),
           ),
         ],
-        body:
-           SafeArea(
-            child: Center(
-              child: Column(
+        body: SafeArea(
+          child: Column(
+            children: [
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 15.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Complaints',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 15.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Complaints',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 10.0),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        AddComplaintsPage(),
-                                  ),
-                                );
-                              },
-                              child: Text('Add Complaint'),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                  FutureBuilder<List<Complaint>>(
-                    future: fetchComplaints(),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 10.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddComplaintsPage(),
+                              ),
+                            );
+                          },
+                          child: Text('Add Complaint'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: RefreshIndicator(
+                  key: _refreshIndicatorKey,
+                  onRefresh: () async {
+                    setState(() {
+                      _complaintsFuture = fetchComplaints();
+                    });
+                  },
+                  child: FutureBuilder<List<Complaint>>(
+                    future: _complaintsFuture,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(
@@ -135,135 +144,131 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                       } else {
                         List<Complaint> complaints = snapshot.data!;
 
-                        return Expanded(
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: complaints.length,
-                            itemBuilder: (context, index) {
-                              Complaint complaint = complaints[index];
-                              return Stack(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => SpecificComplaintPage(data: complaint),
-                                        ),
-                                      );
-                                    },
-                                    child: Card(
-                                      margin: const EdgeInsets.all(10),
-                                      elevation: 12,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(24),
-                                      ),
-                                      color: Colors.green,
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(24),
-                                          gradient: LinearGradient(colors: [
-                                            Colors.green.shade800,
-                                            Colors.green.shade400
-                                          ]),
-                                        ),
-                                        child: Stack(
-                                          children: [
-                                            Row(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                        return ListView.builder(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          itemCount: complaints.length,
+                          itemBuilder: (context, index) {
+                            Complaint complaint = complaints[index];
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        SpecificComplaintPage(data: complaint),
+                                  ),
+                                );
+                              },
+                              child: Card(
+                                margin: const EdgeInsets.all(10),
+                                elevation: 12,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                color: Colors.green,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15.0, vertical: 20.0),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(24),
+                                    gradient: LinearGradient(colors: [
+                                      Colors.green.shade800,
+                                      Colors.green.shade400
+                                    ]),
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          CircleAvatar(
+                                            radius: 24,
+                                            backgroundImage:
+                                            complaint.admin?.photo != null
+                                                ? NetworkImage(
+                                                '${host ?? ''}/storage/${complaint.admin?.photo ?? ''}')
+                                            as ImageProvider<Object>?
+                                                : null,
+                                            child: complaint.admin == null
+                                                ? Icon(Icons.person)
+                                                : null,
+                                          ),
+                                          SizedBox(width: 10),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                               children: <Widget>[
-                                                CircleAvatar(
-                                                  radius: 24,
-                                                  backgroundImage: complaint.admin?.photo != null
-                                                      ? NetworkImage('${host ?? ''}/storage/${complaint.admin?.photo ?? ''}') as ImageProvider<Object>?
-                                                      : null,
-                                                  child: complaint.admin == null ? Icon(Icons.person) : null,
-                                                ),
-
-
-                                                SizedBox(width: 10),
-                                                Expanded(
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        complaint.admin != null
-                                                            ? 'Reviewed by: '
-                                                            : 'Pending',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 15,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        '${complaint.admin?.firstName ?? ''} ${complaint.admin?.lastName ?? ''}',
-                                                        style: TextStyle(
-                                                          color: Colors.greenAccent,
-                                                          fontSize: 15,
-                                                          fontWeight: FontWeight.bold,
-                                                        ),
-                                                      ),
-
-                                                      SizedBox(height: 7),
-                                                      Text(
-                                                        'Status: ${getStatusString(complaint.status)}',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 15,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        'Title: ${complaint.title}',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 15,
-                                                        ),
-                                                      ),
-                                                      SizedBox(height: 7),
-                                                      Text(
-                                                        'Details:',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 15,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        truncateDescription(complaint.description),
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 15,
-                                                        ),
-                                                      ),
-                                                      SizedBox(height: 25),
-                                                    ],
+                                                Text(
+                                                  complaint.admin != null
+                                                      ? 'Reviewed by: '
+                                                      : 'Pending',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
                                                   ),
                                                 ),
+                                                Text(
+                                                  '${complaint.admin?.firstName ?? ''} ${complaint.admin?.lastName ?? ''}',
+                                                  style: TextStyle(
+                                                    color: Colors.greenAccent,
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 7),
+                                                Text(
+                                                  'Status: ${getStatusString(complaint.status)}',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Title: ${complaint.title}',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 7),
+                                                Text(
+                                                  'Details:',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  truncateDescription(
+                                                      complaint.description),
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 25),
                                               ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  )
-                                ],
-                              );
-                            },
-                          ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         );
                       }
                     },
                   ),
-
-
-
-
-
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-
+        ),
       ),
     );
   }
