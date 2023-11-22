@@ -1,5 +1,5 @@
 
-API_HOST=http://192.168.1.14:8000
+API_HOST=http://10.0.0.16:8000
 LOGIN_API=/api/login/store/mobile
 LOGOUT_API=/api/logout/mobile
 REGISTER_API=/api/register/store/mobile
@@ -23,6 +23,7 @@ LOGBOOK_OUT_VISITOR=/api/user/logbook/out/
 CHECK_IF_MVO_ON=/api/mvo/get/homeowner
 MANUALLY_ADD_MVO=/api/mvo/post/homeowner
 
+SUBMIT_BLOCKLISTS=/api/users/blocklists/request/mobile
 
 GET_VERIFIED_API=/api/verification/requests/store
 CHECKS_VERIFICATION_STATUS_API=/api/verification/requests/exist/
