@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../backend/api/homeowner/AF/dashboard_announcement.dart';
 import '../../backend/api/homeowner/CF/dashboard_fetch_complaints.dart';
 import '../../backend/api/homeowner/CF/fetch_complaints.dart';
 import 'homeowner_complaints_specific_page.dart';
@@ -36,7 +37,7 @@ class _DashboardPageState extends State<DashboardPage> {
     // Implement your data fetching logic here
 
     // Example for fetching announcements
-    await fetchAnnouncements();
+    await dashboardFetchAnnouncements();
 
     // Example for fetching visitation requests
     await getIdFromSharedPreferencesAndFetchData(context);
@@ -116,7 +117,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 Column(
                   children:  [
                     FutureBuilder<List<Announcement>>(
-                      future: fetchAnnouncements(),
+                      future: dashboardFetchAnnouncements(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return CircularProgressIndicator();
