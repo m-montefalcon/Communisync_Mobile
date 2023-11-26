@@ -291,24 +291,23 @@ class _UpdateProfileSecurityState extends State<UpdateProfileSecurity> {
                         child: TextFormField(
                             controller: _emailController,
                             // maxLength: 11,
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.emailAddress,
                             textInputAction: TextInputAction.next,
                             decoration: const InputDecoration(
-                                labelText: 'Contact Number',
-                                hintText: '09xxxxxxxxx',
+                                labelText: 'Email',
+                                hintText: 'visitor2@communisync.com',
                                 border: InputBorder.none,
-                                icon: Icon(Icons.phone)),
+                                icon: Icon(Icons.alternate_email_outlined)),
                             validator: (value) {
                               if (value!.isEmpty ||
-                                  !RegExp(r'[0-9]').hasMatch(value)) {
-                                return 'Please enter your phone number.';
+                                  !RegExp(r'[a-z0-9]+@[a-z]+\.[a-z]{2,3}')
+                                      .hasMatch(value)) {
+                                return 'Please enter your email.';
                               } else {
-                                // return null;
-                                value.length < 11
-                                    ? 'Required 11 numbers'
-                                    : null;
+                                return null;
                               }
                             }),
+
                       ),
                     ),
                   ),
@@ -324,19 +323,21 @@ class _UpdateProfileSecurityState extends State<UpdateProfileSecurity> {
                         padding: const EdgeInsets.only(left: 15.0),
                         child: TextFormField(
                             controller: _contactNumber,
-                            keyboardType: TextInputType.emailAddress,
+                            keyboardType: TextInputType.number,
                             textInputAction: TextInputAction.next,
                             decoration: const InputDecoration(
-                                labelText: 'Email',
+                                labelText: '09xxxxxxxxx',
                                 border: InputBorder.none,
-                                icon: Icon(Icons.alternate_email_outlined)),
+                                icon: Icon(Icons.phone)),
                             validator: (value) {
                               if (value!.isEmpty ||
-                                  !RegExp(r'[a-z0-9]+@[a-z]+\.[a-z]{2,3}')
-                                      .hasMatch(value)) {
-                                return 'Please enter your email.';
+                                  !RegExp(r'[0-9]').hasMatch(value)) {
+                                return 'Please enter your phone number.';
                               } else {
-                                return null;
+                                // return null;
+                                value.length < 11
+                                    ? 'Required 11 numbers'
+                                    : null;
                               }
                             }),
                       ),
