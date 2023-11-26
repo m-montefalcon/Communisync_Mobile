@@ -143,6 +143,16 @@ class _SecurityAnnouncementPageState extends State<SecurityAnnouncementPage> {
                                   ),
                                   child: Stack(
                                     children: [
+                                      Positioned(
+                                        bottom: 0,
+                                        right: 0,
+                                        child: Text(
+                                          formatTimestamp(data.date),
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
                                       Row(
                                         crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -160,14 +170,13 @@ class _SecurityAnnouncementPageState extends State<SecurityAnnouncementPage> {
                                               children: <Widget>[
                                                 Text(
                                                   '${data.admin.firstName} ${data.admin.lastName}',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: Colors.greenAccent,
                                                     fontSize: 15,
-                                                    fontWeight:
-                                                    FontWeight.bold,
+                                                    fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                Text(
+                                                const Text(
                                                   'Admin',
                                                   style: TextStyle(
                                                     color: Colors.white,
@@ -176,36 +185,31 @@ class _SecurityAnnouncementPageState extends State<SecurityAnnouncementPage> {
                                                     FontWeight.normal,
                                                   ),
                                                 ),
-                                                SizedBox(height: 7),
+                                                const SizedBox(height: 7),
                                                 Text(
                                                   'Title: ${data.title}',
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 7),
+                                                const Text(
+                                                  'Details:',
                                                   style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 15,
                                                   ),
                                                 ),
                                                 Text(
-                                                  formatTimestamp(data.date),
-                                                  style: TextStyle(
+                                                  truncateDescription(
+                                                      data.description),
+                                                  style: const TextStyle(
                                                     color: Colors.white,
+                                                    fontSize: 15,
                                                   ),
                                                 ),
-                                                // Text(
-                                                //   'Details:',
-                                                //   style: TextStyle(
-                                                //     color: Colors.white,
-                                                //     fontSize: 15,
-                                                //   ),
-                                                // ),
-                                                // Text(
-                                                //   truncateDescription(
-                                                //       data.description),
-                                                //   style: TextStyle(
-                                                //     color: Colors.white,
-                                                //     fontSize: 15,
-                                                //   ),
-                                                // ),
-                                                // SizedBox(height: 25),
+                                                const SizedBox(height: 25),
                                               ],
                                             ),
                                           ),
