@@ -1,5 +1,5 @@
 
-API_HOST=http://192.168.128.41:8000
+API_HOST=http://192.168.1.14:8000
 TERMS_AND_CONDITION=/termsAndCondition
 LOGIN_API=/api/login/store/mobile
 LOGOUT_API=/api/logout/mobile

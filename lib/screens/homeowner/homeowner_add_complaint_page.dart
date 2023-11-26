@@ -56,7 +56,7 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Complaint'),
+        title: Text('ADD COMPLAINT'),
       ),
         body: Form(
             key: _complaintformKey,

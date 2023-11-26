@@ -34,13 +34,13 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
                       CircleAvatar(
                         radius: 24,
                         backgroundImage: widget.data.admin?.photo != null
-                            ? NetworkImage('${host ?? ''}/storage/${widget.data.admin?.photo}')
+                            ? NetworkImage(
+                                '${host ?? ''}/storage/${widget.data.admin?.photo}')
                             : null,
                         child: widget.data.admin?.photo == null
                             ? Icon(Icons.person)
                             : null,
                       ),
-
                       SizedBox(width: 12),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +53,6 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
                               color: Colors.black,
                             ),
                           ),
-                          SizedBox(height: 4),
                           Row(
                             children: [
                               Text(
@@ -89,10 +88,39 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
                       padding: EdgeInsets.all(8),
                       child: Column(
                         children: [
+                          SizedBox(height: 5),
+                          Container(
+                            width: 300,
+                            height: 250,
+                            decoration: BoxDecoration(
+                              image: widget.data.photo != null
+                                  ? DecorationImage(
+                                      image: NetworkImage(
+                                        '${host ?? ''}/storage/${widget.data.photo ?? ''}',
+                                      ),
+                                      fit: BoxFit.fill,
+                                    )
+                                  : null,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: widget.data.photo != null
+                                ? null
+                                : Center(
+                                    child: Text(
+                                      'No complaint photo available',
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                          ),
+                          SizedBox(height: 5),
                           Text(
-                            'Title: ${widget.data.title ?? ''}',
+                            '${widget.data.title ?? ''}',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
@@ -113,16 +141,22 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: (widget.data.updates ?? []).map((update) {
+                                  children:
+                                      (widget.data.updates ?? []).map((update) {
                                     return Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
+                                        Text('Updates: ', style: TextStyle(fontWeight: FontWeight.bold)),
                                         if (update?.update != null &&
                                             update?.resolution == null)
-                                          Text('Update: ${update?.update?.join(", ") ?? ''}'),
+                                          Text(
+                                              'Update: ${update?.update?.join(", ") ?? ''}'),
                                         if (update?.resolution != null)
-                                          Text('Resolution: ${update?.resolution ?? ''}'),
-                                        if (update?.date != null) Text('Date: ${update?.date ?? ''}'),
+                                          Text(
+                                              'Resolution: ${update?.resolution ?? ''}'),
+                                        if (update?.date != null)
+                                          Text('Date: ${update?.date ?? ''}'),
                                         SizedBox(height: 10),
                                       ],
                                     );
@@ -138,22 +172,6 @@ class _SpecificComplaintPageState extends State<SpecificComplaintPage> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
-            widget.data.photo != null
-                ? Container(
-              width: 300,
-              height: 200,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                    '${host ?? ''}/storage/${widget.data.photo ?? ''}',
-                  ),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            )
-                : Text('No complaint photo available'),
-            SizedBox(height: 16),
             const Divider(height: 1.0, color: Colors.green),
             const SizedBox(height: 16.0),
             Padding(

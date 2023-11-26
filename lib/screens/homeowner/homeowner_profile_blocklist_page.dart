@@ -109,7 +109,7 @@ class _BlocklistSettingsPageState extends State<BlocklistSettingsPage> {
                         padding: const EdgeInsets.only(left: 15.0),
                         child: TextFormField(
                           controller: contact_numberController,
-                          keyboardType: TextInputType.name,
+                          keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.next,
                           maxLength: 11, // Limit the length to 11 characters
                           decoration: const InputDecoration(
