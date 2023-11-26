@@ -12,6 +12,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../backend/api/homeowner/AF/dashboard_announcement.dart';
+import '../../backend/api/homeowner/CF/dashboard_fetch_complaints.dart';
 import '../../backend/api/homeowner/CF/fetch_complaints.dart';
 import 'homeowner_complaints_specific_page.dart';
 
@@ -37,13 +39,13 @@ class _DashboardPageState extends State<DashboardPage> {
     // Implement your data fetching logic here
 
     // Example for fetching announcements
-    await fetchAnnouncements();
+    await dashboardFetchAnnouncements();
 
     // Example for fetching visitation requests
     await getIdFromSharedPreferencesAndFetchData(context);
 
     // Example for fetching complaints
-    await fetchComplaints();
+    await dashboardFetchComplaints();
 
     // Refresh the UI
     setState(() {});
@@ -123,7 +125,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 Column(
                   children:  [
                     FutureBuilder<List<Announcement>>(
-                      future: fetchAnnouncements(),
+                      future: dashboardFetchAnnouncements(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return CircularProgressIndicator();
@@ -350,10 +352,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                                         fontWeight: FontWeight.bold, // Adjust as needed
                                                       ),
                                                     ),
-
-                                                    const SizedBox(height: 10),
-
-                                                     Text(
+                                                    // Date at the bottom center
+                                                    Text(
                                                       formatTimestamp('${request.date}'),
                                                       style: TextStyle(
                                                         color: Colors.white,
@@ -370,7 +370,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                       ),
                                       Positioned(
                                         right: 40,
-                                        bottom: 35,
+                                        bottom: 30,
                                         child: GestureDetector(
                                           onTap: () {
                                             Request tappedRequest = requests[index];
@@ -444,155 +444,163 @@ class _DashboardPageState extends State<DashboardPage> {
                     ),
                   ],
                 ),
-                FutureBuilder<List<Complaint>>(
-                  future: fetchComplaints(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Center(
-                        child: Text('${snapshot.error}'),
-                      );
-                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return Center(
-                        child: Text('No complaints available.'),
-                      );
-                    } else {
-                      List<Complaint> complaints = snapshot.data!;
-                      Complaint complaint = complaints[complaints.length-1]; // Take the first complaint
+            FutureBuilder<List<Complaint>>(
+              future: dashboardFetchComplaints(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('${snapshot.error}'),
+                  );
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(
+                    child: Text('No complaints available.'),
+                  );
+                } else {
+                  List<Complaint> complaints = snapshot.data!;
+                  Complaint? complaint = complaints.isNotEmpty ? complaints.first : null;
 
-                      return Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SpecificComplaintPage(data: complaint),
-                                ),
-                              );
-                            },
-                            child: Card(
-                              margin: const EdgeInsets.all(10),
-                              elevation: 12,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                              color: Colors.green,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(24),
-                                  gradient: LinearGradient(colors: [
-                                    Colors.green.shade800,
-                                    Colors.green.shade400
-                                  ]),
-                                ),
-                                child: Stack(
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        CircleAvatar(
-                                          radius: 24,
-                                          backgroundImage: complaint.admin?.photo != null
-                                              ? NetworkImage('${host ?? ''}/storage/${complaint.admin?.photo ?? ''}') as ImageProvider<Object>?
-                                              : null,
-                                          child: complaint.admin == null ? Icon(Icons.person) : null,
-                                        ),
-                                        SizedBox(width: 10),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text(
-                                                complaint.admin != null
-                                                    ? 'Reviewed by: '
-                                                    : 'Pending',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                ),
-                                              ),
-                                              Text(
-                                                '${complaint.admin?.firstName ?? ''} ${complaint.admin?.lastName ?? ''}',
-                                                style: TextStyle(
-                                                  color: Colors.greenAccent,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              SizedBox(height: 7),
-                                              Text(
-                                                'Title: ${complaint.title}',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                ),
-                                              ),
-                                              Text(
-                                                'Status: ${getStatusString(complaint.status)}',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                ),
-                                              ),
-                                              // SizedBox(height: 7),
-                                              // Text(
-                                              //   'Details:',
-                                              //   style: TextStyle(
-                                              //     color: Colors.white,
-                                              //     fontSize: 15,
-                                              //   ),
-                                              // ),
-                                              // Text(
-                                              //   truncateDescription(complaint.description),
-                                              //   style: TextStyle(
-                                              //     color: Colors.white,
-                                              //     fontSize: 15,
-                                              //   ),
-                                              // ),
-                                            ],
+                  if (complaint == null) {
+                    return Center(
+                      child: Text('No complaints available.'),
+                    );
+                  }
+
+                  return Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SpecificComplaintPage(data: complaint),
+                            ),
+                          );
+                        },
+                        child: Card(
+                          margin: const EdgeInsets.all(10),
+                          elevation: 12,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          color: Colors.green,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(24),
+                              gradient: LinearGradient(colors: [
+                                Colors.green.shade800,
+                                Colors.green.shade400
+                              ]),
+                            ),
+                            child: Stack(
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    CircleAvatar(
+                                      radius: 24,
+                                      backgroundImage: complaint.admin?.photo != null
+                                          ? NetworkImage('${host ?? ''}/storage/${complaint.admin?.photo ?? ''}') as ImageProvider<Object>?
+                                          : null,
+                                      child: complaint.admin == null ? Icon(Icons.person) : null,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            complaint.admin != null
+                                                ? 'Reviewed by: '
+                                                : 'Pending',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                          Text(
+                                            '${complaint.admin?.firstName ?? ''} ${complaint.admin?.lastName ?? ''}',
+                                            style: TextStyle(
+                                              color: Colors.greenAccent,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(height: 7),
+                                          Text(
+                                            'Title: ${complaint.title}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Status: ${getStatusString(complaint.status)}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          // SizedBox(height: 7),
+                                          // Text(
+                                          //   'Details:',
+                                          //   style: TextStyle(
+                                          //     color: Colors.white,
+                                          //     fontSize: 15,
+                                          //   ),
+                                          // ),
+                                          // Text(
+                                          //   truncateDescription(complaint.description),
+                                          //   style: TextStyle(
+                                          //     color: Colors.white,
+                                          //     fontSize: 15,
+                                          //   ),
+                                          // ),
+                                          // SizedBox(height: 25),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
-                              ),
+                              ],
                             ),
                           ),
-                          Container(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextButton(
-                                onPressed: () {
-                                  print('see more clicked');
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ComplaintsPage(),
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  'See More',
-                                  style: TextStyle(
-                                    color: Colors.blue,
-                                  ),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextButton(
+                            onPressed: () {
+                              print('see more clicked');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ComplaintsPage(),
                                 ),
+                              );
+                            },
+                            child: Text(
+                              'See More',
+                              style: TextStyle(
+                                color: Colors.blue,
                               ),
                             ),
                           ),
-                        ],
-                      );
-                    }
-                  },
-                ),
-              ],
+                        ),
+                      ),
+                    ],
+                  );
+                }
+              },
+            )
+
+            ],
             ),
           ),
 

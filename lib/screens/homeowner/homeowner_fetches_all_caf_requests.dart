@@ -169,8 +169,6 @@ class _AllRequestVSTwoState extends State<AllRequestVSTwo> {
                                                     ),
                                                   ),
 
-                                                  const SizedBox(height: 10),
-
                                                   // Date at the bottom center
                                                   Text(
                                                     formatTimestamp('${request.date}'),
