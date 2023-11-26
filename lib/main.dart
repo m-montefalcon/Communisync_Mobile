@@ -112,7 +112,6 @@ void showAwesomeNotification(String? title, String? body) async {
         channelKey: 'basic_channel',
         title: title ?? '',
         body: body ?? '',
-        bigPicture: 'resource://drawable/app_icon',
         notificationLayout: NotificationLayout.BigPicture,
         displayOnForeground: true,
       ),
