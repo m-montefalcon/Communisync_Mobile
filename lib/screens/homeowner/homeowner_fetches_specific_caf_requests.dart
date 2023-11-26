@@ -24,7 +24,7 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Visit Info'),
+        title: const Text('VISIT INFORMATION'),
       ),
       body: ListView(
         children: [
@@ -61,7 +61,7 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
             child: Text(
               '${widget.request.visitor.firstName} ${widget.request.visitor.lastName}',
               style: const TextStyle(
-                color: Colors.black54,
+                color: Colors.green,
                 fontSize: 25,
               ),
             ),
@@ -71,20 +71,20 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
               'Visitor ID: ${widget.request.visitorId}',
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.black54.withOpacity(.3),
+                color: Colors.black.withOpacity(0.5),
               ),
             ),
           ),
           // Text('ID: ${widget.request.id}'),
           const Divider(
-              color: Colors.black, indent: 20, endIndent: 20, height: 10),
+              color: Colors.green, indent: 20, endIndent: 20, height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(width: 40),
               Icon(
-                Icons.alternate_email,
-                color: Colors.black54.withOpacity(.5),
+                Icons.account_circle,
+                color: Colors.green,
                 size: 35,
               ),
               Text(
@@ -104,7 +104,7 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
               const SizedBox(width: 40),
               Icon(
                 Icons.date_range,
-                color: Colors.black54.withOpacity(.5),
+                color: Colors.green,
                 size: 35,
               ),
               Text(
@@ -123,8 +123,8 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
             children: [
               const SizedBox(width: 40),
               Icon(
-                Icons.home,
-                color: Colors.black54.withOpacity(.5),
+                Icons.directions_run_rounded,
+                color: Colors.green,
                 size: 35,
               ),
               Text(
@@ -144,7 +144,7 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
               const SizedBox(width: 40),
               Icon(
                 Icons.call,
-                color: Colors.black54.withOpacity(.5),
+                color: Colors.green,
                 size: 35,
               ),
               Text(
@@ -183,7 +183,7 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
 
 
           const Divider(
-              color: Colors.black, indent: 20, endIndent: 20, height: 25),
+              color: Colors.green, indent: 20, endIndent: 20, height: 25),
           Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -206,7 +206,7 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
                     }
                   },
                   style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.black54),
+                      ElevatedButton.styleFrom(backgroundColor: Colors.white),
                   child: _isLoading
                       ? CircularProgressIndicator()
                       : const Text('Accept'),
@@ -230,7 +230,7 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
                     }
                   },
                   style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.black54),
+                      ElevatedButton.styleFrom(backgroundColor: Colors.white),
                   child: _isLoading2
                       ? CircularProgressIndicator()
                       : const Text('Decline'),

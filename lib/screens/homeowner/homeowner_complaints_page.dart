@@ -219,36 +219,35 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                                                 ),
                                                 SizedBox(height: 7),
                                                 Text(
-                                                  'Status: ${getStatusString(complaint.status)}',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 15,
-                                                  ),
-                                                ),
-                                                Text(
                                                   'Title: ${complaint.title}',
                                                   style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 15,
                                                   ),
                                                 ),
-                                                SizedBox(height: 7),
                                                 Text(
-                                                  'Details:',
+                                                  'Status: ${getStatusString(complaint.status)}',
                                                   style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 15,
                                                   ),
                                                 ),
-                                                Text(
-                                                  truncateDescription(
-                                                      complaint.description),
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 15,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 25),
+                                                // SizedBox(height: 7),
+                                                // Text(
+                                                //   'Details:',
+                                                //   style: TextStyle(
+                                                //     color: Colors.white,
+                                                //     fontSize: 15,
+                                                //   ),
+                                                // ),
+                                                // Text(
+                                                //   truncateDescription(
+                                                //       complaint.description),
+                                                //   style: TextStyle(
+                                                //     color: Colors.white,
+                                                //     fontSize: 15,
+                                                //   ),
+                                                // ),
                                               ],
                                             ),
                                           ),

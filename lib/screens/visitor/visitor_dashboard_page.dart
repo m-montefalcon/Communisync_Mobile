@@ -23,8 +23,13 @@ class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
   GlobalKey<RefreshIndicatorState>();
 
   Future<void> _handleRefresh() async {
-    // Perform your refresh logic here
-    await fetchAllRequestApi(context);
+    try {
+      List<FetchAllQr> refreshedData = await fetchAllRequestApi(context);
+      setState(() {
+      });
+    } catch (error) {
+      print("Error during refresh: $error");
+    }
   }
 
   @override
@@ -120,14 +125,6 @@ class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
                                       Stack(
                                         children: [
                                           ListTile(
-                                            title: Text(
-                                              'ID: ${item?.id}',
-                                              style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
                                             subtitle: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: <Widget>[

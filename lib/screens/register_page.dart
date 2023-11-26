@@ -214,6 +214,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             // maxLength: 11,
                             keyboardType: TextInputType.number,
                             textInputAction: TextInputAction.next,
+                            maxLength: 11,
                             decoration: const InputDecoration(
                                 hintText: 'Contact Number',
                                 border: InputBorder.none,
