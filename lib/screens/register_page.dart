@@ -1,9 +1,13 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'dart:io';
 
 import '../backend/api/auth/register_auth.dart';
 import 'login_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -24,7 +28,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   // final TextEditingController _confirmPasswordController = TextEditingController();
   File? _profilePicture;
-
+  String host = dotenv.get("API_HOST", fallback: "");
+  String termsAndCondition = dotenv.get("TERMS_AND_CONDITION", fallback: "");
   @override
   void dispose() {
     _userNameController.dispose();
@@ -325,28 +330,24 @@ class _RegisterPageState extends State<RegisterPage> {
                                       fontSize: 13, color: Colors.black),
                                   children: [
                                     TextSpan(
-                                        text:
-                                            'By selecting Sign Up, you are confirming that you have read and agree to the CommuniSync '),
+                                      text:
+                                      'By selecting Sign Up, you are confirming that you have read and agree to the CommuniSync ',
+                                    ),
                                     TextSpan(
-                                      text: 'Terms of Conditions',
+                                      text:
+                                      'Terms of Conditions and Privacy Statement.',
                                       style: TextStyle(
                                         color: Colors.blue,
                                         decoration: TextDecoration.underline,
                                       ),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          _launchURL(
+                                              'your_link_here'); // Replace with your actual URL
+                                        },
                                     ),
-                                    TextSpan(
-                                      text: ' and ',
-                                    ),
-                                    TextSpan(
-                                      text: 'Privacy Statement',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: '.',
-                                    ),
+
+
                                   ],
                                 ),
                               ),
@@ -456,5 +457,13 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
+  }
+
+  _launchURL(String url) async {
+    if (await launchUrlString('$host$termsAndCondition')) {
+      await launchUrlString('$host$termsAndCondition');
+    } else {
+      throw 'Could not launch Terms and Condition';
+    }
   }
 }

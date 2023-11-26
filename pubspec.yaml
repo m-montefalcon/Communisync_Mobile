@@ -57,6 +57,7 @@ dependencies:
   awesome_notifications: ^0.8.2
   overlay_support: ^2.1.0
   flutter_launcher_icons: ^0.13.1
+  url_launcher: ^6.2.1
 
 
 
