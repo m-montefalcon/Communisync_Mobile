@@ -4,6 +4,9 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+
+import '../../../screens/visitor/visitor_bttmbar.dart';
 
 Future<void> requestCa(context, int homeownerId, String destinationPerson,
     List visitMembers
@@ -42,18 +45,12 @@ Future<void> requestCa(context, int homeownerId, String destinationPerson,
     print('Logout API status code: ${response.statusCode}');
     if (response.statusCode == 200) {
       print(response.body);
-      // Remove token and role from shared preferences
-      // await prefs.remove('token');
-      // await prefs.remove('role');
-      // await prefs.remove('id');
+
       print(' successful');
-      // Navigator.pushAndRemoveUntil(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (BuildContext context) => const RootPage(),
-      //   ),
-      //       (Route<dynamic> route) => false,
-      // );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => VisitorBottombar()),
+      );
     } else {
       print(response.body);
       throw Exception();
