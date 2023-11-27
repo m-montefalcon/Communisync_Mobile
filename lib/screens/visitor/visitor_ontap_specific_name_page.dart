@@ -105,22 +105,18 @@ class _TapSpecificNameState extends State<TapSpecificName> {
       await Future.delayed(Duration(seconds: 2));
 
       // Set loading state to false when the operation is complete
-      setState(() {
+      setState(() async {
         _isLoading = false;
 
         // Call the requestCa function with the necessary parameters
-        requestCa(
+        await requestCa(
           context,
           widget.homeowner.id, // Replace with the actual homeownerId property
           _selectedFamilyMember, // Use the selected family member
           visitMembers, // Pass the list of visit members with quotation marks
         );
 
-        // Navigate to VisitorBottombar upon success
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => VisitorBottombar()),
-        );
+
       });
     } catch (error) {
       // Handle any errors here
