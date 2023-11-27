@@ -71,22 +71,22 @@ class _UserProfileWidget extends State<UserProfileWidget> {
 
     return ScaffoldMessenger(
         child: Scaffold(
-      key: GlobalKey<ScaffoldState>(),
-      body: NestedScrollView(
-        floatHeaderSlivers: true,
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          SliverAppBar(
-            floating: true,
-            backgroundColor: Colors.transparent,
-            automaticallyImplyLeading: false,
-            toolbarHeight: 110,
-            elevation: 0.0,
-            flexibleSpace: ClipPath(
-              clipper: AppBarCustomClipper(),
-              child: Container(
-                height: 150,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
+          key: GlobalKey<ScaffoldState>(),
+          body: NestedScrollView(
+            floatHeaderSlivers: true,
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [
+              SliverAppBar(
+                floating: true,
+                backgroundColor: Colors.transparent,
+                automaticallyImplyLeading: false,
+                toolbarHeight: 110,
+                elevation: 0.0,
+                flexibleSpace: ClipPath(
+                  clipper: AppBarCustomClipper(),
+                  child: Container(
+                    height: 150,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
                     // gradient: LinearGradient(
                     //   begin: Alignment.topLeft,
                     //   end: Alignment.bottomRight,
@@ -96,18 +96,18 @@ class _UserProfileWidget extends State<UserProfileWidget> {
                     //   ],
                     // ),
                     color: Colors.green.shade700),
-                child: Center(
-                  child: Image.asset('assets/images/logo-white.png',
-                      width: 160, height: 160),
+                    child: Center(
+                      child: Image.asset('assets/images/logo-white.png',
+                          width: 160, height: 160),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        ],
-        body: FutureBuilder<User>(
-          future: profileUser(), // Your API function to fetch user profile
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+            ],
+            body: FutureBuilder<User>(
+              future: profileUser(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
               // While waiting for data, display circular progress indicators
               return Center(
                 child: CircularProgressIndicator(),
@@ -179,7 +179,7 @@ class _UserProfileWidget extends State<UserProfileWidget> {
                             children: [
                               GestureDetector(
                                 child: ProfileWidget(
-                                  icon: Icons.email,
+                                  icon: Icons.phone_iphone,
                                   title: '${user.contactNumber}',
                                 ),
                                 onTap: () {},
@@ -194,8 +194,7 @@ class _UserProfileWidget extends State<UserProfileWidget> {
                             children: [
                               GestureDetector(
                                 child: ProfileWidget(
-                                    icon: Icons.phone_iphone,
-                                    title: '${user.email}'),
+                                    icon: Icons.email, title: '${user.email}'),
                                 onTap: () {},
                               ),
                             ],
@@ -215,11 +214,9 @@ class _UserProfileWidget extends State<UserProfileWidget> {
                                   try {
                                     await verificationExisting(context);
                                   } catch (e) {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(
+                                    ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                        content:
-                                            Text('An error occurred: $e'),
+                                        content: Text('An error occurred: $e'),
                                       ),
                                     );
                                   }
@@ -264,8 +261,7 @@ class _UserProfileWidget extends State<UserProfileWidget> {
                                   try {
                                     await logout(context);
                                   } catch (e) {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(
+                                    ScaffoldMessenger.of(context).showSnackBar(
                                       buildErrorSnackBar(
                                           'An error occurred: $e'),
                                     );
