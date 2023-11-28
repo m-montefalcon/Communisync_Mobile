@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 class Request {
   final int id;
@@ -11,9 +10,7 @@ class Request {
   final String destinationPerson;
   final List<String>? visitMembers;
   final String visitStatus;
-  // final String? qrCode;
-  // final DateTime createdAt;
-  // final DateTime updatedAt;
+
   final Visitor visitor;
 
   Request({
@@ -97,8 +94,7 @@ class RequestQr {
     required this.homeownerId,
     this.adminId,
     this.personnelId,
-    // required this.date,
-    // required this.time,
+
     required this.destinationPerson,
     required this.visitMembers,
     required this.visitStatus,

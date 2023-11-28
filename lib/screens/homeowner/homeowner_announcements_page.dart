@@ -202,22 +202,6 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                                       color: Colors.white,
                                                     ),
                                                   ),
-                                                  // Text(
-                                                  //   'Details:',
-                                                  //   style: TextStyle(
-                                                  //     color: Colors.white,
-                                                  //     fontSize: 15,
-                                                  //   ),
-                                                  // ),
-                                                  // Text(
-                                                  //   truncateDescription(
-                                                  //       data.description),
-                                                  //   style: TextStyle(
-                                                  //     color: Colors.white,
-                                                  //     fontSize: 15,
-                                                  //   ),
-                                                  // ),
-                                                  // SizedBox(height: 25),
                                                 ],
                                               ),
                                             ),

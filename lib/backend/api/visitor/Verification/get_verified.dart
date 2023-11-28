@@ -2,7 +2,6 @@
 import 'dart:convert';
 
 import 'package:communisyncmobile/screens/visitor/visitor_bttmbar.dart';
-import 'package:communisyncmobile/screens/visitor/visitor_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,12 +22,7 @@ Future<void> getVerified(context, int blockNo, int lotNo,
     String host = dotenv.get("API_HOST", fallback: "");
     String getVerifiedApi = dotenv.get("GET_VERIFIED_API", fallback: "");
     final url = '$host$getVerifiedApi';
-    print('reach getVerifiedApi api');
-    print(url);
-    print(id);
-    print(blockNo);
-    print(lotNo);
-    print(familyMembers);
+
     final response = await http.post(
       Uri.parse(url),
       headers: {
@@ -43,10 +37,8 @@ Future<void> getVerified(context, int blockNo, int lotNo,
       },
     );
 
-    print(response.statusCode);
     if (response.statusCode == 200) {
-      print(response.body);
-      print(' successful');
+
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
@@ -55,16 +47,14 @@ Future<void> getVerified(context, int blockNo, int lotNo,
             (Route<dynamic> route) => false,
       );
     } else {
-      print(response.body);
-      throw Exception();
+      throw Exception('An error occurred:');
     }
 
 
 
   }
   catch(e, stackTrace){
-    print('An error occurred: $e');
-    print(stackTrace);
+    throw Exception('An error occurred:');
   }
 
 

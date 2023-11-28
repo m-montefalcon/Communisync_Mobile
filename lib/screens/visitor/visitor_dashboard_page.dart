@@ -2,14 +2,10 @@ import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:communisyncmobile/screens/visitor/visitor_ontap_access_qr_code.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../backend/api/visitor/fetch_all_validated_request.dart';
 
-import 'package:flutter/material.dart';
-import 'package:communisyncmobile/backend/model/models.dart';
-import 'package:communisyncmobile/constants/custom_clipper.dart';
-import 'package:communisyncmobile/screens/visitor/visitor_ontap_access_qr_code.dart';
+
 
 class VisitorDashboardPage extends StatefulWidget {
   const VisitorDashboardPage({Key? key}) : super(key: key);
@@ -28,7 +24,6 @@ class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
       setState(() {
       });
     } catch (error) {
-      print("Error during refresh: $error");
     }
   }
 

@@ -68,18 +68,7 @@ class _SecurityPersonnelBottomBarState
               ),
               label: 'QR Code',
             ),
-            // BottomNavigationBarItem(
-            //   icon: Container(
-            //     decoration: BoxDecoration(
-            //       color: Colors.green,
-            //       borderRadius: BorderRadius.circular(20),
-            //     ),
-            //     padding: const EdgeInsets.all(10),
-            //     child: const Icon(Icons.qr_code_rounded,
-            //         size: 35, color: Colors.white),
-            //   ),
-            //   label: '',
-            // ),
+
             const BottomNavigationBarItem(
               icon: Icon(
                 Icons.person_rounded,

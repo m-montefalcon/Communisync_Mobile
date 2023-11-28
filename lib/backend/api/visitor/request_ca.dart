@@ -1,5 +1,5 @@
 
-import 'dart:convert';
+
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,9 +24,6 @@ Future<void> requestCa(context, int homeownerId, String destinationPerson,
     String host = dotenv.get("API_HOST", fallback: "");
     String makeRequestApi = dotenv.get("MAKE_REQUEST_TO_HOMEOWNER_API", fallback: "");
     final url = '$host$makeRequestApi';
-    print(visitMembers);
-    print('reach requestCa api');
-    print(url);
     final response = await http.post(
       Uri.parse(url),
       headers: {
@@ -42,26 +39,22 @@ Future<void> requestCa(context, int homeownerId, String destinationPerson,
         }
 
     );
-    print('Logout API status code: ${response.statusCode}');
     if (response.statusCode == 200) {
-      print(response.body);
 
-      print(' successful');
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => VisitorBottombar()),
       );
     } else {
-      print(response.body);
-      throw Exception();
+      throw Exception('An error occurred');
     }
 
 
 
   }
 catch(e, stackTrace){
-  print('An error occurred: $e');
-  print(stackTrace);
+  throw Exception('An error occurred');
+
 }
 
 

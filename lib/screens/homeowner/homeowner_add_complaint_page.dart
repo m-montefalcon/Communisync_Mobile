@@ -1,10 +1,8 @@
-import 'dart:io';
 
 import 'package:communisyncmobile/backend/api/homeowner/CF/submit_complaints.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_bttmbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 
 class AddComplaintsPage extends StatefulWidget {
   const AddComplaintsPage({Key? key}) : super(key: key);
@@ -29,7 +27,6 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
     final XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       final imagePath = image.path;
-      print('Image path: $imagePath'); // Add this line to check the image path
       setState(() {
         _complaintPhotoPath.text = imagePath;
       });
@@ -37,20 +34,6 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
   }
 
 
-  // Future<void> _selectDate(BuildContext context) async {
-  //   DateTime? picked = await showDatePicker(
-  //     context: context,
-  //     initialDate: DateTime.now(),
-  //     firstDate: DateTime(2000),
-  //     lastDate: DateTime(2101),
-  //   );
-  //   if (picked != null && picked != _selectedDate) {
-  //     setState(() {
-  //       _selectedDate = picked;
-  //       _complaintDate.text = DateFormat('MM/dd/yyyy').format(picked);
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -217,7 +200,6 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
                               );
                             } catch (error) {
                               // Handle errors here
-                              print("Error: $error");
                             } finally {
                               // Set loading state to false when the complaint submission is complete
                               setState(() {

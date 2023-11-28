@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 Future<void> acceptRequestCa(context, int id)async{
   try{
@@ -13,8 +12,6 @@ Future<void> acceptRequestCa(context, int id)async{
     String host = dotenv.get("API_HOST", fallback: "");
     String acceptRequestApi = dotenv.get("ACCEPT_REQUEST_VISITOR_API", fallback: "");
     final url = '$host$acceptRequestApi';
-    print(id);
-    print(url);
     final response = await http.put(
         Uri.parse(url),
         headers: {
@@ -36,14 +33,12 @@ Future<void> acceptRequestCa(context, int id)async{
             (Route<dynamic> route) => false,
       );
     } else {
-      print(': ${response.body}');
-      throw Exception('');
+      throw Exception('An error occured');
     }
 
   }
   catch(e, stackTrace){
-    print('An error occurred: $e');
-    print(stackTrace);
+
     throw Exception('An error occurred');
   }
 

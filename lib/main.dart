@@ -2,8 +2,6 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:communisyncmobile/screens/root_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import 'firebase_options.dart';
@@ -11,7 +9,6 @@ import 'firebase_options.dart';
 void main() async {
   // Load environment variables from the dotenv file
   await dotenv.load(fileName: "dotenv");
-  print("Before Firebase.initializeApp()");
   try {
 
     AwesomeNotifications().initialize(
@@ -27,9 +24,7 @@ void main() async {
       ],
     );
   } catch (e) {
-    print("Firebase.initializeApp() failed: $e");
   }
-  print("After Firebase.initializeApp()");
 
   // Run the app
   runApp(const MyApp());
@@ -117,6 +112,5 @@ void showAwesomeNotification(String? title, String? body) async {
       ),
     );
   } else {
-    print("Notifications are not allowed");
   }
 }

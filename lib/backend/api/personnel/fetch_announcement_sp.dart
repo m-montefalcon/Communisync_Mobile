@@ -1,7 +1,5 @@
 
 import 'package:communisyncmobile/backend/model/models.dart';
-import 'package:communisyncmobile/screens/homeowner/homeowner_bttmbar.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -17,7 +15,6 @@ Future<List<Announcement>> fetchAnnouncementsAsSp()async {
     String fetchAnnouncementApi = dotenv.get(
         "FETCH_ANNOUNCEMENT_API", fallback: "");
     final url = '$host$fetchAnnouncementApi$role';
-    print(url);
     final response = await http.get(
       Uri.parse(url),
       headers: {
@@ -30,7 +27,6 @@ Future<List<Announcement>> fetchAnnouncementsAsSp()async {
       // Remove token and role from shared preferences
       final responseData = json.decode(response.body);
 
-      print('$responseData');
       List<dynamic> announcementListData = responseData['data'];
       List<Announcement> announcements = announcementListData.map((announcementData) {
         return Announcement(
@@ -48,17 +44,7 @@ Future<List<Announcement>> fetchAnnouncementsAsSp()async {
         );
       }).toList();
 
-      for (var data in announcements) {
-        print('Title: ${data.title}');
-        print('Description: ${data.description}');
-        print('Photo: ${data.photo}');
-        print('Admin ID: ${data.admin.id}');
-        print('Admin Username: ${data.admin.userName}');
-        print('Admin First Name: ${data.admin.firstName}');
-        print('Admin Last Name: ${data.admin.lastName}');
-        print('Admin photo: ${data.admin.photo}');
 
-      }
 
 
       return announcements;
@@ -69,8 +55,7 @@ Future<List<Announcement>> fetchAnnouncementsAsSp()async {
 
   }
   catch (e, stackTrace) {
-    print('An error occurred: $e');
-    print(stackTrace);
+
     throw Exception('An error occurred');
   }
 }

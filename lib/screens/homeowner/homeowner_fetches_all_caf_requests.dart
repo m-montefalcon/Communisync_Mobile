@@ -1,7 +1,6 @@
 import 'package:communisyncmobile/backend/api/homeowner/CAF/fetch_all_request_homeowner.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
-import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_page.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_fetches_specific_caf_requests.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -117,7 +116,6 @@ class _AllRequestVSTwoState extends State<AllRequestVSTwo> {
                                             context,
                                             MaterialPageRoute(builder: (context) => SpecificRequestVSTwo(request: tappedRequest)),
                                           );
-                                          print('clicked');
                                       },
                                       child: Card(
                                         margin: const EdgeInsets.all(10),
@@ -193,7 +191,6 @@ class _AllRequestVSTwoState extends State<AllRequestVSTwo> {
                                             context,
                                             MaterialPageRoute(builder: (context) => SpecificRequestVSTwo(request: tappedRequest)),
                                           );
-                                          print('clicked');
                                         },
                                         child:  Icon(
                                           Icons.navigate_next,

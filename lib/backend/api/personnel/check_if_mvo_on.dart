@@ -1,7 +1,5 @@
 
-import 'package:communisyncmobile/screens/homeowner/homeowner_bttmbar.dart';
-import 'package:communisyncmobile/screens/security%20personnel/security_bttmbar.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -19,7 +17,6 @@ Future<List<Homeowner>> checksIfMvoOn(String fullName) async {
     String checkMvoOn = dotenv.get("CHECK_IF_MVO_ON", fallback: "");
     final url = '$host$checkMvoOn';
 
-    print(url);
     final response = await http.post(
       Uri.parse(url),
       headers: {
@@ -32,7 +29,6 @@ Future<List<Homeowner>> checksIfMvoOn(String fullName) async {
     );
 
     if (response.statusCode == 200) {
-      print(': ${response.body}');
 
       // Parse the JSON response manually
       final List<dynamic> jsonResponse = json.decode(response.body)['user'];
@@ -61,20 +57,14 @@ Future<List<Homeowner>> checksIfMvoOn(String fullName) async {
         );
       }).toList();
 
-      homeowners.forEach((homeowner) {
-        print('Homeowner ID: ${homeowner.id}');
-        print('Homeowner UserName: ${homeowner.userName}');
-        print('Homeowner Family Member: ${homeowner.familyMember}');
-      });
+
 
       return homeowners;
     } else {
-      print(': ${response.body}');
-      throw Exception(': ${response.body}');
+      throw Exception('An error occurred');
+
     }
   } catch (e, stackTrace) {
-    print('An error occurred: $e');
-    print(stackTrace);
     throw Exception('An error occurred');
   }
 }

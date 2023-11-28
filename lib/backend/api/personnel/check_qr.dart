@@ -1,6 +1,5 @@
 import 'package:communisyncmobile/backend/model/models.dart'; // Import your model
-import 'package:communisyncmobile/screens/homeowner/homeowner_bttmbar.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -11,7 +10,6 @@ Future<List<RequestQr>> checkQr(context, int id, int homeowner, int visitor) asy
     String host = dotenv.get("API_HOST", fallback: "");
     String checkQrApi = dotenv.get("CHECK_QR_RECEIVED_BY_SP", fallback: "");
     final url = '$host$checkQrApi';
-    print('reach checkqr function');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('token') ?? '';
 
@@ -59,15 +57,12 @@ Future<List<RequestQr>> checkQr(context, int id, int homeowner, int visitor) asy
 
       return [request]; // Return the RequestQr object
 
-      print('Received Request: ${request.id}, ${request.visitorId}');
 
     } else {
-      print('${response.body}');
-      throw Exception('');
+      throw Exception('An error occurred');
     }
   } catch (e, stackTrace) {
-    print('An error occurred: $e');
-    print(stackTrace);
+
     throw Exception('An error occurred');
   }
 }

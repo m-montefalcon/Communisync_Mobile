@@ -1,5 +1,4 @@
 import 'package:communisyncmobile/backend/model/models.dart';
-import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 

@@ -1,5 +1,4 @@
 
-import 'package:communisyncmobile/screens/homeowner/homeowner_bttmbar.dart';
 import 'package:communisyncmobile/screens/security%20personnel/security_bttmbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -8,7 +7,6 @@ import 'package:http/http.dart' as http;
 
 Future<void> acceptQr(context, int id) async{
   try{
-    print('reach acceptQr');
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('token') ?? '';
@@ -16,9 +14,7 @@ Future<void> acceptQr(context, int id) async{
     String host = dotenv.get("API_HOST", fallback: "");
     String acceptQrApi = dotenv.get("ACCEPT_QR_RECEIVED_BY_SP", fallback: "");
     final url = '$host$acceptQrApi';
-    print(id);
-    print(myId.toString());
-    print(url);
+
     final response = await http.put(
         Uri.parse(url),
         headers: {
@@ -41,14 +37,12 @@ Future<void> acceptQr(context, int id) async{
             (Route<dynamic> route) => false,
       );
     } else {
-      print(': ${response.body}');
-      throw Exception('');
+      throw Exception('An error occurred');
     }
 
   }
   catch(e, stackTrace){
-    print('An error occurred: $e');
-    print(stackTrace);
+
     throw Exception('An error occurred');
   }
 

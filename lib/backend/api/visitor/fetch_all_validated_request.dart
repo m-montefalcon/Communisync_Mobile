@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<FetchAllQr>> fetchAllRequestApi(BuildContext context) async {
-  print('reached fetchAllRequestApi');
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('token') ?? '';
@@ -15,8 +14,7 @@ Future<List<FetchAllQr>> fetchAllRequestApi(BuildContext context) async {
     String host = dotenv.get("API_HOST", fallback: "");
     String getAllValidatedRequests = dotenv.get("FETCH_ALL_VALIDATED_REQUEST_API", fallback: "");
     final url = ('$host$getAllValidatedRequests$id');
-    print(id);
-    print(url);
+
     final response = await http.get(
       Uri.parse(url),
       headers: {
@@ -27,7 +25,6 @@ Future<List<FetchAllQr>> fetchAllRequestApi(BuildContext context) async {
 
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
-      print(responseData);
 
       try {
         final List<FetchAllQr> fetchQr = (responseData['data'] as List<dynamic>)
@@ -57,28 +54,19 @@ Future<List<FetchAllQr>> fetchAllRequestApi(BuildContext context) async {
           );
         })
             .toList();
-        for (var qr in fetchQr) {
-          print('ID: ${qr.id}');
-          print('Destination Person: ${qr.destinationPerson}');
-          print('QR Code: ${qr.qrCode}');
-          // Print other properties as needed
-          print('Homeowner: ${qr.homeowner.userName} ${qr.homeowner.firstName} ${qr.homeowner.lastName}');
-          print('Admin: ${qr.admin.userName} ${qr.admin.firstName} ${qr.admin.lastName}');
-          // Add more properties as needed
-          print('----------------------------------------');
-        }
+
 
         return fetchQr;
       } catch (e) {
         // Handle other errors here
-        throw Exception('Error fetching data: $e');
+        throw Exception('Error fetching data');
       }
     } else {
       // Handle the case where the API response is not successful
-      throw Exception('API request failed with status code ${response.statusCode}');
+      throw Exception('Error fetching data');
     }
   } catch (e) {
     // Handle other errors here
-    throw Exception('Error fetching data: $e');
+    throw Exception('Error fetching data');
   }
 }

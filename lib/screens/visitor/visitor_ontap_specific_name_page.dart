@@ -1,10 +1,6 @@
-import 'package:communisyncmobile/screens/visitor/visitor_bttmbar.dart';
 import 'package:flutter/material.dart';
 import 'package:communisyncmobile/backend/api/visitor/request_ca.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+
 
 import '../../backend/model/models.dart';
 
@@ -120,7 +116,6 @@ class _TapSpecificNameState extends State<TapSpecificName> {
       });
     } catch (error) {
       // Handle any errors here
-      print("Error: $error");
 
       // Set loading state to false even in case of an error
       setState(() {

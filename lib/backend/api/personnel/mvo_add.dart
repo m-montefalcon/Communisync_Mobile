@@ -1,7 +1,6 @@
 
-import 'dart:convert';
 
-import 'package:communisyncmobile/screens/homeowner/homeowner_bttmbar.dart';
+
 import 'package:communisyncmobile/screens/security%20personnel/security_bttmbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -18,7 +17,6 @@ Future<void> MvoAdd(context, int homeownerId, String contactNumber, String desti
     String addMvo = dotenv.get("MANUALLY_ADD_MVO", fallback: "");
     final url = '$host$addMvo';
 
-    print(url);
     final response = await http.post(
       Uri.parse(url),
       headers: {
@@ -35,7 +33,6 @@ Future<void> MvoAdd(context, int homeownerId, String contactNumber, String desti
     );
     if (response.statusCode == 200) {
       // Remove token and role from shared preferences
-      print(': ${response.body}');
       // Navigate to SecurityBottomBar
       Navigator.pushAndRemoveUntil(
         context,
@@ -44,14 +41,12 @@ Future<void> MvoAdd(context, int homeownerId, String contactNumber, String desti
       );
 
     } else {
-      print(': ${response.body}');
       throw Exception(Exception);
     }
 
   }
   catch(e, stackTrace){
-    print('An error occurred: $e');
-    print(stackTrace);
+
     throw Exception('An error occurred');
   }
 

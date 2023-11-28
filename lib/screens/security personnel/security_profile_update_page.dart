@@ -96,7 +96,6 @@ class _UpdateProfileSecurityState extends State<UpdateProfileSecurity> {
         // Close the progress indicator dialog
 
       } catch (e) {
-        print('Error uploading profile picture: $e');
         // Handle the error, e.g., show an error message to the user
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -399,9 +398,7 @@ class _UpdateProfileSecurityState extends State<UpdateProfileSecurity> {
                           );
 
                           // Print a message after the function call if needed
-                        print('updateProfileAsHomeowner function called successfully');
                         } catch (e) {
-                          print(e);
                           ScaffoldMessenger.of(context).showSnackBar(
                             buildErrorSnackBar('$e'),
                           );
