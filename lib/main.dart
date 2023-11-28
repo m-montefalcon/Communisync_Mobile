@@ -3,12 +3,15 @@ import 'package:communisyncmobile/screens/root_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'firebase_options.dart';
 
 void main() async {
   // Load environment variables from the dotenv file
   await dotenv.load(fileName: "dotenv");
+  await requestPermissions();
+
   try {
 
     AwesomeNotifications().initialize(
@@ -113,4 +116,16 @@ void showAwesomeNotification(String? title, String? body) async {
     );
   } else {
   }
+}
+Future<void> requestPermissions() async {
+  // You can request multiple permissions at once.
+  Map<Permission, PermissionStatus> statuses = await [
+    Permission.camera,
+    Permission.storage,
+    Permission.notification,
+  ].request();
+
+  statuses.forEach((permission, permissionStatus) {
+    print('$permission: ${permissionStatus.isGranted}');
+  });
 }
