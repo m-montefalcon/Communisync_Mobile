@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:communisyncmobile/screens/security%20personnel/security_add_manual_logbook.dart';
 import 'package:communisyncmobile/screens/security%20personnel/security_search_if_mvo_on.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -59,7 +58,6 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                   }
                 } catch (e) {
                   // Handle errors
-                  print('Error deleting item: $e');
                 }
               },
               child: const Text('Yes'),
@@ -70,7 +68,6 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
     );
 
     if (confirmed == true) {
-      print('Deleting item with id: $id');
     }
   }
 
@@ -78,7 +75,6 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
     try {
       return await checksCurrentVisitors();
     } catch (e) {
-      print('Error fetching logbook data: $e');
       return [];
     }
   }

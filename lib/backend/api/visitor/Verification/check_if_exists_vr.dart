@@ -16,9 +16,7 @@ Future<void> verificationExisting(context) async {
     String host = dotenv.get("API_HOST", fallback: "");
     String checkIfVerifiedApi = dotenv.get("CHECKS_VERIFICATION_STATUS_API", fallback: "");
     final url = '$host$checkIfVerifiedApi$id';
-    print('reach getVerifiedApi api');
-    print(url);
-    print(id);
+
     final response = await http.get(
       Uri.parse(url),
       headers: {
@@ -27,16 +25,13 @@ Future<void> verificationExisting(context) async {
       },
     );
 
-    print(response.statusCode);
     if (response.statusCode == 200) {
-      print(response.body);
 
       // Parse the response body
       Map<String, dynamic> data = jsonDecode(response.body);
       String message = data['message'];
 
-      // Print the message
-      print(message);
+
 
 
 
@@ -49,7 +44,6 @@ Future<void> verificationExisting(context) async {
       );
     }
     if (response.statusCode == 410) {
-      print(response.body);
 
       // Parse the response body
       Map<String, dynamic> data = jsonDecode(response.body);
@@ -61,7 +55,6 @@ Future<void> verificationExisting(context) async {
       // Use the message as needed in your code
     }
     if (response.statusCode == 403) {
-      print(response.body);
 
       // Parse the response body
       Map<String, dynamic> data = jsonDecode(response.body);

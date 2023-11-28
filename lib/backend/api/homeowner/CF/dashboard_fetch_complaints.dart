@@ -17,7 +17,6 @@ Future<List<Complaint>> dashboardFetchComplaints() async {
     String fetchAnnouncementApi = dotenv.get(
         "DASHBOARD_FETCH_COMPLAINTS_BY_ID_API", fallback: "");
     final url = '$host$fetchAnnouncementApi$id';
-    print(url);
     final response = await http.get(
       Uri.parse(url),
       headers: {
@@ -56,7 +55,7 @@ Future<List<Complaint>> dashboardFetchComplaints() async {
 
 
           } catch (e) {
-            print('Error decoding complaint updates: $e');
+            throw ('Error decoding complaint updates');
           }
         }
 
@@ -88,33 +87,12 @@ Future<List<Complaint>> dashboardFetchComplaints() async {
 
       }).toList();
 
-      for (var data in complaints) {
-        print('Title: ${data.title}');
-        print('Description: ${data.description}');
-        print('Photo: ${data.photo}');
-
-        print('Admin ID: ${data.admin?.id}');
-        print('Admin Username: ${data.admin?.userName}');
-        print('Admin First Name: ${data.admin?.firstName}');
-        print('Admin Last Name: ${data.admin?.lastName}');
-        print('Admin photo: ${data.admin?.photo}');
-
-        if (data.updates != null) {
-          for (var update in data.updates!) {
-            print('Update: ${update.update}');
-            print('Resolution: ${update.resolution}');
-            print('Date: ${update.date}');
-          }
-        }
-      }
 
       return complaints;
     } else {
       throw Exception('An error occurred');
     }
   } catch (e, stackTrace) {
-    print('An error occurred: $e');
-    print(stackTrace);
     throw Exception('An error occurred');
   }
 }

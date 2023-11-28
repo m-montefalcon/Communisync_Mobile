@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:communisyncmobile/backend/api/personnel/accept_qr.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/screens/security%20personnel/security_visitor_full_info_page.dart';
 import 'package:flutter/material.dart';
@@ -100,30 +99,7 @@ class _SecurityQrCodeState extends State<SecurityQrCode> {
                 }
               },
             )),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     ElevatedButton(
-            //       onPressed: () async {
-            //         try {
-            //           await acceptQr(context, 1);
-            //         } catch (e) {}
-            //       },
-            //       style:
-            //           ElevatedButton.styleFrom(backgroundColor: Colors.black54),
-            //       child: const Text('Accept'),
-            //     ),
-            //     const SizedBox(width: 20),
-            //     ElevatedButton(
-            //       onPressed: () {
-            //         // Implement your logic for declining the request here
-            //       },
-            //       style:
-            //           ElevatedButton.styleFrom(backgroundColor: Colors.black54),
-            //       child: const Text('Decline'),
-            //     ),
-            //   ],
-            // ),
+
           ],
         ),
       ),
@@ -152,7 +128,6 @@ class _SecurityQrCodeState extends State<SecurityQrCode> {
       final result = await checkQr(context, id, homeowner, visitor);
       return result;
     } catch (e) {
-      print('Error parsing QR data: $e');
       throw e;
     }
   }

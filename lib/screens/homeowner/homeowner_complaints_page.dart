@@ -232,22 +232,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                                                     fontSize: 15,
                                                   ),
                                                 ),
-                                                // SizedBox(height: 7),
-                                                // Text(
-                                                //   'Details:',
-                                                //   style: TextStyle(
-                                                //     color: Colors.white,
-                                                //     fontSize: 15,
-                                                //   ),
-                                                // ),
-                                                // Text(
-                                                //   truncateDescription(
-                                                //       complaint.description),
-                                                //   style: TextStyle(
-                                                //     color: Colors.white,
-                                                //     fontSize: 15,
-                                                //   ),
-                                                // ),
+
                                               ],
                                             ),
                                           ),

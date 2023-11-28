@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 Future<void> declineRequestCa(context, int id)async{
   try{
@@ -13,8 +12,6 @@ Future<void> declineRequestCa(context, int id)async{
     String host = dotenv.get("API_HOST", fallback: "");
     String declineRequestApi = dotenv.get("DECLINE_REQUEST_VISITOR_API", fallback: "");
     final url = '$host$declineRequestApi';
-    print(id);
-    print(url);
     final response = await http.put(
         Uri.parse(url),
         headers: {
@@ -36,16 +33,13 @@ Future<void> declineRequestCa(context, int id)async{
             (Route<dynamic> route) => false,
       );
     } else {
-      print('Logout failed: ${response.body}');
-      throw Exception('');
+      throw Exception('An error occurred');
     }
 
 
 
   }
   catch(e, stackTrace){
-    print('An error occurred: $e');
-    print(stackTrace);
     throw Exception('An error occurred');
   }
 

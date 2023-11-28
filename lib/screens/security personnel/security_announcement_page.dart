@@ -1,9 +1,7 @@
 import 'package:communisyncmobile/backend/api/homeowner/AF/fetch_announcements.dart';
-import 'package:communisyncmobile/backend/api/personnel/fetch_announcement_sp.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_specific_page.dart';
-import 'package:communisyncmobile/screens/security%20personnel/security_announcement_specific_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
@@ -206,22 +204,7 @@ class _SecurityAnnouncementPageState extends State<SecurityAnnouncementPage> {
                                                       color: Colors.white,
                                                     ),
                                                   ),
-                                                  // Text(
-                                                  //   'Details:',
-                                                  //   style: TextStyle(
-                                                  //     color: Colors.white,
-                                                  //     fontSize: 15,
-                                                  //   ),
-                                                  // ),
-                                                  // Text(
-                                                  //   truncateDescription(
-                                                  //       data.description),
-                                                  //   style: TextStyle(
-                                                  //     color: Colors.white,
-                                                  //     fontSize: 15,
-                                                  //   ),
-                                                  // ),
-                                                  // SizedBox(height: 25),
+
                                                 ],
                                               ),
                                             ),

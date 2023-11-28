@@ -5,8 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<List<Homeowner>> getCafSearchRequestApi(String search) async {
-  print('reached getCafRequestsApi');
-  print(search);
+
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('token') ?? '';
@@ -14,7 +13,7 @@ Future<List<Homeowner>> getCafSearchRequestApi(String search) async {
     String host = dotenv.get("API_HOST", fallback: "");
     String cafSearchHmApi = dotenv.get("SEARCH_HOMEOWNER_API", fallback: "");
     final url = ('$host$cafSearchHmApi');
-    print(url);
+
     final response = await http.post(
       Uri.parse(url),
       body: {
@@ -27,7 +26,7 @@ Future<List<Homeowner>> getCafSearchRequestApi(String search) async {
     );
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
-      print(responseData);
+
 
       try {
         // Parse the JSON response and create a list of Homeowner objects
@@ -54,11 +53,11 @@ Future<List<Homeowner>> getCafSearchRequestApi(String search) async {
 
         return homeowners; // Return the list of Homeowner objects
       } catch (e) {
-        print(e);
+        throw Exception('An error occured');
       }
     }
   } catch (e) {
-    print(e);
+    throw Exception('An error occured');
   }
 
   return []; // Return an empty list if there is an error or no data

@@ -1,7 +1,5 @@
-import 'package:communisyncmobile/backend/api/homeowner/AF/fetch_announcements.dart';
 import 'package:communisyncmobile/backend/api/homeowner/CAF/fetch_all_request_homeowner.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
-import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_page.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_specific_page.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_complaints_page.dart';
@@ -10,11 +8,9 @@ import 'package:communisyncmobile/screens/homeowner/homeowner_fetches_specific_c
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../backend/api/homeowner/AF/dashboard_announcement.dart';
 import '../../backend/api/homeowner/CF/dashboard_fetch_complaints.dart';
-import '../../backend/api/homeowner/CF/fetch_complaints.dart';
 import 'homeowner_complaints_specific_page.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -297,7 +293,6 @@ class _DashboardPageState extends State<DashboardPage> {
                                               ),
                                             ),
                                           );
-                                          print('clicked');
                                         },
                                         child: Card(
                                           margin: const EdgeInsets.all(10),
@@ -382,7 +377,6 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 ),
                                               ),
                                             );
-                                            print('clicked');
                                           },
                                           child: Icon(
                                             Icons.navigate_next,
@@ -403,7 +397,6 @@ class _DashboardPageState extends State<DashboardPage> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: TextButton(
                                     onPressed: () {
-                                      print('see more clicked');
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -545,22 +538,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                               fontSize: 15,
                                             ),
                                           ),
-                                          // SizedBox(height: 7),
-                                          // Text(
-                                          //   'Details:',
-                                          //   style: TextStyle(
-                                          //     color: Colors.white,
-                                          //     fontSize: 15,
-                                          //   ),
-                                          // ),
-                                          // Text(
-                                          //   truncateDescription(complaint.description),
-                                          //   style: TextStyle(
-                                          //     color: Colors.white,
-                                          //     fontSize: 15,
-                                          //   ),
-                                          // ),
-                                          // SizedBox(height: 25),
+
                                         ],
                                       ),
                                     ),
@@ -577,7 +555,6 @@ class _DashboardPageState extends State<DashboardPage> {
                           padding: const EdgeInsets.all(8.0),
                           child: TextButton(
                             onPressed: () {
-                              print('see more clicked');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

@@ -1,5 +1,5 @@
 
-import 'package:communisyncmobile/backend/model/models.dart';
+
 import 'package:communisyncmobile/screens/homeowner/homeowner_payment_pdfviewer_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -48,8 +48,7 @@ Future<void> fetchPdfRecord(BuildContext context) async {
       throw Exception('Response status code is not 200');
     }
   } catch (e, stackTrace) {
-    print('An error occurred: $e');
-    print(stackTrace);
+
     throw Exception('An error occurred');
   }
 }

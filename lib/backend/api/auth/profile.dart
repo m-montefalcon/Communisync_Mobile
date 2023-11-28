@@ -16,7 +16,6 @@ Future<User> profileUser() async {
     String profileApi = dotenv.get("PROFILE_API", fallback: "");
 
     final url = ('$host$profileApi$id');
-    print(url);
     final response = await http.get(
       Uri.parse(url),
       headers: {
@@ -29,7 +28,6 @@ Future<User> profileUser() async {
       final responseData = json.decode(response.body);
 
       if (responseData.containsKey('data')) {
-        print('Response body: ${response.body}');
 
         Map<String, dynamic> userData = responseData['data'];
         User user = User(
@@ -44,7 +42,6 @@ Future<User> profileUser() async {
           photo: userData['photo'],
           familyMember: userData['family_member']
         );
-        print(user.familyMember);
         return user;
 
       } else {
@@ -56,7 +53,6 @@ Future<User> profileUser() async {
       throw Exception('HTTP Error: ${response.statusCode}');
     }
   } catch (e) {
-    print('An error occurred: $e');
     throw Exception(e.toString());
   }
 }

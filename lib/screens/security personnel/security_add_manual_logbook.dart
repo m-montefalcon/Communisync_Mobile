@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
 
 import '../../backend/api/personnel/mvo_add.dart';
 import '../../backend/model/models.dart';
@@ -120,11 +119,6 @@ class _AddManualLogbookPageState extends State<AddManualLogbookPage> {
     // Add the phone number to the list
     String phoneNumber = _phoneNumberController.text;
 
-    // Print the homeowner ID
-    print("Homeowner ID: ${widget.homeowner.id}");
-    print(phoneNumber);
-    print(_selectedFamilyMember.toString());
-
     // Rest of the code remains unchanged
 
     try {
@@ -135,8 +129,7 @@ class _AddManualLogbookPageState extends State<AddManualLogbookPage> {
       setState(() {
         _isLoading = false;
 
-        // Print the visit_members
-        print("Visit Members: $visitMembers");
+
 
         MvoAdd(
           context,
@@ -150,7 +143,6 @@ class _AddManualLogbookPageState extends State<AddManualLogbookPage> {
       });
     } catch (error) {
       // Handle any errors here
-      print("Error: $error");
 
       // Set loading state to false even in case of an error
       setState(() {

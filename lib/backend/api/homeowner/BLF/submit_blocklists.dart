@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
+
 
 Future<void> submitBlockedlists(context, String firstName, String lastName, String contactNumber, String reason)async{
   try{
@@ -15,7 +15,6 @@ Future<void> submitBlockedlists(context, String firstName, String lastName, Stri
     String host = dotenv.get("API_HOST", fallback: "");
     String submitBlockedListRequest = dotenv.get("SUBMIT_BLOCKLISTS", fallback: "");
     final url = '$host$submitBlockedListRequest';
-    print(url);
     final response = await http.post(
         Uri.parse(url),
         headers: {
@@ -41,7 +40,6 @@ Future<void> submitBlockedlists(context, String firstName, String lastName, Stri
             (Route<dynamic> route) => false,
       );
     } else {
-      print('Logout failed: ${response.body}');
       throw Exception('');
     }
 
@@ -49,8 +47,6 @@ Future<void> submitBlockedlists(context, String firstName, String lastName, Stri
 
   }
   catch(e, stackTrace){
-    print('An error occurred: $e');
-    print(stackTrace);
     throw Exception('An error occurred');
   }
 

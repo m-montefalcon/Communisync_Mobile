@@ -4,12 +4,10 @@ import 'dart:io';
 
 import 'package:communisyncmobile/backend/api/auth/update_profile_picture.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
-import 'package:communisyncmobile/screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../backend/api/auth/register_auth.dart';
 import '../../backend/api/auth/update_profile_as_homeowner.dart';
 
 class UpdateProfileHomeowner extends StatefulWidget {
@@ -143,7 +141,6 @@ class _UpdateProfileHomeownerState extends State<UpdateProfileHomeowner> {
         // Close the progress indicator dialog
 
       } catch (e) {
-        print('Error uploading profile picture: $e');
         // Handle the error, e.g., show an error message to the user
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -662,10 +659,7 @@ class _UpdateProfileHomeownerState extends State<UpdateProfileHomeowner> {
                             familyMembers,
                           );
 
-                          // Print a message after the function call if needed
-                          print('updateProfileAsHomeowner function called successfully');
                         } catch (e) {
-                          print(e);
                           ScaffoldMessenger.of(context).showSnackBar(
                             buildErrorSnackBar('$e'),
                           );

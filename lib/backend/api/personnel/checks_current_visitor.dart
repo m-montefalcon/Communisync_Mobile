@@ -1,7 +1,6 @@
 
 import 'package:communisyncmobile/backend/model/models.dart';
-import 'package:communisyncmobile/screens/homeowner/homeowner_bttmbar.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +15,6 @@ Future<List<Logbook>> checksCurrentVisitors() async {
     String checksCurrentVisitorsApi = dotenv.get(
         "LOGOUT_CHECKS_FOR_OUT_VISITOR", fallback: "");
     final url = '$host$checksCurrentVisitorsApi';
-    print(url);
 
     final response = await http.get(
       Uri.parse(url),
@@ -28,7 +26,6 @@ Future<List<Logbook>> checksCurrentVisitors() async {
 
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
-      print('$responseData');
 
       List<dynamic> logbookListData = responseData['data'];
       List<Logbook> logbook = logbookListData.map((logbookData) {
@@ -63,20 +60,9 @@ Future<List<Logbook>> checksCurrentVisitors() async {
         );
       }).toList();
 
-      for (var data in logbook) {
-        print('Title: ${data.id}');
-        print('Description: ${data.visitor?.firstName}');
-        print('Description: ${data.visitor?.lastName}');
-        print('Description: ${data.visitor?.contactNumber}');
-        print('Description: ${data.visitor?.email}');
-        print('Description: ${data.visitor?.photo}');
-        print('Photo: ${data.visitMembers}');
-        print('Admin ID: ${data.visitDate}');
-        print('Admin Username: ${data.visitTime}');
-      }
 
 
-      // Print the logbook for debugging
+
 
 
       return logbook;
@@ -85,8 +71,7 @@ Future<List<Logbook>> checksCurrentVisitors() async {
     }
 
   } catch (e, stackTrace) {
-    print('An error occurred: $e');
-    print(stackTrace);
+
     throw Exception('An error occurred');
   }
 }

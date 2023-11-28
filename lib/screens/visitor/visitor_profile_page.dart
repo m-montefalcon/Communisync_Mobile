@@ -4,8 +4,6 @@ import 'package:communisyncmobile/backend/api/visitor/Verification/check_if_exis
 import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:communisyncmobile/constants/profile_widget.dart';
-import 'package:communisyncmobile/screens/register_page.dart';
-import 'package:communisyncmobile/screens/visitor/visitor_get_verified_page.dart';
 import 'package:communisyncmobile/screens/visitor/visitor_profile_update_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

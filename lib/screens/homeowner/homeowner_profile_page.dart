@@ -255,7 +255,6 @@ class _UserProfileWidget extends State<UserProfileWidget> {
                                   try {
                                     await logout(context);
                                   } catch (e) {
-                                    print('Exception caught: $e');
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(
                                       buildErrorSnackBar(

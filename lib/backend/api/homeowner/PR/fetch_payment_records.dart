@@ -17,7 +17,6 @@ Future<List<PaymentRecords>> fetchRecords() async {
     String fetchPaymentRecordsApi = dotenv.get(
         "FETCH_PAYMENT_RECORDS_API", fallback: "");
     final url = '$host$fetchPaymentRecordsApi$id';
-    print(url);
     final response = await http.get(
       Uri.parse(url),
       headers: {
@@ -27,7 +26,6 @@ Future<List<PaymentRecords>> fetchRecords() async {
     );
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
-      print(responseData);
       try {
         final String? messageData = responseData['message'];
 
@@ -50,35 +48,18 @@ Future<List<PaymentRecords>> fetchRecords() async {
         })
             .toList();
 
-        for (var data in records) {
-          print('message: ${data.message}');
 
-          print('transactionNumber: ${data.transactionNumber}');
-          print('paymentDate: ${data.paymentDate}');
-          print('notes: ${data.notes}');
-          print('paymentAmount: ${data.paymentAmount}');
-
-          print('Admin ID: ${data.admin?.id}');
-          print('Admin Username: ${data.admin?.userName}');
-          print('Admin First Name: ${data.admin?.firstName}');
-          print('Admin Last Name: ${data.admin?.lastName}');
-          print('Admin photo: ${data.admin?.photo}');
-
-
-
-        }
         return records;
       } catch (e) {
         // Handle other errors here
-        throw Exception('Error fetching data: $e');
+        throw Exception('Error fetching data');
       }
 
     } else {
       throw Exception('not 200');
     }
   } catch (e, stackTrace) {
-    print('An error occurred: $e');
-    print(stackTrace);
+
     throw Exception('An error occurred');
   }
 }

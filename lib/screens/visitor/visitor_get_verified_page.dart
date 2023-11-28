@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:communisyncmobile/backend/api/visitor/Verification/get_verified.dart';
 import 'package:flutter/material.dart';

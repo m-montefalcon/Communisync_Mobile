@@ -7,7 +7,6 @@ import 'dart:io';
 
 import '../backend/api/auth/register_auth.dart';
 import 'login_page.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -406,10 +405,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                     _passwordController.text,
                                     _profilePicturePath.text,
                                   );
-                                  print(
-                                      'profile pic path ${_profilePicturePath}');
+
                                 } catch (e) {
-                                  print(e);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(content: Text('($e)')),
                                   );
