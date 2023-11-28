@@ -83,10 +83,10 @@ Future<void> loginUser(context, String email, String password) async {
         throw Exception('Invalid API response');
       }
     } else {
-      throw Exception('Login failed');
+      throw Exception('Invalid Credentials');
     }
   } catch (e) {
-    throw Exception('Connection failed. Check your internet connection.');
+    throw Exception(e);
   }
 }
 Future<void> initializeFirebase() async {

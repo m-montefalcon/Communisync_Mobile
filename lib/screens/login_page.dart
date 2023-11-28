@@ -138,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                             );
                           } catch (e) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Wrong Username or Password')),
+                             SnackBar(content: Text('$e')),
                             );
                           } finally {
                             setState(() {
