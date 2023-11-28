@@ -15,7 +15,7 @@ void main() async {
   try {
 
     AwesomeNotifications().initialize(
-      null,
+      'resource://drawable/launcher_icon',
       [
         NotificationChannel(
           channelKey: 'basic_channel',
@@ -110,8 +110,11 @@ void showAwesomeNotification(String? title, String? body) async {
         channelKey: 'basic_channel',
         title: title ?? '',
         body: body ?? '',
-        notificationLayout: NotificationLayout.BigPicture,
+        notificationLayout: NotificationLayout.Default,
+        icon: 'resource://drawable/launcher_icon',
+        color: Colors.green,
         displayOnForeground: true,
+        criticalAlert: true
       ),
     );
   } else {

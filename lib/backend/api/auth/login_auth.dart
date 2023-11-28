@@ -83,10 +83,10 @@ Future<void> loginUser(context, String email, String password) async {
         throw Exception('Invalid API response');
       }
     } else {
-      throw Exception('Invalid Credentials');
+      throw ('Invalid Credentials');
     }
   } catch (e) {
-    throw Exception(e);
+    throw (e);
   }
 }
 Future<void> initializeFirebase() async {
@@ -96,18 +96,7 @@ Future<void> initializeFirebase() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-    AwesomeNotifications().initialize(
-      null,
-      [
-        NotificationChannel(
-          channelKey: 'basic_channel',
-          channelName: 'Basic notifications',
-          channelDescription: 'Notification channel for basic tests',
-          defaultColor: Color(0xFF9D50DD),
-          ledColor: Colors.white,
-        )
-      ],
-    );
+
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     // Initialize Firebase messaging foreground handler
@@ -147,6 +136,6 @@ Future<void> initializeFirebase() async {
 }
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // Firebase push notification
-  AwesomeNotifications().createNotificationFromJsonData(message.data);
+  showAwesomeNotification(message.notification?.title, message.notification?.body);
 
 }

@@ -28,7 +28,7 @@
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_icon"
-                android:resource="@drawable/app_icon" />
+                android:resource="@drawable/launcher_icon" />
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme"
