@@ -1,5 +1,5 @@
 
-API_HOST=http://192.168.1.14:8000
+API_HOST=http://10.0.0.14:8000
 TERMS_AND_CONDITION=/termsAndCondition
 LOGIN_API=/api/login/store/mobile
 LOGOUT_API=/api/logout/mobile
@@ -7,6 +7,7 @@ REGISTER_API=/api/register/store/mobile
 PROFILE_API=/api/get/profile/mobile/
 UPDATE_PROFILE_AS_HOMEOWNER=/api/update/mobile/
 UPDATE_PROFILE_PICTURE=/api/update/profile/mobile/
+CHANGE_PASSWORD=/api/change/password/mobile
 
 FETCHES_ALL_REQUEST_HOMEOWNER_API=/api/users/control/access/get/mobile/
 ACCEPT_REQUEST_VISITOR_API=/api/users/control/access/accept/mobile
@@ -42,3 +43,4 @@ FETCH_PAYMENT_RECORDS_API=/api/user/payment/records/status/
 FETCH_PAYMENT_RECORDS_AS_PDF_API=/api/user/payment/save/records/
 
 GET_XCSRF_TOKEN=/csrf-token
+

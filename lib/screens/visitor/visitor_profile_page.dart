@@ -8,6 +8,8 @@ import 'package:communisyncmobile/screens/visitor/visitor_profile_update_page.da
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import '../homeowner/homeowner_change_password.dart';
+
 class VisitorProfilePage extends StatelessWidget {
   const VisitorProfilePage({Key? key}) : super(key: key);
 
@@ -240,6 +242,29 @@ class _UserProfileWidget extends State<UserProfileWidget> {
                                           builder: (context) =>
                                               UpdateProfileVisitor(
                                                   user: widget.user)));
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 50,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                child: const ProfileWidget(
+                                  icon: Icons.privacy_tip,
+                                  title: 'Privacy Settings',
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ChangePassword()
+                                      )
+                                  );
                                 },
                               ),
                             ],

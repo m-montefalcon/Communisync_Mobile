@@ -3,6 +3,7 @@ import 'package:communisyncmobile/backend/api/auth/profile.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:communisyncmobile/constants/profile_widget.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_change_password.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_profile_blocklist_page.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_profile_update_page.dart';
 import 'package:flutter/material.dart';
@@ -236,6 +237,29 @@ class _UserProfileWidget extends State<UserProfileWidget> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               BlocklistSettingsPage(user: widget.user)));
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 50,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                child: const ProfileWidget(
+                                  icon: Icons.privacy_tip,
+                                  title: 'Privacy Settings',
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ChangePassword()
+                                      )
+                                  );
                                 },
                               ),
                             ],

@@ -28,7 +28,7 @@ Future<void> acceptQr(context, int id) async{
     );
     if (response.statusCode == 200) {
       // Remove token and role from shared preferences
-
+      print(response.body);
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
@@ -37,6 +37,8 @@ Future<void> acceptQr(context, int id) async{
             (Route<dynamic> route) => false,
       );
     } else {
+      print(response.body);
+
       throw Exception('An error occurred');
     }
 
