@@ -82,7 +82,7 @@ class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
                     return const CircularProgressIndicator();
                   } else if (snapshot.hasError) {
                     // If there's an error, display an error message
-                    return Text('Error: ${snapshot.error}');
+                    return Text('No user found');
                   } else if (snapshot.hasData) {
                     // If data is available, display it using a ListView
                     final data = snapshot.data;
