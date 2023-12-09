@@ -7,6 +7,8 @@ import 'package:communisyncmobile/screens/security%20personnel/security_profile_
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import '../homeowner/homeowner_change_password.dart';
+
 class SecurityProfilePage extends StatelessWidget {
   const SecurityProfilePage({Key? key}) : super(key: key);
 
@@ -212,6 +214,29 @@ class _UserProfileWidget extends State<UserProfileWidget> {
                                           builder: (context) =>
                                               UpdateProfileSecurity(
                                                   user: widget.user)));
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 50,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                child: const ProfileWidget(
+                                  icon: Icons.privacy_tip,
+                                  title: 'Privacy Settings',
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ChangePassword()
+                                      )
+                                  );
                                 },
                               ),
                             ],
