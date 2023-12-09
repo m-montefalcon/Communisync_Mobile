@@ -100,20 +100,19 @@ class _TapSpecificNameState extends State<TapSpecificName> {
       // Simulating an asynchronous operation, replace this with your actual logic
       await Future.delayed(Duration(seconds: 2));
 
+      // Call the requestCa function with the necessary parameters
+      await requestCa(
+        context,
+        widget.homeowner.id, // Replace with the actual homeownerId property
+        _selectedFamilyMember, // Use the selected family member
+        visitMembers, // Pass the list of visit members with quotation marks
+      );
+
       // Set loading state to false when the operation is complete
-      setState(() async {
+      setState(() {
         _isLoading = false;
-
-        // Call the requestCa function with the necessary parameters
-        await requestCa(
-          context,
-          widget.homeowner.id, // Replace with the actual homeownerId property
-          _selectedFamilyMember, // Use the selected family member
-          visitMembers, // Pass the list of visit members with quotation marks
-        );
-
-
       });
+
     } catch (error) {
       // Handle any errors here
 
@@ -123,6 +122,7 @@ class _TapSpecificNameState extends State<TapSpecificName> {
       });
     }
   }
+
 
 
   @override
@@ -206,12 +206,15 @@ class _TapSpecificNameState extends State<TapSpecificName> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: _isLoading ? null : _acceptNames, // Disable button when loading
+                  onPressed: _isLoading || _selectedFamilyMember.isEmpty
+                      ? null
+                      : _acceptNames, // Disable button when loading or no selected destination person
                   child: Text(
                     'Send Request',
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
                 ),
+
                 if (_isLoading)
                   Center(
                     child: CircularProgressIndicator(), // Display the circular progress indicator
