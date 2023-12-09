@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:communisyncmobile/screens/security%20personnel/security_notifications_page.dart';
 import 'package:communisyncmobile/screens/security%20personnel/security_search_if_mvo_on.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -37,7 +38,8 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Confirm out'),
-          content: const Text('Are you sure you want to check out this visitor?'),
+          content:
+              const Text('Are you sure you want to check out this visitor?'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -67,8 +69,7 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
       },
     );
 
-    if (confirmed == true) {
-    }
+    if (confirmed == true) {}
   }
 
   Future<List<Logbook>> _fetchLogbookData() async {
@@ -108,6 +109,23 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                 ),
               ),
             ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 50.0, right: 5.0),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SecurityNotificationsPage(),
+                      ),
+                    );
+                  },
+                  icon: Icon(Icons.notifications),
+                  color: Colors.white,
+                ),
+              ),
+            ],
           ),
         ],
         body: Padding(
@@ -135,7 +153,8 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SearchIfMvoOn()),
+                        MaterialPageRoute(
+                            builder: (context) => SearchIfMvoOn()),
                       );
                     },
                     child: Text('Add Manually'),
@@ -188,21 +207,28 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                                     child: Row(
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 10),
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
                                           child: CircleAvatar(
                                             radius: 24,
-                                            backgroundImage: logbook.visitor != null
-                                                ? NetworkImage('${host ?? ''}/storage/${logbook.visitor!.photo ?? ''}')
+                                            backgroundImage: logbook.visitor !=
+                                                    null
+                                                ? NetworkImage(
+                                                    '${host ?? ''}/storage/${logbook.visitor!.photo ?? ''}')
                                                 : null,
-                                            child: logbook.visitor?.photo == null
-                                                ? Icon(Icons.person, size: 24, color: Colors.white)
-                                                : null,
+                                            child:
+                                                logbook.visitor?.photo == null
+                                                    ? Icon(Icons.person,
+                                                        size: 24,
+                                                        color: Colors.white)
+                                                    : null,
                                           ),
                                         ),
                                         const SizedBox(width: 10),
                                         const SizedBox(width: 10),
                                         Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               '${logbook.visitor?.firstName ?? 'Manually Visited'} ${logbook.visitor?.lastName ?? ''}',
@@ -215,30 +241,41 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                                             const SizedBox(height: 10),
                                             Text(
                                               'Date: ${logbook.visitDate != null ? logbook.visitDate : 'N/A'}',
-                                              style: TextStyle(color: Colors.white),
+                                              style: TextStyle(
+                                                  color: Colors.white),
                                             ),
-
                                             Text(
                                               'Time: ${logbook.visitTime != null ? logbook.visitTime : 'N/A'}',
-                                              style: TextStyle(color: Colors.white),
+                                              style: TextStyle(
+                                                  color: Colors.white),
                                             ),
-
                                             if (logbook.visitMembers != null)
                                               Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                     'Members:',
-                                                    style: TextStyle(color: Colors.white),
+                                                    style: TextStyle(
+                                                        color: Colors.white),
                                                   ),
                                                   Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: logbook.visitMembers!.map((member) {
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: logbook
+                                                        .visitMembers!
+                                                        .map((member) {
                                                       return Padding(
-                                                        padding: const EdgeInsets.only(bottom: 2.0),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                bottom: 2.0),
                                                         child: Text(
                                                           member ?? 'N/A',
-                                                          style: TextStyle(color: Colors.white),
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white),
                                                         ),
                                                       );
                                                     }).toList(),
@@ -260,7 +297,8 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                                         size: 30.0,
                                       ),
                                       onPressed: () {
-                                        _showDeleteConfirmationDialog(logbook, logbook.id);
+                                        _showDeleteConfirmationDialog(
+                                            logbook, logbook.id);
                                       },
                                     ),
                                   ),
@@ -269,13 +307,11 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                             );
                           },
                         ),
-
                       );
                     }
                   },
                 ),
               ),
-
             ],
           ),
         ),
