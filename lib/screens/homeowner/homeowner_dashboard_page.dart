@@ -5,6 +5,7 @@ import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_spec
 import 'package:communisyncmobile/screens/homeowner/homeowner_complaints_page.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_fetches_all_caf_requests.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_fetches_specific_caf_requests.dart';
+import 'package:communisyncmobile/screens/homeowner/homeowner_notifications_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
@@ -21,9 +22,8 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
-
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -31,6 +31,7 @@ class _DashboardPageState extends State<DashboardPage> {
     // Fetch data when the page is initialized
     // _refreshData();
   }
+
   Future<void> _refreshData() async {
     // Implement your data fetching logic here
 
@@ -46,6 +47,7 @@ class _DashboardPageState extends State<DashboardPage> {
     // Refresh the UI
     setState(() {});
   }
+
   String getStatusString(String? status) {
     if (status == null) {
       return 'Unknown Status';
@@ -62,6 +64,7 @@ class _DashboardPageState extends State<DashboardPage> {
         return 'Unknown Status';
     }
   }
+
   String truncateDescription(String description) {
     List<String> words = description.split(' ');
     if (words.length > 4) {
@@ -108,6 +111,23 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                 ),
               ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 50.0, right: 5.0),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomeOwnerNotificationsPage(),
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.notifications),
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
           ],
           body: RefreshIndicator(
@@ -119,18 +139,21 @@ class _DashboardPageState extends State<DashboardPage> {
               children: [
                 const SizedBox(height: 10),
                 Column(
-                  children:  [
+                  children: [
                     FutureBuilder<List<Announcement>>(
                       future: dashboardFetchAnnouncements(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return CircularProgressIndicator();
                         } else if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
                         } else {
                           // Filter the announcements to only include those with pictures
-                          List<Announcement> announcementsWithPictures = snapshot.data!.where((announcement) {
-                            return announcement.photo != null && announcement.photo!.isNotEmpty;
+                          List<Announcement> announcementsWithPictures =
+                              snapshot.data!.where((announcement) {
+                            return announcement.photo != null &&
+                                announcement.photo!.isNotEmpty;
                           }).toList();
 
                           return Column(
@@ -158,22 +181,32 @@ class _DashboardPageState extends State<DashboardPage> {
                                         'Announcements',
                                         style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: Theme.of(context).textTheme.headlineSmall!.fontSize,
+                                          fontSize: Theme.of(context)
+                                              .textTheme
+                                              .headlineSmall!
+                                              .fontSize,
                                         ),
                                       ),
                                       SizedBox(height: 10),
                                       Container(
                                         height: 200,
                                         child: PageView.builder(
-                                          itemCount: announcementsWithPictures.length >= 3 ? 3 : announcementsWithPictures.length,
+                                          itemCount: announcementsWithPictures
+                                                      .length >=
+                                                  3
+                                              ? 3
+                                              : announcementsWithPictures
+                                                  .length,
                                           itemBuilder: (context, index) {
                                             return GestureDetector(
                                               onTap: () {
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                    builder: (context) => SpecificAnnouncementPage(
-                                                      data: announcementsWithPictures[index], // Pass the specific data
+                                                    builder: (context) =>
+                                                        SpecificAnnouncementPage(
+                                                      data: announcementsWithPictures[
+                                                          index], // Pass the specific data
                                                     ),
                                                   ),
                                                 );
@@ -181,31 +214,45 @@ class _DashboardPageState extends State<DashboardPage> {
                                               child: Card(
                                                 elevation: 12,
                                                 shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(24),
+                                                  borderRadius:
+                                                      BorderRadius.circular(24),
                                                 ),
                                                 color: Colors.green,
                                                 child: Container(
                                                   height: 200,
-                                                  padding: const EdgeInsets.all(16.0),
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
                                                   decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(24),
-                                                    gradient: LinearGradient(colors: [
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            24),
+                                                    gradient:
+                                                        LinearGradient(colors: [
                                                       Colors.green.shade800,
                                                       Colors.green.shade400,
                                                     ]),
                                                   ),
                                                   child: Column(
                                                     children: <Widget>[
-                                                      if (announcementsWithPictures[index].photo != null)
+                                                      if (announcementsWithPictures[
+                                                                  index]
+                                                              .photo !=
+                                                          null)
                                                         Expanded(
                                                           child: SizedBox(
-                                                            height: double.infinity,
+                                                            height:
+                                                                double.infinity,
                                                             width: 300,
                                                             child: ClipRRect(
-                                                              borderRadius: BorderRadius.circular(12.0),
-                                                              child: Image.network(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12.0),
+                                                              child:
+                                                                  Image.network(
                                                                 '$host/storage/${announcementsWithPictures[index].photo!}',
-                                                                fit: BoxFit.fill,
+                                                                fit:
+                                                                    BoxFit.fill,
                                                               ),
                                                             ),
                                                           ),
@@ -222,13 +269,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                   ),
                                 ),
                               )
-
                             ],
                           );
                         }
                       },
                     ),
-
                     const SizedBox(height: 15),
                     Row(
                       children: const [
@@ -248,11 +293,11 @@ class _DashboardPageState extends State<DashboardPage> {
                         ),
                       ],
                     ),
-
                     FutureBuilder<List<Request>>(
                       future: getIdFromSharedPreferencesAndFetchData(context),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return Center(
                             child: CircularProgressIndicator(),
                           );
@@ -260,14 +305,13 @@ class _DashboardPageState extends State<DashboardPage> {
                           return Center(
                             child: Text('Error: ${snapshot.error}'),
                           );
-                        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
                           // Handle the case where there are no requests.
                           return Center(
                             child: Container(
                               padding: EdgeInsets.all(10.0),
-                              child: Text(
-                                  'No requests available.'
-                              ),
+                              child: Text('No requests available.'),
                             ),
                           );
                         } else {
@@ -277,18 +321,22 @@ class _DashboardPageState extends State<DashboardPage> {
                               ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
-                                itemCount: requests.isNotEmpty ? 1 : 0, // Display one item if there are requests
+                                itemCount: requests.isNotEmpty
+                                    ? 1
+                                    : 0, // Display one item if there are requests
                                 itemBuilder: (context, index) {
                                   final Request request = requests[index];
                                   return Stack(
                                     children: [
                                       GestureDetector(
                                         onTap: () {
-                                          Request tappedRequest = requests[index];
+                                          Request tappedRequest =
+                                              requests[index];
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => SpecificRequestVSTwo(
+                                              builder: (context) =>
+                                                  SpecificRequestVSTwo(
                                                 request: tappedRequest,
                                               ),
                                             ),
@@ -298,7 +346,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                           margin: const EdgeInsets.all(10),
                                           elevation: 12,
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(24),
+                                            borderRadius:
+                                                BorderRadius.circular(24),
                                           ),
                                           color: Colors.green,
                                           child: Container(
@@ -307,7 +356,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                               vertical: 20.0,
                                             ),
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(24),
+                                              borderRadius:
+                                                  BorderRadius.circular(24),
                                               gradient: LinearGradient(
                                                 colors: [
                                                   Colors.green.shade800,
@@ -319,15 +369,17 @@ class _DashboardPageState extends State<DashboardPage> {
                                               children: [
                                                 // Circular Photo on the most left
                                                 Padding(
-                                                  padding: const EdgeInsets.only(left: 10),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10),
                                                   child: CircleAvatar(
                                                     radius: 24,
-                                                    backgroundImage: NetworkImage(
+                                                    backgroundImage:
+                                                        NetworkImage(
                                                       '${host ?? ''}/storage/${request.visitor.photo}',
                                                     ),
                                                   ),
                                                 ),
-
 
                                                 const SizedBox(width: 10),
 
@@ -336,7 +388,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
                                                 // Visitor's name at the top center
                                                 Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     // Visitor's name at the top
                                                     Text(
@@ -344,12 +397,14 @@ class _DashboardPageState extends State<DashboardPage> {
                                                       style: TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 15,
-                                                        fontWeight: FontWeight.bold, // Adjust as needed
+                                                        fontWeight: FontWeight
+                                                            .bold, // Adjust as needed
                                                       ),
                                                     ),
                                                     // Date at the bottom center
                                                     Text(
-                                                      formatTimestamp('${request.date}'),
+                                                      formatTimestamp(
+                                                          '${request.date}'),
                                                       style: TextStyle(
                                                         color: Colors.white,
                                                       ),
@@ -358,8 +413,6 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 ),
                                               ],
                                             ),
-
-
                                           ),
                                         ),
                                       ),
@@ -368,11 +421,13 @@ class _DashboardPageState extends State<DashboardPage> {
                                         bottom: 30,
                                         child: GestureDetector(
                                           onTap: () {
-                                            Request tappedRequest = requests[index];
+                                            Request tappedRequest =
+                                                requests[index];
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => SpecificRequestVSTwo(
+                                                builder: (context) =>
+                                                    SpecificRequestVSTwo(
                                                   request: tappedRequest,
                                                 ),
                                               ),
@@ -394,13 +449,14 @@ class _DashboardPageState extends State<DashboardPage> {
                               Container(
                                 alignment: Alignment.centerRight,
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.only(right: 270.0),
                                   child: TextButton(
                                     onPressed: () {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => AllRequestVSTwo(),
+                                          builder: (context) =>
+                                              AllRequestVSTwo(),
                                         ),
                                       );
                                     },
@@ -415,12 +471,9 @@ class _DashboardPageState extends State<DashboardPage> {
                               ),
                             ],
                           );
-
-
                         }
                       },
                     ),
-
                     Padding(
                       padding: EdgeInsets.only(left: 15.0),
                       child: Align(
@@ -437,154 +490,160 @@ class _DashboardPageState extends State<DashboardPage> {
                     ),
                   ],
                 ),
-            FutureBuilder<List<Complaint>>(
-              future: dashboardFetchComplaints(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text('${snapshot.error}'),
-                  );
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(
-                    child: Text('No complaints available.'),
-                  );
-                } else {
-                  List<Complaint> complaints = snapshot.data!;
-                  Complaint? complaint = complaints.isNotEmpty ? complaints.first : null;
+                FutureBuilder<List<Complaint>>(
+                  future: dashboardFetchComplaints(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text('${snapshot.error}'),
+                      );
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return Center(
+                        child: Text('No complaints available.'),
+                      );
+                    } else {
+                      List<Complaint> complaints = snapshot.data!;
+                      Complaint? complaint =
+                          complaints.isNotEmpty ? complaints.first : null;
 
-                  if (complaint == null) {
-                    return Center(
-                      child: Text('No complaints available.'),
-                    );
-                  }
+                      if (complaint == null) {
+                        return Center(
+                          child: Text('No complaints available.'),
+                        );
+                      }
 
-                  return Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SpecificComplaintPage(data: complaint),
-                            ),
-                          );
-                        },
-                        child: Card(
-                          margin: const EdgeInsets.all(10),
-                          elevation: 12,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          color: Colors.green,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24),
-                              gradient: LinearGradient(colors: [
-                                Colors.green.shade800,
-                                Colors.green.shade400
-                              ]),
-                            ),
-                            child: Stack(
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    CircleAvatar(
-                                      radius: 24,
-                                      backgroundImage: complaint.admin?.photo != null
-                                          ? NetworkImage('${host ?? ''}/storage/${complaint.admin?.photo ?? ''}') as ImageProvider<Object>?
-                                          : null,
-                                      child: complaint.admin == null ? Icon(Icons.person) : null,
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            complaint.admin != null
-                                                ? 'Reviewed by: '
-                                                : 'Pending',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                          Text(
-                                            '${complaint.admin?.firstName ?? ''} ${complaint.admin?.lastName ?? ''}',
-                                            style: TextStyle(
-                                              color: Colors.greenAccent,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(height: 7),
-                                          Text(
-                                            'Title: ${complaint.title}',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Status: ${getStatusString(complaint.status)}',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextButton(
-                            onPressed: () {
+                      return Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ComplaintsPage(),
+                                  builder: (context) =>
+                                      SpecificComplaintPage(data: complaint),
                                 ),
                               );
                             },
-                            child: Text(
-                              'See More',
-                              style: TextStyle(
-                                color: Colors.blue,
+                            child: Card(
+                              margin: const EdgeInsets.all(10),
+                              elevation: 12,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              color: Colors.green,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15.0, vertical: 20.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(24),
+                                  gradient: LinearGradient(colors: [
+                                    Colors.green.shade800,
+                                    Colors.green.shade400
+                                  ]),
+                                ),
+                                child: Stack(
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        CircleAvatar(
+                                          radius: 24,
+                                          backgroundImage: complaint
+                                                      .admin?.photo !=
+                                                  null
+                                              ? NetworkImage(
+                                                      '${host ?? ''}/storage/${complaint.admin?.photo ?? ''}')
+                                                  as ImageProvider<Object>?
+                                              : null,
+                                          child: complaint.admin == null
+                                              ? Icon(Icons.person)
+                                              : null,
+                                        ),
+                                        SizedBox(width: 10),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(
+                                                complaint.admin != null
+                                                    ? 'Reviewed by: '
+                                                    : 'Pending',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              Text(
+                                                '${complaint.admin?.firstName ?? ''} ${complaint.admin?.lastName ?? ''}',
+                                                style: TextStyle(
+                                                  color: Colors.greenAccent,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              SizedBox(height: 7),
+                                              Text(
+                                                'Title: ${complaint.title}',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              Text(
+                                                'Status: ${getStatusString(complaint.status)}',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ],
-                  );
-                }
-              },
-            )
-
-            ],
+                          Container(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 270.0),
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ComplaintsPage(),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  'See More',
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  },
+                )
+              ],
             ),
           ),
-
-
         ),
       ),
     );
-
   }
 }

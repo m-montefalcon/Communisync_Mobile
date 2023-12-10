@@ -1,11 +1,10 @@
 import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
+import 'package:communisyncmobile/screens/visitor/visitor_notifications_page.dart';
 import 'package:communisyncmobile/screens/visitor/visitor_ontap_access_qr_code.dart';
 import 'package:flutter/material.dart';
 
 import '../../backend/api/visitor/fetch_all_validated_request.dart';
-
-
 
 class VisitorDashboardPage extends StatefulWidget {
   const VisitorDashboardPage({Key? key}) : super(key: key);
@@ -16,15 +15,13 @@ class VisitorDashboardPage extends StatefulWidget {
 
 class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-  GlobalKey<RefreshIndicatorState>();
+      GlobalKey<RefreshIndicatorState>();
 
   Future<void> _handleRefresh() async {
     try {
       List<FetchAllQr> refreshedData = await fetchAllRequestApi(context);
-      setState(() {
-      });
-    } catch (error) {
-    }
+      setState(() {});
+    } catch (error) {}
   }
 
   @override
@@ -55,6 +52,23 @@ class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
                   ),
                 ),
               ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 50.0, right: 5.0),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VisitorNotificationsPage(),
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.notifications),
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
             const SliverToBoxAdapter(
               child: Padding(
@@ -98,7 +112,7 @@ class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
 
                   return SliverList(
                     delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
+                      (BuildContext context, int index) {
                         final item = fetchAllData?[index];
                         return Center(
                           child: Column(
@@ -115,13 +129,15 @@ class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Stack(
                                         children: [
                                           ListTile(
                                             subtitle: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 Text(
                                                   'Destination Person: ${item?.destinationPerson ?? 'None'}',
@@ -195,7 +211,8 @@ class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => DisplayQrCode(svgData: item?.qrCode ?? ''),
+                                      builder: (context) => DisplayQrCode(
+                                          svgData: item?.qrCode ?? ''),
                                     ),
                                   );
                                 },
