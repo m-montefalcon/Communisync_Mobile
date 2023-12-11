@@ -277,3 +277,18 @@ class Logbook {
     required this.visitTime,
   });
 }
+
+class Notification {
+  final int id;
+  final int recipientId;
+  final String title;
+  final String body;
+  final DateTime date;
+  Notification( {
+    required this.id,
+    required this.recipientId,
+    required this.title,
+    required this.body,
+    required this.date
+  });
+}

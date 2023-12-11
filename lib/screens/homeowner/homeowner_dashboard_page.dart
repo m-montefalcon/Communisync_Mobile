@@ -1,5 +1,6 @@
 import 'package:communisyncmobile/backend/api/homeowner/CAF/fetch_all_request_homeowner.dart';
 import 'package:communisyncmobile/backend/model/models.dart';
+import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/constants/custom_clipper.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_announcements_specific_page.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_complaints_page.dart';
@@ -7,12 +8,17 @@ import 'package:communisyncmobile/screens/homeowner/homeowner_fetches_all_caf_re
 import 'package:communisyncmobile/screens/homeowner/homeowner_fetches_specific_caf_requests.dart';
 import 'package:communisyncmobile/screens/homeowner/homeowner_notifications_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 
 import '../../backend/api/homeowner/AF/dashboard_announcement.dart';
 import '../../backend/api/homeowner/CF/dashboard_fetch_complaints.dart';
+import '../../backend/api/notification/notifications.dart';
 import 'homeowner_complaints_specific_page.dart';
+import 'package:badges/badges.dart';
+import '../../backend/api/notification/notifications.dart' as notificationApi;
+import 'package:communisyncmobile/backend/model/models.dart' as custom;
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -24,12 +30,22 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
+  int notificationCount = 0; // Add a variable to hold the notification count
 
   @override
   void initState() {
     super.initState();
     // Fetch data when the page is initialized
     // _refreshData();
+    loadNotificationCount();
+
+  }
+  Future<void> loadNotificationCount() async {
+    List<custom.Notification> notifications =
+    await notificationApi.getNotifications();
+    setState(() {
+      notificationCount = notifications.length;
+    });
   }
 
   Future<void> _refreshData() async {
@@ -37,7 +53,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
     // Example for fetching announcements
     await dashboardFetchAnnouncements();
-
+    await loadNotificationCount();
     // Example for fetching visitation requests
     await getIdFromSharedPreferencesAndFetchData(context);
 
@@ -113,20 +129,48 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               actions: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 50.0, right: 5.0),
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomeOwnerNotificationsPage(),
+                  padding: const EdgeInsets.only(bottom: 50.0, right: 10.0),
+                  child: Stack(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomeOwnerNotificationsPage(),
+                            ),
+                          );
+                        },
+                        icon: Icon(Icons.notifications),
+                        color: Colors.white,
+                      ),
+                      if (notificationCount > 0)
+                        Positioned(
+                          top: 0, // Adjust the top value to your preference
+                          right: 0, // Adjust the right value to your preference
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.red,
+                            ),
+                            child: Text(
+                              '$notificationCount',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
                         ),
-                      );
-                    },
-                    icon: Icon(Icons.notifications),
-                    color: Colors.white,
+                    ],
                   ),
-                ),
+                )
+
+
+
+
+
               ],
             ),
           ],
@@ -449,14 +493,13 @@ class _DashboardPageState extends State<DashboardPage> {
                               Container(
                                 alignment: Alignment.centerRight,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(right: 270.0),
+                                  padding: const EdgeInsets.only(right: 16.0), // Adjust the right padding as needed
                                   child: TextButton(
                                     onPressed: () {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              AllRequestVSTwo(),
+                                          builder: (context) => AllRequestVSTwo(),
                                         ),
                                       );
                                     },
@@ -469,6 +512,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                   ),
                                 ),
                               ),
+
                             ],
                           );
                         }
@@ -615,7 +659,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           Container(
                             alignment: Alignment.centerRight,
                             child: Padding(
-                              padding: const EdgeInsets.only(right: 270.0),
+                              padding: const EdgeInsets.only(right: 16.0), // Adjust the right padding as needed
                               child: TextButton(
                                 onPressed: () {
                                   Navigator.push(
@@ -634,6 +678,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               ),
                             ),
                           ),
+
                         ],
                       );
                     }

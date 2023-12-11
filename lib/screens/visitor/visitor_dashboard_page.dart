@@ -5,6 +5,8 @@ import 'package:communisyncmobile/screens/visitor/visitor_ontap_access_qr_code.d
 import 'package:flutter/material.dart';
 
 import '../../backend/api/visitor/fetch_all_validated_request.dart';
+import '../../backend/api/notification/notifications.dart' as notificationApi;
+import 'package:communisyncmobile/backend/model/models.dart' as custom;
 
 class VisitorDashboardPage extends StatefulWidget {
   const VisitorDashboardPage({Key? key}) : super(key: key);
@@ -16,14 +18,23 @@ class VisitorDashboardPage extends StatefulWidget {
 class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
+  int notificationCount = 0; // Add a variable to hold the notification count
 
   Future<void> _handleRefresh() async {
     try {
       List<FetchAllQr> refreshedData = await fetchAllRequestApi(context);
+      loadNotificationCount();
+
       setState(() {});
     } catch (error) {}
   }
-
+  Future<void> loadNotificationCount() async {
+    List<custom.Notification> notifications =
+    await notificationApi.getNotifications();
+    setState(() {
+      notificationCount = notifications.length;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,20 +65,43 @@ class _VisitorDashboardPageState extends State<VisitorDashboardPage> {
               ),
               actions: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 50.0, right: 5.0),
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => VisitorNotificationsPage(),
+                  padding: const EdgeInsets.only(bottom: 50.0, right: 10.0),
+                  child: Stack(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => VisitorNotificationsPage(),
+                            ),
+                          );
+                        },
+                        icon: Icon(Icons.notifications),
+                        color: Colors.white,
+                      ),
+                      if (notificationCount > 0)
+                        Positioned(
+                          top: 0, // Adjust the top value to your preference
+                          right: 0, // Adjust the right value to your preference
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.red,
+                            ),
+                            child: Text(
+                              '$notificationCount',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
                         ),
-                      );
-                    },
-                    icon: Icon(Icons.notifications),
-                    color: Colors.white,
+                    ],
                   ),
-                ),
+                )
               ],
             ),
             const SliverToBoxAdapter(

@@ -7,7 +7,8 @@ import 'package:communisyncmobile/constants/custom_clipper.dart';
 import '../../backend/api/personnel/checks_current_visitor.dart';
 import '../../backend/api/personnel/checks_out_visitor.dart';
 import '../../backend/model/models.dart';
-
+import '../../backend/api/notification/notifications.dart' as notificationApi;
+import 'package:communisyncmobile/backend/model/models.dart' as custom;
 class SecurityDashboard extends StatefulWidget {
   const SecurityDashboard({Key? key}) : super(key: key);
 
@@ -18,6 +19,7 @@ class SecurityDashboard extends StatefulWidget {
 class _SecurityDashboardState extends State<SecurityDashboard> {
   late Future<List<Logbook>> _logbookFuture;
   bool _mounted = false; // Track the mounted state of the widget
+  int notificationCount = 0; // Add a variable to hold the notification count
 
   @override
   void initState() {
@@ -25,7 +27,13 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
     _mounted = true; // Set to true when the widget is mounted
     _logbookFuture = _fetchLogbookData();
   }
-
+  Future<void> loadNotificationCount() async {
+    List<custom.Notification> notifications =
+    await notificationApi.getNotifications();
+    setState(() {
+      notificationCount = notifications.length;
+    });
+  }
   @override
   void dispose() {
     _mounted = false; // Set to false when the widget is disposed
@@ -56,7 +64,9 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                   if (_mounted) {
                     // Refresh data after deletion
                     _logbookFuture = _fetchLogbookData();
-                    setState(() {});
+
+                    setState(() {
+                    });
                   }
                 } catch (e) {
                   // Handle errors
@@ -111,20 +121,43 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
             ),
             actions: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 50.0, right: 5.0),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SecurityNotificationsPage(),
+                padding: const EdgeInsets.only(bottom: 50.0, right: 10.0),
+                child: Stack(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SecurityNotificationsPage(),
+                          ),
+                        );
+                      },
+                      icon: Icon(Icons.notifications),
+                      color: Colors.white,
+                    ),
+                    if (notificationCount > 0)
+                      Positioned(
+                        top: 0, // Adjust the top value to your preference
+                        right: 0, // Adjust the right value to your preference
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.red,
+                          ),
+                          child: Text(
+                            '$notificationCount',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
                       ),
-                    );
-                  },
-                  icon: Icon(Icons.notifications),
-                  color: Colors.white,
+                  ],
                 ),
-              ),
+              )
             ],
           ),
         ],
@@ -172,9 +205,13 @@ class _SecurityDashboardState extends State<SecurityDashboard> {
                     } else {
                       return RefreshIndicator(
                         onRefresh: () async {
+
                           await _fetchLogbookData();
+
                           setState(() {
                             _logbookFuture = _fetchLogbookData();
+                             loadNotificationCount();
+
                           });
                         },
                         child: ListView.builder(
