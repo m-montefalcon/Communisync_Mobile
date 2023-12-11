@@ -100,50 +100,42 @@ class _AddManualLogbookPageState extends State<AddManualLogbookPage> {
           contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
           hintText: 'Phone Number:',
         ),
+        maxLength: 11, // Set the maximum length to 11 characters
+
       ),
     );
   }
   void _acceptNames() async {
     setState(() {
-      _isLoading = true; // Set loading state to true
+      _isLoading = true;
     });
 
-    // Create a list of strings from visitMembers TextEditingControllers
     // Create a list of strings from visitMembers TextEditingControllers
     List<String> visitMembers = [];
     for (TextEditingController controller in _controllers) {
       String name = controller.text;
-      visitMembers.add('"$name"'); // Add quotation marks around each name
+      visitMembers.add('"$name"');
     }
 
     // Add the phone number to the list
     String phoneNumber = _phoneNumberController.text;
 
-    // Rest of the code remains unchanged
-
     try {
-      // Simulating an asynchronous operation, replace this with your actual logic
-      await Future.delayed(Duration(seconds: 2));
+      // Replace the simulated delay with the actual asynchronous logic
+      await MvoAdd(
+        context,
+        widget.homeowner.id,
+        phoneNumber,
+        _selectedFamilyMember,
+        visitMembers,
+      );
 
       // Set loading state to false when the operation is complete
       setState(() {
         _isLoading = false;
-
-
-
-        MvoAdd(
-          context,
-          widget.homeowner.id, // Pass the homeowner ID
-          phoneNumber,
-          _selectedFamilyMember,
-          visitMembers, // Pass the list of visit members with quotation marks
-        );
-
-
       });
     } catch (error) {
       // Handle any errors here
-
       // Set loading state to false even in case of an error
       setState(() {
         _isLoading = false;

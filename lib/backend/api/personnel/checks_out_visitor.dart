@@ -22,7 +22,6 @@ Future<void> outVisitor(int logbookId) async{
 
     );
     if (response.statusCode == 200) {
-      // Remove token and role from shared preferences
 
     } else {
       throw Exception('An error occurred');

@@ -8,6 +8,8 @@ PROFILE_API=/api/get/profile/mobile/
 UPDATE_PROFILE_AS_HOMEOWNER=/api/update/mobile/
 UPDATE_PROFILE_PICTURE=/api/update/profile/mobile/
 CHANGE_PASSWORD=/api/change/password/mobile
+GET_NOTIFICATIONS=/api/fetch/notifications/
+MARK_READ_NOTIFICATIONS=/api/mark/all/as/read/notifications
 
 FETCHES_ALL_REQUEST_HOMEOWNER_API=/api/users/control/access/get/mobile/
 ACCEPT_REQUEST_VISITOR_API=/api/users/control/access/accept/mobile
