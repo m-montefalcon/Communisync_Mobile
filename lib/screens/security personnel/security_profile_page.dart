@@ -227,7 +227,7 @@ class _UserProfileWidget extends State<UserProfileWidget> {
                               GestureDetector(
                                 child: const ProfileWidget(
                                   icon: Icons.privacy_tip,
-                                  title: 'Privacy Settings',
+                                  title: 'Security Settings',
                                 ),
                                 onTap: () {
                                   Navigator.push(
