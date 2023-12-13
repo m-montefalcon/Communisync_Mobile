@@ -169,34 +169,52 @@ class _BlocklistSettingsPageState extends State<BlocklistSettingsPage> {
                   loading
                       ? const CircularProgressIndicator()
                       : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: const Size.fromHeight(50),
-                                backgroundColor: Colors.green,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: const Text(
-                                'Submit',
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.white),
-                              ),
-                            onPressed: () async {
-                              // Validate each field before printing the data
-                              if (_formKey.currentState!.validate()) {
-                                await submitBlockedlists(context, first_nameController.text, last_nameController.text, contact_numberController.text, blocked_reasonController.text);
-                                // Print data if not empty
-                                print('First Name: ${first_nameController.text}');
-                                print('Last Name: ${last_nameController.text}');
-                                print('Contact Number: ${contact_numberController.text}');
-                                print('Blocked Reason: ${blocked_reasonController.text}');
-                              }
-                            },
-
-                          ),
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                        backgroundColor: Colors.green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
+                      ),
+                      child: const Text(
+                        'Submit',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: () async {
+                        // Set loading to true when starting the submission
+                        setState(() {
+                          loading = true;
+                        });
+
+                        // Validate each field before printing the data
+                        if (_formKey.currentState!.validate()) {
+                          await submitBlockedlists(
+                            context,
+                            first_nameController.text,
+                            last_nameController.text,
+                            contact_numberController.text,
+                            blocked_reasonController.text,
+                          );
+
+                          // Print data if not empty
+                          print('First Name: ${first_nameController.text}');
+                          print('Last Name: ${last_nameController.text}');
+                          print('Contact Number: ${contact_numberController.text}');
+                          print('Blocked Reason: ${blocked_reasonController.text}');
+                        }
+
+                        // Set loading to false after submission is complete
+                        setState(() {
+                          loading = false;
+                        });
+                      },
+                    ),
+                  ),
                   const SizedBox(height: 10),
                 ],
               ),

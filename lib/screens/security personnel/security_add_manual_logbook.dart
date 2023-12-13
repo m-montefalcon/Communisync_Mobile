@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:http/http.dart';
 
 
 import '../../backend/api/personnel/mvo_add.dart';
@@ -121,7 +123,6 @@ class _AddManualLogbookPageState extends State<AddManualLogbookPage> {
     String phoneNumber = _phoneNumberController.text;
 
     try {
-      // Replace the simulated delay with the actual asynchronous logic
       await MvoAdd(
         context,
         widget.homeowner.id,
@@ -140,7 +141,15 @@ class _AddManualLogbookPageState extends State<AddManualLogbookPage> {
       setState(() {
         _isLoading = false;
       });
+
+      // Show an error message in a SnackBar using ScaffoldMessenger
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('$error'),
+        ),
+      );
     }
+
   }
 
 
