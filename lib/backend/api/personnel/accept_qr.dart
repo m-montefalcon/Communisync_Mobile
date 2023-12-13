@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:communisyncmobile/screens/security%20personnel/security_bttmbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -36,10 +38,22 @@ Future<void> acceptQr(context, int id) async{
         ),
             (Route<dynamic> route) => false,
       );
-    } else {
-      print(response.body);
-
-      throw Exception('An error occurred');
+    }
+    else if (response.statusCode == 403) {
+      // Forbidden: Access denied
+      Map<String, dynamic> data = jsonDecode(response.body);
+      String message = data['message'];
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+        ),
+      );
+    }else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(response.body),
+        ),
+      );
     }
 
   }

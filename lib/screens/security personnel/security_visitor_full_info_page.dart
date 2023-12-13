@@ -172,7 +172,11 @@ class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
                     try {
                       await acceptQr(context, widget.requestQr.id);
                     } catch (e) {
-                      // Handle the error, perhaps show a dialog or a toast.
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('$e'),
+                        ),
+                      );
                     } finally {
                       if (mounted) { // Ensure the widget is still in the tree.
                         setState(() {
