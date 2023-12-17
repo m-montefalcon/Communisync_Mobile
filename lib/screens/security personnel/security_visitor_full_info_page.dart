@@ -186,7 +186,7 @@ class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black54,
+                    backgroundColor: Colors.lightGreen,
                     shape: CircleBorder(), // This makes the button circular.
                   ),
                   child: isLoadingAccept
@@ -205,7 +205,7 @@ class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black54,
+                    backgroundColor: Colors.lightGreen,
                     shape: CircleBorder(), // This makes the button circular.
                   ),
                   child: const Icon(Icons.close), // Using icon for a more symmetrical look.
