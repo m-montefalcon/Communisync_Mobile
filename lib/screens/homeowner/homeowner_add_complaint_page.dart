@@ -22,6 +22,7 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
   DateTime? _selectedDate;
   final ImagePicker _imagePicker = ImagePicker();
   bool _isLoading = false;
+  bool _isHovered = false;
 
   Future<void> _getImage() async {
     final XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
@@ -55,13 +56,45 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
                         color: Colors.green,
                       ),
                       SizedBox(height: 10),
+
+                      Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isHovered = !_isHovered;
+                            });
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Reminder"),
+                              Icon(Icons.help_outline), // Replace 'Icons.help_outline' with the desired question mark icon
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      if (_isHovered)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 25, right: 25, top: 5),
+                          child: Text(
+                            "When submitting a complaint, please ensure to provide a detailed and comprehensive description of the issue. Include relevant facts, dates, and any supporting documentation that can help in understanding the nature of the complaint. A well-detailed submission will serve as the foundation for generating a formal complaint letter report to be submitted to the GHOA (Homeowners Association). This ensures that your concerns are accurately represented and increases the likelihood of a prompt and effective resolution.",
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+
+                        ),
+                      SizedBox(height: 10),
+
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25.0),
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              border: Border.all(color: Colors.white),
-                              borderRadius: BorderRadius.circular(10)),
+                            color: Colors.grey[200],
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.only(left: 15.0),
                             child: TextFormField(
@@ -69,30 +102,31 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
                               keyboardType: TextInputType.text,
                               textInputAction: TextInputAction.next,
                               decoration: const InputDecoration(
-                                  hintText: 'Complaint Title',
-                                  border: InputBorder.none,
-                                  icon: Icon(Icons.title_rounded)),
+                                hintText: 'Complaint Title',
+                                border: InputBorder.none,
+                                icon: Icon(Icons.title_rounded),
+                              ),
                               validator: (value) {
-                                {
-                                  if (value!.isEmpty) {
-                                    return 'Enter title';
-                                  } else {
-                                    return null;
-                                  }
+                                if (value!.isEmpty) {
+                                  return 'Enter title';
+                                } else {
+                                  return null;
                                 }
                               },
                             ),
                           ),
                         ),
                       ),
+
                       const SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25.0),
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              border: Border.all(color: Colors.white),
-                              borderRadius: BorderRadius.circular(10)),
+                            color: Colors.grey[200],
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.only(left: 15.0),
                             child: Container(
@@ -103,16 +137,17 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
                                 maxLines: null,
                                 textInputAction: TextInputAction.next,
                                 decoration: const InputDecoration(
-                                    hintText: 'Descriptions',
-                                    border: InputBorder.none,
-                                    icon: Icon(Icons.description_rounded)),
+                                  hintText: 'Descriptions',
+                                  border: InputBorder.none,
+                                  icon: Icon(Icons.description_rounded),
+                                ),
                                 validator: (value) {
-                                  {
-                                    if (value!.isEmpty) {
-                                      return 'Enter descriptions';
-                                    } else {
-                                      return null;
-                                    }
+                                  if (value!.isEmpty) {
+                                    return 'Enter descriptions';
+                                  } else if (value.length < 50) {
+                                    return 'Description must be at least 50 characters';
+                                  } else {
+                                    return null;
                                   }
                                 },
                               ),
@@ -171,44 +206,50 @@ class _AddComplaintsPageState extends State<AddComplaintsPage> {
                             ),
                           ),
                           child: _isLoading
-                              ? CircularProgressIndicator()  // Display the circular progress indicator when loading
+                              ? CircularProgressIndicator()
                               : const Text(
                             'Submit Complain',
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                           onPressed: _isLoading
-                              ? null  // Disable the button when loading
+                              ? null
                               : () async {
-                            // Set loading state to true when the button is pressed
-                            setState(() {
-                              _isLoading = true;
-                            });
-
-                            try {
-                              // Perform the complaint submission logic
-                              await submitComplaint(
-                                context,
-                                _complaintTitle.text,
-                                _complaintDesc.text,
-                                _complaintPhotoPath.text,
-                              );
-
-                              // Navigate to HomeownerBottomBar after successful submission
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(builder: (context) => HomeownerBottomNavigationBar()),
-                              );
-                            } catch (error) {
-                              // Handle errors here
-                            } finally {
-                              // Set loading state to false when the complaint submission is complete
+                            // Validate the form
+                            if (_complaintformKey.currentState!.validate()) {
+                              // Set loading state to true when the button is pressed
                               setState(() {
-                                _isLoading = false;
+                                _isLoading = true;
                               });
+
+                              try {
+                                // Perform the complaint submission logic
+                                await submitComplaint(
+                                  context,
+                                  _complaintTitle.text,
+                                  _complaintDesc.text,
+                                  _complaintPhotoPath.text,
+                                );
+
+                                // Navigate to HomeownerBottomBar after successful submission
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HomeownerBottomNavigationBar(),
+                                  ),
+                                );
+                              } catch (error) {
+                                // Handle errors here
+                              } finally {
+                                // Set loading state to false when the complaint submission is complete
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                              }
                             }
                           },
                         ),
                       ),
+
 
                       SizedBox(height: 15),
                     ],

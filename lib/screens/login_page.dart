@@ -52,31 +52,41 @@ class _LoginPageState extends State<LoginPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          border: Border.all(color: Colors.green),
-                          borderRadius: BorderRadius.circular(10)),
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.green),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15.0),
                         child: TextFormField(
-                            controller: usernameController,
-                            keyboardType: TextInputType.name,
-                            textInputAction: TextInputAction.next,
-                            decoration: const InputDecoration(
-                                hintText: 'Username',
-                                border: InputBorder.none,
-                                icon: Icon(Icons.sentiment_very_satisfied)),
+                          controller: usernameController,
+                          keyboardType: TextInputType.name,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            hintText: 'Username',
+                            border: InputBorder.none,
+                            icon: Icon(Icons.sentiment_very_satisfied),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty || value.length < 6) {
+                              return 'Username must be at least 6 characters';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                     ),
+
                   ),
                   const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          border: Border.all(color: Colors.green),
-                          borderRadius: BorderRadius.circular(10)),
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.green),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15),
                         child: TextFormField(
@@ -88,10 +98,9 @@ class _LoginPageState extends State<LoginPage> {
                             icon: const Icon(Icons.key_outlined),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                  passwordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: Colors.grey),
+                                passwordVisible ? Icons.visibility : Icons.visibility_off,
+                                color: Colors.grey,
+                              ),
                               onPressed: () {
                                 setState(() {
                                   passwordVisible = !passwordVisible;
@@ -99,6 +108,12 @@ class _LoginPageState extends State<LoginPage> {
                               },
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty || value.length < 6) {
+                              return 'Password must be at least 6 characters';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                     ),
