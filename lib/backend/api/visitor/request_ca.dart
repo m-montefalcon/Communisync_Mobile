@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import '../../../screens/visitor/visitor_bttmbar.dart';
 
 Future<void> requestCa(context, int homeownerId, String destinationPerson,
-    List visitMembers
+    List visitMembers, fromDate, toDate
     ) async{
 
 
@@ -35,17 +35,21 @@ Future<void> requestCa(context, int homeownerId, String destinationPerson,
           "visitor_id": id.toString(),
           "homeowner_id": homeownerId.toString(),
           "destination_person": destinationPerson,
-          "visit_members": visitMembers.toString()
+          "visit_members": visitMembers.toString(),
+          "date" : fromDate,
+          "date_out" : toDate
         }
 
     );
     if (response.statusCode == 200) {
-
+      print(response.body);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => VisitorBottombar()),
       );
     } else {
+      print(response.body);
+
       throw Exception('An error occurred');
     }
 

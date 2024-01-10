@@ -6,7 +6,7 @@ class Request {
   final int? adminId;
   final int? personnelId;
   final DateTime date;
-  final DateTime time;
+  final DateTime dateOut;
   final String destinationPerson;
   final List<String>? visitMembers;
   final String visitStatus;
@@ -20,7 +20,7 @@ class Request {
     this.adminId,
     this.personnelId,
     required this.date,
-    required this.time,
+    required this.dateOut,
     required this.destinationPerson,
     required this.visitMembers,
     required this.visitStatus,
@@ -86,6 +86,8 @@ class RequestQr {
   final String visitStatus;
   final String qrCode;
   final Visitor visitor;
+  final DateTime? date;
+  final DateTime? dateOut;
 // Add a field for QR code
 
   RequestQr({
@@ -95,6 +97,8 @@ class RequestQr {
     this.adminId,
     this.personnelId,
 
+    this.date,
+    this.dateOut,
     required this.destinationPerson,
     required this.visitMembers,
     required this.visitStatus,

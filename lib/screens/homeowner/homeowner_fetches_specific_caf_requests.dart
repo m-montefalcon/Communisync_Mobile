@@ -3,6 +3,7 @@ import 'package:communisyncmobile/backend/api/homeowner/CAF/decline_request.dart
 import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/intl.dart';
 
 class SpecificRequestVSTwo extends StatefulWidget {
   final Request request;
@@ -66,37 +67,10 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
               ),
             ),
           ),
-          Center(
-            child: Text(
-              'Visitor ID: ${widget.request.visitorId}',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.black.withOpacity(0.5),
-              ),
-            ),
-          ),
           // Text('ID: ${widget.request.id}'),
           const Divider(
               color: Colors.green, indent: 20, endIndent: 20, height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(width: 40),
-              Icon(
-                Icons.account_circle,
-                color: Colors.green,
-                size: 35,
-              ),
-              Text(
-                ': ${widget.request.visitor.userName}',
-                style: const TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
+
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -107,16 +81,24 @@ class _SpecificRequestVSTwoState extends State<SpecificRequestVSTwo> {
                 color: Colors.green,
                 size: 35,
               ),
-              Text(
-                ': ${widget.request.date}',
-                style: const TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Text(
+                    'Visit Date Ranges \nFrom : ${DateFormat('MMMM dd yyyy').format(widget.request.date)} \nUntil : ${DateFormat('MMMM dd yyyy').format(widget.request.dateOut)}',
+                    style: const TextStyle(
+                      color: Colors.black54,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
+
+
+
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,

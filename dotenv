@@ -1,5 +1,5 @@
 
-API_HOST=https://communisync.site
+API_HOST=http://10.0.0.16:8000
 TERMS_AND_CONDITION=/termsAndCondition
 LOGIN_API=/api/login/store/mobile
 LOGOUT_API=/api/logout/mobile

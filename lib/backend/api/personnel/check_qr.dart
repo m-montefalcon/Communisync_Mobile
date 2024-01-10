@@ -29,12 +29,19 @@ Future<List<RequestQr>> checkQr(context, int id, int homeowner, int visitor) asy
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonResponse = json.decode(response.body);
       final data = jsonResponse['data']; // Access the "data" field
+      final String dateString = data['date'];
+      final String dateOutString = data['date_out'];
+      final DateTime dateTime = DateTime.parse(dateString);
+      final DateTime dateOut = DateTime.parse(dateOutString);
+
       final request = RequestQr(
         id: data['id'],
         visitorId: data['visitor_id'],
         homeownerId: data['homeowner_id'],
         adminId: data['admin_id'],
         personnelId: data['personnel_id'],
+        date: dateTime, // Convert to String if necessary
+        dateOut: dateOut, // Convert to String if necessary
         // date: DateTime.parse(data['date']),
         // time: DateTime.parse(data['time']),
         destinationPerson: data['destination_person'],

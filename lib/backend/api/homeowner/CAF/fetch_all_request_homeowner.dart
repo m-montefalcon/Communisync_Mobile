@@ -34,8 +34,9 @@ Future<List<Request>> getCafRequestsApi(BuildContext context, int id) async {
               ? List<String>.from([visitMembersData])
               : visitMembersData?.cast<String>();
           final String dateString = requestData['date'];
-          final String timeString = requestData['time'];
-          final DateTime dateTime = DateTime.parse('$dateString $timeString');
+          final String dateOutString = requestData['date_out'];
+          final DateTime dateTime = DateTime.parse(dateString);
+          final DateTime dateOut = DateTime.parse(dateOutString);
 
           return Request(
             id: requestData['id'],
@@ -43,8 +44,8 @@ Future<List<Request>> getCafRequestsApi(BuildContext context, int id) async {
             homeownerId: requestData['homeowner_id'],
             adminId: requestData['admin_id'],
             personnelId: requestData['personnel_id'],
-            date: dateTime,
-            time: dateTime,
+            date: dateTime, // Convert to String if necessary
+            dateOut: dateOut, // Convert to String if necessary
             destinationPerson: requestData['destination_person'],
             visitMembers: visitMembers,
             visitStatus: requestData['visit_status'],
