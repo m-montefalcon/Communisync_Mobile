@@ -3,6 +3,7 @@ import 'package:communisyncmobile/backend/model/models.dart';
 import 'package:communisyncmobile/screens/security%20personnel/security_bttmbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/intl.dart';
 
 class VisitorFullInfoPage extends StatefulWidget {
   final RequestQr requestQr;
@@ -62,18 +63,34 @@ class _VisitorFullInfoPageState extends State<VisitorFullInfoPage> {
               ),
             ),
           ),
-          Center(
-            child: Text(
-              'Visitor ID: ${widget.requestQr.visitor.id}',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.black54.withOpacity(.3),
-              ),
-            ),
-          ),
+
           // Text('ID: ${widget.request.id}'),
           const Divider(
               color: Colors.black, indent: 20, endIndent: 20, height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(width: 40),
+              Icon(
+                Icons.date_range,
+                color: Colors.black54.withOpacity(.5),
+                size: 35,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Text(
+                    'Visit Date Ranges \nFrom : ${DateFormat('MMMM dd yyyy').format(widget!.requestQr.date!)} \nUntil : ${DateFormat('MMMM dd yyyy').format(widget!.requestQr.dateOut!)}',
+                    style: const TextStyle(
+                      color: Colors.black54,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

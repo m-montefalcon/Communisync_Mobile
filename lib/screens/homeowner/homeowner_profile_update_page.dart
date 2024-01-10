@@ -424,7 +424,7 @@ class _UpdateProfileHomeownerState extends State<UpdateProfileHomeowner> {
                             keyboardType: TextInputType.number,
                             textInputAction: TextInputAction.next,
                             decoration: const InputDecoration(
-                                labelText: '09xxxxxxxxx',
+                                labelText: 'Contact Number',
                                 border: InputBorder.none,
                                 icon: Icon(Icons.phone_android)),
                             validator: (value) {

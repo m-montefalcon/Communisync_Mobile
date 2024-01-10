@@ -19,6 +19,8 @@ class _TapSpecificNameState extends State<TapSpecificName> {
   List<String> _familyMemberChoices = [];
   String _selectedFamilyMember = ''; // To store the selected family member
   bool _isLoading = false;
+  DateTime? _selectedFromDate;
+  DateTime? _selectedUntilDate;
 
   @override
   void initState() {
@@ -99,14 +101,25 @@ class _TapSpecificNameState extends State<TapSpecificName> {
     try {
       // Simulating an asynchronous operation, replace this with your actual logic
       await Future.delayed(Duration(seconds: 2));
-
+      // Convert the selected dates to strings
+      String fromDateString = _selectedFromDate != null ? formattedDate(_selectedFromDate!) : 'N/A';
+      String untilDateString = _selectedUntilDate != null ? formattedDate(_selectedUntilDate!) : 'N/A';
       // Call the requestCa function with the necessary parameters
       await requestCa(
         context,
         widget.homeowner.id, // Replace with the actual homeownerId property
         _selectedFamilyMember, // Use the selected family member
         visitMembers, // Pass the list of visit members with quotation marks
+        fromDateString, // Pass the 'From' date string
+        untilDateString, // Pass the 'Until' date string
+
       );
+      print(widget.homeowner.id);
+      print(_selectedFamilyMember);
+      print(visitMembers);
+      print(fromDateString);
+      print(untilDateString);
+
 
       // Set loading state to false when the operation is complete
       setState(() {
@@ -122,20 +135,28 @@ class _TapSpecificNameState extends State<TapSpecificName> {
       });
     }
   }
-
-
+  String formattedDate(DateTime? dateTime) {
+    return dateTime != null
+        ? '${dateTime.toLocal().year}-${dateTime.toLocal().month}-${dateTime.toLocal().day}'
+        : '';
+  }
+  bool isDateOrderValid() {
+    return _selectedFromDate != null && _selectedUntilDate != null &&
+        (_selectedFromDate!.isBefore(_selectedUntilDate!) || _selectedFromDate == _selectedUntilDate);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('List of Names'),
+        title: const Text('Visit Request'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            Text(widget.homeowner.userName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+
+
             SizedBox(height: 5),
             PopupMenuButton<String>(
               onSelected: (String selectedValue) {
@@ -162,6 +183,7 @@ class _TapSpecificNameState extends State<TapSpecificName> {
                   ];
                 }
               },
+
               child: ListTile(
                 title: Text(
                   _selectedFamilyMember.isEmpty ? "Select Destination Person" : _selectedFamilyMember,
@@ -183,6 +205,107 @@ class _TapSpecificNameState extends State<TapSpecificName> {
                 Text('$_selectedFamilyMember', style: TextStyle(fontSize: 15, color: Colors.green, fontWeight: FontWeight.bold))
               ],
             ),
+
+
+            SizedBox(height: 10.0),
+            Text(
+              'SELECT DATE RANGES',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10.0),
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      final DateTime? picked = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(2101),
+                        builder: (BuildContext context, Widget? child) {
+                          return Theme(
+                            data: ThemeData.light().copyWith(
+                              primaryColor: Colors.green,
+                              colorScheme: ColorScheme.light(primary: Colors.green),
+                              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+                            ),
+                            child: child!,
+                          );
+                        },
+                      );
+                      if (picked != null) {
+                        setState(() {
+                          _selectedFromDate = picked;
+                        });
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    ),
+                    child: Text(
+                      'Select Date',
+                      style: TextStyle(fontSize: 14, color: Colors.green),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10.0),
+                Text(
+                  'From: ${formattedDate(_selectedFromDate)}',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 10.0),
+
+            // Until Date Picker
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      final DateTime? picked = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(2101),
+                        builder: (BuildContext context, Widget? child) {
+                          return Theme(
+                            data: ThemeData.light().copyWith(
+                              primaryColor: Colors.green,
+                              colorScheme: ColorScheme.light(primary: Colors.green),
+                              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+                            ),
+                            child: child!,
+                          );
+                        },
+                      );
+                      if (picked != null) {
+                        setState(() {
+                          _selectedUntilDate = picked;
+                        });
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    ),
+                    child: Text(
+                      'Select Date',
+                      style: TextStyle(fontSize: 14, color: Colors.green),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10.0),
+                Text(
+                  'Until: ${formattedDate(_selectedUntilDate)}',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
+
 
             SizedBox(height: 16.0),
 
@@ -206,11 +329,11 @@ class _TapSpecificNameState extends State<TapSpecificName> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: _isLoading || _selectedFamilyMember.isEmpty
+                  onPressed: _isLoading || _selectedFamilyMember.isEmpty || !isDateOrderValid()
                       ? null
-                      : _acceptNames, // Disable button when loading or no selected destination person
+                      : _acceptNames, // Disable button when loading, no selected destination person, or invalid date order
                   child: Text(
-                    'Send Request',
+                    isDateOrderValid() ? 'Send Request' : 'Invalid date order',
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
                 ),
