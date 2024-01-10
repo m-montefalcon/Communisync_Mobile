@@ -82,44 +82,46 @@ class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
                     return const CircularProgressIndicator();
                   } else if (snapshot.hasError) {
                     // If there's an error, display an error message
-                    return Text('No user found');
-                  } else if (snapshot.hasData) {
-                    // If data is available, display it using a ListView
+                    return Text(' ');
+                  } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                    // If data is available and not empty, display it using a ListView
                     final data = snapshot.data;
                     return Expanded(
                       child: ListView.builder(
                         itemCount: data!.length,
                         itemBuilder: (context, index) {
                           final homeowner = data[index];
-                          return ListTile(
-                            leading: const Icon(
-                              Icons.face,
-                              size: 40,
-                            ),
-                            subtitle: Text(
-                              homeowner.userName,
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black54,
+                          return Card(
+                            margin: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              leading: const Icon(
+                                Icons.face,
+                                size: 40,
                               ),
-                            ),
-                            title: Text(
-                              '${homeowner.firstName} ${homeowner.lastName}',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
+                              subtitle: Text(
+                                "Tap to see details",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black54,
+                                ),
                               ),
-                            ),
-                            onTap: () {
-                              Navigator.push(
+                              title: Text(
+                                '${homeowner.firstName} ${homeowner.lastName}',
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                           TapSpecificName(homeowner: homeowner)
-                                  )
-                              );
-                            },
-                            // Add more fields as needed
+                                    builder: (context) => TapSpecificName(homeowner: homeowner),
+                                  ),
+                                );
+                              },
+                              // Add more fields as needed
+                            ),
                           );
                         },
                       ),
@@ -130,6 +132,8 @@ class _VisitorQrCodePageState extends State<VisitorQrCodePage> {
                   }
                 },
               )
+
+
             ],
           ),
         ),
