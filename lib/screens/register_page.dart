@@ -122,21 +122,23 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15.0),
                         child: TextFormField(
-                            controller: _userNameController,
-                            keyboardType: TextInputType.name,
-                            textInputAction: TextInputAction.next,
-                            decoration: const InputDecoration(
-                                hintText: 'Username',
-                                border: InputBorder.none,
-                                icon: Icon(Icons.person_rounded)),
-                            validator: (value) {
-                              if (value!.isEmpty ||
-                                  !RegExp(r'[a-z][A-Z]').hasMatch(value)) {
-                                return 'Please enter your username';
-                              } else {
-                                return null;
-                              }
-                            }),
+                          controller: _userNameController,
+                          keyboardType: TextInputType.name,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            hintText: 'Username',
+                            border: InputBorder.none,
+                            icon: Icon(Icons.person_rounded),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty || !RegExp(r'[a-zA-Z]').hasMatch(value)) {
+                              return 'Please enter your username';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+
                       ),
                     ),
                   ),
@@ -159,8 +161,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 border: InputBorder.none,
                                 icon: Icon(Icons.person_rounded)),
                             validator: (value) {
-                              if (value!.isEmpty ||
-                                  !RegExp(r'[a-z][A-Z]').hasMatch(value)) {
+                              if (value!.isEmpty || !RegExp(r'[a-zA-Z]').hasMatch(value)) {
                                 return 'Please enter your first name';
                               } else {
                                 return null;
@@ -188,8 +189,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 border: InputBorder.none,
                                 icon: Icon(Icons.person_rounded)),
                             validator: (value) {
-                              if (value!.isEmpty ||
-                                  !RegExp(r'[a-z][A-Z]').hasMatch(value)) {
+                              if (value!.isEmpty || !RegExp(r'[a-zA-Z]').hasMatch(value)) {
                                 return 'Please enter your last name.';
                               } else {
                                 return null;
@@ -380,47 +380,52 @@ class _RegisterPageState extends State<RegisterPage> {
                                 style: TextStyle(
                                     fontSize: 20, color: Colors.white),
                               ),
-                              onPressed: () async {
-                                if (!agreeToTerms) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              'Please accept the Terms and Conditions.')));
-                                  return;
-                                }
+                            onPressed: () async {
+                              if (!_formKey.currentState!.validate()) {
+                                return;
+                              }
+                              if (_profilePicture == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Please select a profile picture.')),
+                                );
+                                return;
+                              }
+                              if (!agreeToTerms) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Please accept the Terms and Conditions.'),
+                                  ),
+                                );
+                                return;
+                              }
 
-                                setState(() {
-                                  loading = true;
-                                });
+                              setState(() {
+                                loading = true;
+                              });
 
-                                try {
-                                  await registerUser(
-                                    context,
-                                    _userNameController.text,
-                                    _firstNameController.text,
-                                    _lastNameController.text,
-                                    _contactNumber.text,
+                              try {
+                                await registerUser(
+                                  context,
+                                  _userNameController.text,
+                                  _firstNameController.text,
+                                  _lastNameController.text,
+                                  _contactNumber.text,
+                                  _emailController.text,
+                                  _passwordController.text,
+                                  _profilePicturePath.text,
+                                );
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('($e)')),
+                                );
+                              }
 
-                                    _emailController.text,
-                                    _passwordController.text,
-                                    _profilePicturePath.text,
-                                  );
+                              setState(() {
+                                loading = false;
+                              });
+                            },
 
-                                } catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('($e)')),
-                                  );
-                                }
-
-                                if (_contactNumber.text.length != 11) {
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Phone number must be 11 digits.')));
-
-                                }
-
-                                setState(() {
-                                  loading = false;
-                                });
-                              }),
+                          ),
                         ),
                   const SizedBox(height: 10),
                   Row(
