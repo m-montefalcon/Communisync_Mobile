@@ -43,7 +43,7 @@ Future<List<Notification>> getNotifications() async {
       return notifications;
     }
   } catch (e) {
-    throw Exception('An error occurred: $e');
+    throw Exception('No internet connection');
   }
 
   return []; // Return an empty list if there is an error
