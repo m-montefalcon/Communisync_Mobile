@@ -70,6 +70,6 @@ Future<List<RequestQr>> checkQr(context, int id, int homeowner, int visitor) asy
     }
   } catch (e, stackTrace) {
 
-    throw Exception('An error occurred');
+    throw Exception('An error occurred: No internet connection');
   }
 }

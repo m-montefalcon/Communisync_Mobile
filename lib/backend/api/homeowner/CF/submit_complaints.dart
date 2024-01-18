@@ -41,7 +41,7 @@ Future<void> submitComplaint(context, String title, String description, String p
       // Handle the error
     }
   } catch (e, stackTrace) {
-    throw Exception('An error occurred');
+    throw Exception('An error occurred: No internet connection');
 
   }
 }

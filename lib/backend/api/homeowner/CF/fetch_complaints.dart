@@ -94,6 +94,6 @@ Future<List<Complaint>> fetchComplaints() async {
       throw Exception('An error occurred');
     }
   } catch (e, stackTrace) {
-    throw Exception('An error occurred');
+    throw Exception('An error occurred: No internet connection');
   }
 }

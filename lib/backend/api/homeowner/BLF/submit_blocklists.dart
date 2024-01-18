@@ -47,7 +47,7 @@ Future<void> submitBlockedlists(context, String firstName, String lastName, Stri
 
   }
   catch(e, stackTrace){
-    throw Exception('An error occurred');
+    throw Exception('An error occurred: No internet connection');
   }
 
 }

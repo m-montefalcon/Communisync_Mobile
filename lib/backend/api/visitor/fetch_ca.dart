@@ -66,6 +66,6 @@ Future<List<Homeowner>> getCafSearchRequestApi(String search) async {
       throw Exception('Request failed with status: ${response.statusCode}');
     }
   } catch (e) {
-    throw Exception('An error occurred while making the request');
+    throw Exception('An error occurred: No internet connection');
   }
 }

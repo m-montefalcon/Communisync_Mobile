@@ -65,6 +65,6 @@ Future<List<Homeowner>> checksIfMvoOn(String fullName) async {
 
     }
   } catch (e, stackTrace) {
-    throw Exception('An error occurred');
+    throw Exception('An error occurred: No internet connection');
   }
 }

@@ -79,7 +79,7 @@ Future<List<Request>> getCafRequestsApi(BuildContext context, int id) async {
     }
   } catch (e) {
     // Handle other errors here
-    throw Exception('Error fetching data: $e');
+    throw Exception('An error occurred: No internet connection');
   }
 }
 
