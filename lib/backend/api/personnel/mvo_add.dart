@@ -63,10 +63,10 @@ Future<void> MvoAdd(context, int homeownerId, String contactNumber, String desti
     // Show a SnackBar for exceptions
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('An error occurred: $e'),
+        content: Text('An error occurred: No internet connection'),
       ),
     );
     print('An error occurred: $e');
-    throw Exception('An error occurred');
+    throw Exception('An error occurred: No internet connection');
   }
 }

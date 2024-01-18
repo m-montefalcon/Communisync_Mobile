@@ -53,6 +53,6 @@ Future<User> profileUser() async {
       throw Exception('HTTP Error: ${response.statusCode}');
     }
   } catch (e) {
-    throw Exception(e.toString());
+    throw Exception("An error occurred: No internet connection");
   }
 }

@@ -69,7 +69,7 @@ Future<void> registerUser(
       throw errorMessage;
     }
   } catch (e) {
-    throw (e);
+    throw ("An error occurred: No internet connection");
   }
 }
 

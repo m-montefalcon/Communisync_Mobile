@@ -74,6 +74,6 @@ Future<void> updateProfilePicture(context, String photoPath) async {
 
     }
   } catch (e) {
-    throw ('An error occurred');
+    throw ('An error occurred: No internet connection');
   }
 }

@@ -40,7 +40,7 @@ Future<void> markAsRead(context) async{
 
   }
   catch(e, stackTrace){
-    throw Exception(e);
+    throw Exception("An error occurred: No internet connection");
   }
 
 

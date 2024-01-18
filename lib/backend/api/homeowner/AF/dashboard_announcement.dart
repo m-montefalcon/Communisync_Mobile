@@ -53,6 +53,6 @@ Future<List<Announcement>> dashboardFetchAnnouncements()async {
 
   }
   catch (e, stackTrace) {
-    throw Exception('Connection Failed');
+    throw Exception('An error occurred: No internet connection');
   }
 }

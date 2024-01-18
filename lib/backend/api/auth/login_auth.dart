@@ -86,7 +86,7 @@ Future<void> loginUser(context, String email, String password) async {
       throw ('Invalid Credentials');
     }
   } catch (e) {
-    throw (e);
+    throw ("An error occurred: No internet connection");
   }
 }
 Future<void> initializeFirebase() async {

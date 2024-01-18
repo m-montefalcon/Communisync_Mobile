@@ -79,7 +79,7 @@ Future<void> submitChangePassword(context, String currentPassword, String newPas
   } catch (e, stackTrace) {
     // Display error message as a SnackBar
     final snackBar = SnackBar(
-      content: Text('An error occurred: $e'),
+      content: Text('An error occurred: No internet connection'),
       duration: Duration(seconds: 3),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);

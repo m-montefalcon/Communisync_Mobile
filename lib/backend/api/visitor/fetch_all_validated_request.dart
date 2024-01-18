@@ -67,6 +67,6 @@ Future<List<FetchAllQr>> fetchAllRequestApi(BuildContext context) async {
     }
   } catch (e) {
     // Handle other errors here
-    throw Exception('Error fetching data');
+    throw Exception('An error occurred: No internet connection');
   }
 }
