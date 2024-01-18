@@ -1,3 +1,4 @@
+import 'package:communisyncmobile/screens/visitor/visitor_annoucement_page.dart';
 import 'package:communisyncmobile/screens/visitor/visitor_dashboard_page.dart';
 import 'package:communisyncmobile/screens/visitor/visitor_profile_page.dart';
 import 'package:communisyncmobile/screens/visitor/visitor_search_homeowner_page.dart';
@@ -16,6 +17,7 @@ class _VisitorBottombarState extends State<VisitorBottombar> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     VisitorDashboardPage(),
+    VisitorAnnouncementPage(),
     VisitorQrCodePage(),
     VisitorProfilePage(),
   ];
@@ -48,17 +50,18 @@ class _VisitorBottombarState extends State<VisitorBottombar> {
             ),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
-            icon: Container(
-              decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              padding: const EdgeInsets.all(10),
-              child: const Icon(Icons.search_rounded,
-                  size: 35, color: Colors.white),
+          const BottomNavigationBarItem(
+            icon: Icon(
+              Icons.tips_and_updates_rounded,
+              size: 25,
             ),
-            label: '',
+            label: 'Announce',
+          ),
+
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.search_rounded,
+                size: 35),
+            label: 'Search',
           ),
           const BottomNavigationBarItem(
             icon: Icon(
